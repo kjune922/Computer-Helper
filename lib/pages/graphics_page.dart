@@ -100,7 +100,7 @@ class GraphicsPage extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
               child: Image.asset(
-                'assets/images/graphics.jpg', // 그래픽 카드 이미지 경로
+                'assets/images/graphics2.jpg', // 그래픽 카드 이미지 경로
                 fit: BoxFit.cover,
                 width: double.infinity,
               ),
