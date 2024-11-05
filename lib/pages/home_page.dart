@@ -1,149 +1,211 @@
 import 'package:flutter/material.dart';
-import 'custom_bottom_nav_bar.dart'; // 하단바 위젯 import
-import 'dart:io'; // 앱 종료를 위해 추가
+import 'package:carousel_slider/carousel_slider.dart' as carousel_slider;
+import 'custom_bottom_nav_bar.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // 컴퓨터 부품 데이터 리스트
     List<Map<String, dynamic>> dataList = [
-      {
-        "category": "CPU",
-        "imgUrl": "assets/images/cpu.png",
-        "goWhere": "/cpu",
-      },
+      {"category": "CPU", "imgUrl": "assets/images/cpu.png", "goWhere": "/cpu"},
       {
         "category": "그래픽 카드",
-        "imgUrl": "assets/images/graphics.jpg",
-        "goWhere": "/graphics",
+        "imgUrl": "assets/images/graphics2.jpg",
+        "goWhere": "/graphics"
       },
       {
         "category": "메인 보드",
         "imgUrl": "assets/images/mainboard.jpg",
-        "goWhere": "/mainboard",
+        "goWhere": "/mainboard"
       },
       {
         "category": "사용시 주의사항",
         "imgUrl": "assets/images/warning.png",
-        "goWhere": "/warning",
+        "goWhere": "/warning"
       },
       {
         "category": "부품 설명 도움",
         "imgUrl": "assets/images/explanation.png",
-        "goWhere": "/explanation",
+        "goWhere": "/explanation"
       },
     ];
 
-    return PopScope(
-      canPop: false, // 뒤로 가기(pop)를 방지
-      onPopInvokedWithResult: (didPop, result) {
-        // 뒤로 가기 버튼을 누르면 앱 종료
-        if (!didPop) exit(0); // 앱 종료
-      },
-
-      child: Scaffold(
-        backgroundColor: Colors.grey[100],
-        appBar: AppBar(
-          automaticallyImplyLeading: false, // 첫 애뮬켰을때 로그인안했는데도 뜨는 뒤로가기 화살표 제거
-          elevation: 0,
-          backgroundColor: Colors.white,
-          title: Text(
-            "컴알못 도우미",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 28,
-              fontWeight: FontWeight.bold,
-            ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        elevation: 0,
+        backgroundColor: Colors.white,
+        title: Text(
+          "컴알못 도우미",
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // 검색 바
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      blurRadius: 8,
-                      offset: Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: TextField(
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.search, color: Colors.grey),
-                    hintText: 'Search products...',
-                    border: InputBorder.none,
-                  ),
-                ),
-              ),
-              SizedBox(height: 16),
-              // 부품 목록
-              Expanded(
-                child: ListView.builder(
-                  itemCount: dataList.length,
-                  itemBuilder: (context, index) {
-                    Map<String, dynamic> data = dataList[index];
-                    return _buildProductCard(context, data);
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            carousel_slider.CarouselSlider(
+              items: dataList.map((data) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, data['goWhere']);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 5.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          image: DecorationImage(
+                            image: AssetImage(data['imgUrl']),
+                            fit: BoxFit.cover,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black12,
+                              blurRadius: 8,
+                              offset: Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [Colors.black54, Colors.transparent],
+                              begin: Alignment.bottomCenter,
+                              end: Alignment.topCenter,
+                            ),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          alignment: Alignment.bottomCenter,
+                          child: Text(
+                            data['category'],
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
                   },
+                );
+              }).toList(),
+              options: carousel_slider.CarouselOptions(
+                height: 200.0,
+                autoPlay: true,
+                enlargeCenterPage: true,
+                aspectRatio: 16 / 9,
+                enableInfiniteScroll: true,
+              ),
+            ),
+            SizedBox(height: 20),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 8,
+                    offset: Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: TextField(
+                decoration: InputDecoration(
+                  icon: Icon(Icons.search, color: Colors.grey),
+                  hintText: 'Search products...',
+                  border: InputBorder.none,
                 ),
               ),
-            ],
-          ),
+            ),
+            SizedBox(height: 20),
+            Expanded(
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 16,
+                  crossAxisSpacing: 16,
+                  childAspectRatio: 3 / 4,
+                ),
+                itemCount: dataList.length,
+                itemBuilder: (context, index) {
+                  Map<String, dynamic> data = dataList[index];
+                  return _buildProductCard(context, data);
+                },
+              ),
+            ),
+          ],
         ),
-        // 고정된 하단바 추가
-        bottomNavigationBar: CustomBottomNavBar(
-          currentIndex: 0, // 홈 탭을 기본 선택 상태로 설정
-        ),
+      ),
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: 0,
       ),
     );
   }
 
-  // 기존 카드 스타일을 유지하면서 UI 개선
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, data['goWhere']);
       },
-      child: Card(
-        margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-        shape: RoundedRectangleBorder(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
           borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 8,
+              offset: Offset(0, 4),
+            ),
+          ],
         ),
-        clipBehavior: Clip.antiAlias,
-        elevation: 4,
-        child: Stack(
-          alignment: Alignment.center,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // 배경 이미지
-            Image.asset(
-              data['imgUrl'],
-              width: double.infinity,
-              height: 150,
-              fit: BoxFit.cover,
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.asset(
+                      data['imgUrl'],
+                      fit: BoxFit.cover,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [Colors.black26, Colors.transparent],
+                          begin: Alignment.bottomCenter,
+                          end: Alignment.topCenter,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            // 반투명 오버레이
-            Container(
-              width: double.infinity,
-              height: 150,
-              color: Colors.black.withOpacity(0.4),
-            ),
-            // 카테고리 텍스트
-            Positioned(
+            Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Text(
                 data['category'],
                 style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
+                  color: Colors.black87,
                 ),
               ),
             ),
