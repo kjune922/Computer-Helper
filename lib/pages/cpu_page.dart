@@ -125,7 +125,7 @@ class _CpuPageState extends State<CpuPage> {
     onTap: () {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (_) => const cpu_detail()),
+        MaterialPageRoute(builder: (_) => const CpuDetailPage()),
       );
     },
     child: Container(
