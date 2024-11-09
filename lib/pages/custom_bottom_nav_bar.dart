@@ -21,7 +21,7 @@ class CustomBottomNavBar extends StatelessWidget {
             MaterialPageRoute(builder: (_) => const Shoppingcart()),
           );
         } else if (index == 2) {
-          // 계정 페이지로 이동
+
           Navigator.pushNamed(context, '/profile');
         }
       },

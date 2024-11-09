@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'shoppingcart_page.dart'; // shoppingcart 페이지 import
 
-class GraphicsDetailPage extends StatelessWidget {
+class GraphicsDetailPage extends StatefulWidget {
   const GraphicsDetailPage({Key? key}) : super(key: key);
 
+  @override
+  State<GraphicsDetailPage> createState() => _GraphicsDetailPageState();
+}
+
+class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
