@@ -1,6 +1,8 @@
 import 'package:com_recipe/Network.dart';
+import 'package:com_recipe/pages/cpu_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'custom_bottom_nav_bar.dart'; // 하단바 위젯 import
+
 
  // 받아온 JSON 데이터를 출력합니다
 
@@ -119,65 +121,73 @@ class _CpuPageState extends State<CpuPage> {
 
   // 상품 카드
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 8,
-            offset: Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-              child: Image.asset(
-                'assets/images/cpu.png', // CPU 이미지 경로
-                fit: BoxFit.cover,
-                width: double.infinity,
+    return InkWell(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const cpu_detail()),
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 8,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                child: Image.asset(
+                  'assets/images/cpu.png', // CPU 이미지 경로
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              data['cpu_name'],
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                data['cpu_name'],
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              "${data['cpu_price']}원",
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                "${data['cpu_price']}원",
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
               ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                icon: Icon(Icons.favorite_border, color: Colors.grey),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.favorite_border, color: Colors.grey),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
