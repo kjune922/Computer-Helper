@@ -15,7 +15,7 @@ class CustomBottomNavBar extends StatelessWidget {
       onTap: (index) {
         // 각 탭을 클릭했을 때 해당 페이지로 이동
         if (index == 0) {
-          Navigator.pushReplacementNamed(context, '/home');
+          Navigator.pushReplacementNamed(context, '/');
         } else if (index == 1) {
           if(registeredUsername == null){
             Navigator.pushNamed(context, '/login');
@@ -26,6 +26,7 @@ class CustomBottomNavBar extends StatelessWidget {
             );
           }
         } else if (index == 2) {
+
           if(registeredUsername == null){
             Navigator.pushNamed(context, '/login');
           }else{
@@ -37,7 +38,6 @@ class CustomBottomNavBar extends StatelessWidget {
               Navigator.pushNamed(context, '/profile');
             }
           }
-
         }
       },
       items: [
