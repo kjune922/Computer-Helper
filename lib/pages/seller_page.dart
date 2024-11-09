@@ -14,7 +14,8 @@ class _SellerPageState extends State<SellerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('판매자'),actions: [
+        title: Text('판매자'),
+        actions: [
         IconButton(
             onPressed: (){
               registeredUsername = null;
