@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'custom_bottom_nav_bar.dart'; // 고정된 하단바를 위해 추가
+import 'custom_bottom_nav_bar.dart';
+import 'mainboard_detail_page.dart';
 
 class MainboardPage extends StatelessWidget {
   const MainboardPage({Key? key}) : super(key: key);
@@ -31,7 +32,6 @@ class MainboardPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 검색 바
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
@@ -54,7 +54,6 @@ class MainboardPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 24),
-            // 상품 목록
             Expanded(
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -63,83 +62,91 @@ class MainboardPage extends StatelessWidget {
                   crossAxisSpacing: 16,
                   childAspectRatio: 3 / 4,
                 ),
-                itemCount: 8, // 샘플 데이터 개수
+                itemCount: 8,
                 itemBuilder: (context, index) {
-                  return _buildProductCard();
+                  return _buildProductCard(context);
                 },
               ),
             ),
           ],
         ),
       ),
-      // 고정된 하단바 추가
       bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: 1, // 현재 페이지에 맞는 인덱스 설정
+        currentIndex: 1,
       ),
     );
   }
 
-  // 메인보드 상품 카드 위젯
-  Widget _buildProductCard() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 8,
-            offset: Offset(0, 4),
+  Widget _buildProductCard(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MainboardDetailPage(),
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-              child: Image.asset(
-                'assets/images/mainboard.jpg', // 메인보드 이미지 경로
-                fit: BoxFit.cover,
-                width: double.infinity,
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 8,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                child: Image.asset(
+                  'assets/images/mainboard.jpg',
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'ASUS ROG Strix B550-F', // 메인보드 이름 (예시)
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'ASUS ROG Strix B550-F',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              '\$189.99', // 메인보드 가격 (예시)
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                '\$189.99',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
               ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                icon: Icon(Icons.favorite_border, color: Colors.grey),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.favorite_border, color: Colors.grey),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
