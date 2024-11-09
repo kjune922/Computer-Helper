@@ -21,7 +21,7 @@ connection.connect((err) => {
 
 const port = 3000;
 
-app.get('/', (req, res) => {
+app.get('/cpu', (req, res) => {
     const sql ="SELECT * from cpu;"
     connection.query(sql, (err, results) => {
         res.send(results)

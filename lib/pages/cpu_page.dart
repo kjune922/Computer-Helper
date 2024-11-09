@@ -2,13 +2,7 @@ import 'package:com_recipe/Network.dart';
 import 'package:flutter/material.dart';
 import 'custom_bottom_nav_bar.dart'; // 하단바 위젯 import
 
-
-
-
  // 받아온 JSON 데이터를 출력합니다
-
-
-
 
 class CpuPage extends StatefulWidget {
   const CpuPage({Key? key}) : super(key: key);
@@ -32,7 +26,7 @@ class _CpuPageState extends State<CpuPage> {
   }
 
   void getcpudata() async{
-    final Network _network = Network("http://192.168.1.2:3000/");
+    final Network _network = Network("http://192.168.1.2:3000/cpu");
     jsonData = await _network.getJsonData();
     cpu_name = await jsonData[1]['cpu_name'];
     cpu_price = await jsonData[1]['cpu_price'];
@@ -67,7 +61,7 @@ class _CpuPageState extends State<CpuPage> {
           ),
         ),
       ),
-      body : nowLoading
+      body : nowLoading             //데이터가 다 안받아졌으면 로딩동그라미가 돈다
         ? Center(child: CircularProgressIndicator())
           : Padding(
         padding: const EdgeInsets.all(16.0),
@@ -163,7 +157,7 @@ class _CpuPageState extends State<CpuPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
-              data['cpu_price'].toString(),
+              "${data['cpu_price']}원",
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey,
