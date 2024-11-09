@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'custom_bottom_nav_bar.dart'; // 고정된 하단바를 위해 추가
+import 'graphics_detail_page.dart'; // 그래픽카드 상세 페이지 import
 
 class GraphicsPage extends StatelessWidget {
   const GraphicsPage({Key? key}) : super(key: key);
@@ -63,83 +63,94 @@ class GraphicsPage extends StatelessWidget {
                   crossAxisSpacing: 16,
                   childAspectRatio: 3 / 4,
                 ),
-                itemCount: 8, // 샘플 데이터 개수
+                itemCount: 8, // 상품 개수 (샘플 데이터)
                 itemBuilder: (context, index) {
-                  return _buildProductCard();
+                  return _buildProductCard(context);
                 },
               ),
             ),
           ],
         ),
       ),
-      // 고정된 하단바 추가
-      bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: 1, // 현재 페이지에 맞는 인덱스 설정
-      ),
     );
   }
 
-  // 그래픽 카드 상품 카드 위젯
-  Widget _buildProductCard() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 8,
-            offset: Offset(0, 4),
+  // 그래픽카드 상품 카드
+  Widget _buildProductCard(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        // 그래픽카드 상세 페이지로 이동
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => GraphicsDetailPage(), // 상세 페이지로 이동
           ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-              child: Image.asset(
-                'assets/images/graphics2.jpg', // 그래픽 카드 이미지 경로
-                fit: BoxFit.cover,
-                width: double.infinity,
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 8,
+              offset: Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: ClipRRect(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                child: Image.asset(
+                  'assets/images/graphics2.jpg', // 그래픽카드 이미지 경로
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'NVIDIA GTX 3080', // 그래픽 카드 이름 (예시)
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'NVIDIA RTX 3080',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              '\$699.99', // 그래픽 카드 가격 (예시)
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                '\$799.99',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
               ),
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                icon: Icon(Icons.favorite_border, color: Colors.grey),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
-                onPressed: () {},
-              ),
-            ],
-          ),
-        ],
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.favorite_border, color: Colors.grey),
+                  onPressed: () {
+                    // 좋아요 버튼 동작
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
+                  onPressed: () {
+                    // 장바구니 버튼 동작
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
