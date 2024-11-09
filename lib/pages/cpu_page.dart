@@ -28,7 +28,7 @@ class _CpuPageState extends State<CpuPage> {
   }
 
   void getcpudata() async{
-    final Network _network = Network("http://192.168.1.2:3000/cpu");
+    final Network _network = Network("http://116.124.191.174:15011/cpu");
     jsonData = await _network.getJsonData();
     cpu_name = await jsonData[1]['cpu_name'];
     cpu_price = await jsonData[1]['cpu_price'];
