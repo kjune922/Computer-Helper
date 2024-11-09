@@ -1,10 +1,40 @@
+import 'package:com_recipe/Network.dart';
+import 'package:com_recipe/globals.dart';
 import 'package:flutter/material.dart';
 import 'graphics_detail_page.dart'; // 그래픽카드 상세 페이지 import
 
-class GraphicsPage extends StatelessWidget {
+
+
+class GraphicsPage extends StatefulWidget {
   const GraphicsPage({Key? key}) : super(key: key);
 
   @override
+  State<GraphicsPage> createState() => _GraphicsPageState();
+}
+
+class _GraphicsPageState extends State<GraphicsPage> {
+  List<dynamic> jsonData = [];
+  int? datacount;
+  bool nowLoading = true;
+
+  @override
+
+  void initState(){
+    super.initState();
+
+    getgraphicsdata();
+  }
+
+  void getgraphicsdata() async{
+    final Network _network = Network("http://116.124.191.174:15011/graphics");
+    jsonData = await _network.getJsonData();
+    datacount = jsonData.length;
+    print(datacount);
+    setState(() {
+      nowLoading = false;
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -26,7 +56,9 @@ class GraphicsPage extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
+      body: nowLoading             //데이터가 다 안받아졌으면 로딩동그라미가 돈다
+          ? Center(child: CircularProgressIndicator())
+          : Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,7 +97,8 @@ class GraphicsPage extends StatelessWidget {
                 ),
                 itemCount: 8, // 상품 개수 (샘플 데이터)
                 itemBuilder: (context, index) {
-                  return _buildProductCard(context);
+                  Map<String, dynamic> data = jsonData[index];
+                  return _buildProductCard(context,data);
                 },
               ),
             ),
@@ -76,10 +109,11 @@ class GraphicsPage extends StatelessWidget {
   }
 
   // 그래픽카드 상품 카드
-  Widget _buildProductCard(BuildContext context) {
+  Widget _buildProductCard(BuildContext context,Map<String, dynamic> data) {
     return GestureDetector(
       onTap: () {
         // 그래픽카드 상세 페이지로 이동
+        productName = data['graphics_name'];
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -115,7 +149,7 @@ class GraphicsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                'NVIDIA RTX 3080',
+                data['graphics_name'],
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -125,7 +159,7 @@ class GraphicsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
-                '\$799.99',
+                '${data['graphics_price']}원',
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.grey,

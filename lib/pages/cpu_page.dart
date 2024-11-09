@@ -1,6 +1,7 @@
 import 'package:com_recipe/Network.dart';
 import 'package:com_recipe/pages/cpu_detail_page.dart';
 import 'package:flutter/material.dart';
+import '../globals.dart';
 import 'custom_bottom_nav_bar.dart'; // 하단바 위젯 import
 
 
@@ -16,8 +17,6 @@ class CpuPage extends StatefulWidget {
 class _CpuPageState extends State<CpuPage> {
   List<dynamic> jsonData = [];
   int? datacount;
-  late String cpu_name;
-  int? cpu_price;
   bool nowLoading = true;
 
   @override
@@ -30,11 +29,7 @@ class _CpuPageState extends State<CpuPage> {
   void getcpudata() async{
     final Network _network = Network("http://116.124.191.174:15011/cpu");
     jsonData = await _network.getJsonData();
-    cpu_name = await jsonData[1]['cpu_name'];
-    cpu_price = await jsonData[1]['cpu_price'];
     datacount = jsonData.length;
-    print(cpu_name);
-    print(cpu_price);
     print(datacount);
     setState(() {
       nowLoading = false;
@@ -123,6 +118,7 @@ class _CpuPageState extends State<CpuPage> {
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
   return InkWell(
     onTap: () {
+      productName = data['cpu_name'];
       Navigator.push(
         context,
         MaterialPageRoute(builder: (_) => const CpuDetailPage()),

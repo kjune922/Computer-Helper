@@ -1,31 +1,17 @@
 import 'package:flutter/material.dart';
 import '../globals.dart';
+import 'package:com_recipe/Network.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
 
-  void _login(BuildContext context) {
-    if (_usernameController.text == registeredUsername &&
-        _passwordController.text == registeredPassword) {
-      Navigator.pushReplacementNamed(context, '/home');
-    } else {
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Text('로그인 실패'),
-          content: Text('아이디 또는 비밀번호가 틀렸습니다.'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(
-                  context), // pop: 가장 상단에 있는 화면을 제거하여 이전 화면으로 돌아가는 방식
-              child: Text('확인'),
-            ),
-          ],
-        ),
-      );
-    }
-  }
+  final _passwordController = TextEditingController();
+  List<dynamic> data =[];
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +108,33 @@ class LoginPage extends StatelessWidget {
                             ),
                             backgroundColor: Color(0xFF4A00E0), // 버튼 색상
                           ),
-                          onPressed: () => _login(context),
+                          onPressed: () async {
+                            Network network = Network('http://116.124.191.174:15011/login');
+
+                            data = await network.sendCredentials(_usernameController.text, _passwordController.text);
+                            if(data[0] != 0){
+                              registeredUsername = await data[0]['id'];
+                              registeredUserLevel = await data[0]['level'];
+
+                              Navigator.pushReplacementNamed(context, '/');
+                            }else{
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text('로그인 실패'),
+                                  content: Text('아이디 또는 비밀번호가 틀렸습니다.'),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () => Navigator.pop(
+                                          context), // pop: 가장 상단에 있는 화면을 제거하여 이전 화면으로 돌아가는 방식
+                                      child: Text('확인'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }
+
+                          },
                           child: Text(
                             "LOGIN",
                             style: TextStyle(fontSize: 16),
