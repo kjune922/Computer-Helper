@@ -8,7 +8,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Map<String, dynamic>> dataList = [
-      {"category": "CPU", "imgUrl": "assets/images/cpu.png", "goWhere": "/cpu"},
+      {
+        "category": "CPU",
+        "imgUrl": "assets/images/cpu2.png",
+        "goWhere": "/cpu"
+      },
       {
         "category": "그래픽 카드",
         "imgUrl": "assets/images/graphics2.jpg",
@@ -36,11 +40,11 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.black,
         title: Text(
           "컴알못 도우미",
           style: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
             fontSize: 28,
             fontWeight: FontWeight.bold,
           ),

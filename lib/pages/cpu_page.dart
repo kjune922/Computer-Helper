@@ -138,7 +138,7 @@ class _CpuPageState extends State<CpuPage> {
             child: ClipRRect(
               borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
               child: Image.asset(
-                'assets/images/cpu.png', // CPU 이미지 경로
+                'assets/images/cpu2.png', // CPU 이미지 경로
                 fit: BoxFit.cover,
                 width: double.infinity,
               ),
