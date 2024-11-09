@@ -1,6 +1,8 @@
 import 'package:com_recipe/Network.dart';
+import 'package:com_recipe/pages/cpu_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'custom_bottom_nav_bar.dart'; // 하단바 위젯 import
+
 
  // 받아온 JSON 데이터를 출력합니다
 
@@ -119,7 +121,14 @@ class _CpuPageState extends State<CpuPage> {
 
   // 상품 카드
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
-    return Container(
+  return InkWell(
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const cpu_detail()),
+      );
+    },
+    child: Container(
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
@@ -179,6 +188,7 @@ class _CpuPageState extends State<CpuPage> {
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
+}
 }
