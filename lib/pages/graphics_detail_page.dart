@@ -1,4 +1,6 @@
+import 'package:com_recipe/Network.dart';
 import 'package:flutter/material.dart';
+import '../globals.dart';
 import 'shoppingcart_page.dart'; // shoppingcart 페이지 import
 
 class GraphicsDetailPage extends StatefulWidget {
@@ -9,7 +11,26 @@ class GraphicsDetailPage extends StatefulWidget {
 }
 
 class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
+  List<dynamic> jsonData = [];
+  bool nowLoading = true;
+
   @override
+
+  void initState(){
+    super.initState();
+
+    getgraphicsdata(productName!);
+  }
+
+  void getgraphicsdata(String name) async {
+    final Network _network = Network("http://116.124.191.174:15011/graphicsdetail");
+    jsonData = await _network.productDetail(name);
+
+    setState(() {
+      nowLoading = false;
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -46,7 +67,9 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: nowLoading             //데이터가 다 안받아졌으면 로딩동그라미가 돈다
+          ? Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -66,7 +89,7 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'NVIDIA RTX 3080',
+                    jsonData[0]['graphics_name'],
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -76,7 +99,7 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
                   Row(
                     children: [
                       Text(
-                        '₩1,200,000',
+                        '${jsonData[0]['graphics_price']}원',
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -85,7 +108,7 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
                       ),
                       SizedBox(width: 10),
                       Text(
-                        '10% 할인',
+                        '할인률 적기',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.green,

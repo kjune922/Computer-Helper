@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'shoppingcart_page.dart';
+import '../globals.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -16,12 +17,27 @@ class CustomBottomNavBar extends StatelessWidget {
         if (index == 0) {
           Navigator.pushReplacementNamed(context, '/');
         } else if (index == 1) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const Shoppingcart()),
-          );
+          if(registeredUsername == null){
+            Navigator.pushNamed(context, '/login');
+          }else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const Shoppingcart()),
+            );
+          }
         } else if (index == 2) {
-          Navigator.pushNamed(context, '/profile');
+
+          if(registeredUsername == null){
+            Navigator.pushNamed(context, '/login');
+          }else{
+            if(registeredUserLevel == '관리자') {
+              Navigator.pushNamed(context, '/master');
+            }else if(registeredUserLevel == '판매자'){
+              Navigator.pushNamed(context, '/seller');
+            }else if(registeredUserLevel == '구매자'){
+              Navigator.pushNamed(context, '/profile');
+            }
+          }
         }
       },
       items: [

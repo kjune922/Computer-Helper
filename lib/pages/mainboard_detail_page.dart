@@ -1,4 +1,6 @@
+import 'package:com_recipe/Network.dart';
 import 'package:flutter/material.dart';
+import '../globals.dart';
 import 'shoppingcart_page.dart'; // 장바구니 페이지 import
 
 class MainboardDetailPage extends StatefulWidget {
@@ -10,8 +12,26 @@ class MainboardDetailPage extends StatefulWidget {
 
 class _MainboardDetailPageState extends State<MainboardDetailPage> {
   bool isFavorite = false; // 찜 여부 상태 관리
+  List<dynamic> jsonData = [];
+  bool nowLoading = true;
 
   @override
+
+  void initState(){
+    super.initState();
+
+    getmainboarddata(productName!);
+  }
+
+  void getmainboarddata(String name) async {
+    final Network _network = Network("http://116.124.191.174:15011/mainboarddetail");
+    jsonData = await _network.productDetail(name);
+
+    setState(() {
+      nowLoading = false;
+    });
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -42,7 +62,9 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: nowLoading             //데이터가 다 안받아졌으면 로딩동그라미가 돈다
+          ? Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -62,7 +84,7 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'ASUS ROG Strix B550-F',
+                    jsonData[0]['mainboard_name'],
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -72,7 +94,7 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
                   Row(
                     children: [
                       Text(
-                        '₩189,000',
+                        '${jsonData[0]['mainboard_price']}원',
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
@@ -81,7 +103,7 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
                       ),
                       SizedBox(width: 10),
                       Text(
-                        '5% 할인',
+                        '할인률 적기',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.green,
