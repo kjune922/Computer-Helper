@@ -1,11 +1,46 @@
+import 'package:com_recipe/Network.dart';
 import 'package:flutter/material.dart';
 import 'custom_bottom_nav_bar.dart'; // 하단바 위젯 import
 
-class CpuPage extends StatelessWidget {
+ // 받아온 JSON 데이터를 출력합니다
+
+class CpuPage extends StatefulWidget {
   const CpuPage({Key? key}) : super(key: key);
 
   @override
+  State<CpuPage> createState() => _CpuPageState();
+}
+
+class _CpuPageState extends State<CpuPage> {
+  List<dynamic> jsonData = [];
+  int? datacount;
+  late String cpu_name;
+  int? cpu_price;
+  bool nowLoading = true;
+
+  @override
+  void initState(){
+    super.initState();
+
+    getcpudata();
+  }
+
+  void getcpudata() async{
+    final Network _network = Network("http://192.168.1.2:3000/cpu");
+    jsonData = await _network.getJsonData();
+    cpu_name = await jsonData[1]['cpu_name'];
+    cpu_price = await jsonData[1]['cpu_price'];
+    datacount = jsonData.length;
+    print(cpu_name);
+    print(cpu_price);
+    print(datacount);
+    setState(() {
+      nowLoading = false;
+    });
+  }
+
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -26,7 +61,9 @@ class CpuPage extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
+      body : nowLoading             //데이터가 다 안받아졌으면 로딩동그라미가 돈다
+        ? Center(child: CircularProgressIndicator())
+          : Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,9 +100,10 @@ class CpuPage extends StatelessWidget {
                   crossAxisSpacing: 16,
                   childAspectRatio: 3 / 4,
                 ),
-                itemCount: 8, // 상품 개수 (샘플 데이터)
+                itemCount: datacount, // 상품 개수 (샘플 데이터)
                 itemBuilder: (context, index) {
-                  return _buildProductCard();
+                  Map<String, dynamic> data = jsonData[index];
+                  return _buildProductCard(context,data);
                 },
               ),
             ),
@@ -80,7 +118,7 @@ class CpuPage extends StatelessWidget {
   }
 
   // 상품 카드
-  Widget _buildProductCard() {
+  Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -109,7 +147,7 @@ class CpuPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              'Intel i7 Processor',
+              data['cpu_name'],
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -119,7 +157,7 @@ class CpuPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
-              '\$299.99',
+              "${data['cpu_price']}원",
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey,
