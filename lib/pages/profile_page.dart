@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../globals.dart';
+
 
 
 class ProfilePage extends StatefulWidget {
@@ -15,6 +17,15 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('여기 구매자들의 프로필'),
+        actions: [
+          IconButton(
+              onPressed: (){
+                registeredUsername = null;
+                registeredUserLevel = null;
+                Navigator.pushNamed(context, '/');
+              },
+              icon: Icon(Icons.logout))
+        ],
       ),
     );
   }
