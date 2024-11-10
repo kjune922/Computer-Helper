@@ -234,13 +234,13 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
                             _buildClickableRow(
                               context,
                               "파워",
-                              "250W",
+                              '${jsonData[0]['graphics_pw']} W',
                               "파워는 그래픽카드가 소모하는 전력을 나타내며, TDP(열설계전력)로 표현됩니다.",
                             ),
                             _buildClickableRow(
                               context,
                               "성능 점수",
-                              "싱글 코어: 700, 멀티 코어: 4500",
+                              '${jsonData[0]['graphics_score']} 점',
                               "성능 점수는 그래픽카드의 처리 성능을 수치로 나타내며, 벤치마크 테스트를 통해 측정됩니다.",
                             ),
                           ],

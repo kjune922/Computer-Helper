@@ -231,19 +231,19 @@ class _CpuDetailPageState extends State<CpuDetailPage> {
                         _buildClickableRow(
                           context,
                           "소켓",
-                          "인텔(소켓1200)",
+                          jsonData[0]['cpu_socket'],
                           "소켓이란 CPU가 메인보드에 장착되는 인터페이스를 의미합니다.",
                         ),
                         _buildClickableRow(
                           context,
                           "파워",
-                          "65W",
+                          '${jsonData[0]['cpu_pw']} W',
                           "파워는 CPU가 소모하는 전력을 나타내며, TDP(열설계전력)로 표현됩니다.",
                         ),
                         _buildClickableRow(
                           context,
                           "성능 점수",
-                          "싱글 코어: 700, 멀티 코어: 4500",
+                          '${jsonData[0]['cpu_score']} 점',
                           "성능 점수는 CPU의 처리 성능을 수치로 나타내며, 벤치마크 테스트를 통해 측정됩니다.",
                         ),
                       ],
