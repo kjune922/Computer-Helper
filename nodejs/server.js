@@ -133,6 +133,66 @@ app.post('/signup', (req, res) => {
 
 });
 
+app.post('/shop', (req, res) => {
+    const {productname} = req.body;
+    const sql ="SELECT cpu,graphics,mainboard from member WHERE id = ?;"
+    connection.query(sql,[productname], (err, results) => {
+        res.send(results)
+    });
+
+});
+
+app.post('/shopcpudel', (req, res) => {
+    const {productname} = req.body;
+    const sql ="UPDATE member SET cpu = NULL WHERE id = ?;"
+    connection.query(sql,[productname], (err, results) => {
+        res.send(results)
+    });
+
+});
+app.post('/shopgraphicsdel', (req, res) => {
+    const {productname} = req.body;
+    const sql ="UPDATE member SET graphics = NULL WHERE id = ?;"
+    connection.query(sql,[productname], (err, results) => {
+        res.send(results)
+    });
+
+});
+app.post('/shopmainboarddel', (req, res) => {
+    const {productname} = req.body;
+    const sql ="UPDATE member SET mainboard = NULL WHERE id = ?;"
+    connection.query(sql,[productname], (err, results) => {
+        res.send(results)
+    });
+
+});
+
+app.post('/shopcpuadd', (req, res) => {
+    const { username, product } = req.body;
+    const sql ="UPDATE member SET cpu = ? WHERE id = ?;"
+    connection.query(sql,[product,username], (err, results) => {
+        res.send({good:'yeah'})
+    });
+
+});
+
+app.post('/shopgraphicsadd', (req, res) => {
+    const { username, product } = req.body;
+    const sql ="UPDATE member SET graphics = ? WHERE id = ?;"
+    connection.query(sql,[product,username], (err, results) => {
+        res.send({good:'yeah'})
+    });
+
+});
+
+app.post('/shopmainboardadd', (req, res) => {
+    const { username, product } = req.body;
+    const sql ="UPDATE member SET mainboard = ? WHERE id = ?;"
+    connection.query(sql,[product,username], (err, results) => {
+        res.send({good:'yeah'})
+    });
+
+});
 
 
 

@@ -178,7 +178,12 @@ class _GraphicsPageState extends State<GraphicsPage> {
                 IconButton(
                   icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
                   onPressed: () {
-                    // 장바구니 버튼 동작
+                    if(registeredUsername == null){
+                      Navigator.pushNamed(context, '/login');
+                    }else{
+                      final Network _graphicsnetwork = Network("http://116.124.191.174:15011/shopgraphicsadd");//192.168.1.2:15011//116.124.191.174:15011
+                      _graphicsnetwork.updatedb(registeredUsername!,data['graphics_name']);
+                    }
                   },
                 ),
               ],
