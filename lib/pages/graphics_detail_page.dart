@@ -1,7 +1,7 @@
 import 'package:com_recipe/Network.dart';
 import 'package:flutter/material.dart';
 import '../globals.dart';
-import 'shoppingcart_page.dart'; // shoppingcart 페이지 import
+import 'shoppingcart_page.dart'; // 장바구니 페이지 import
 
 class GraphicsDetailPage extends StatefulWidget {
   const GraphicsDetailPage({Key? key}) : super(key: key);
@@ -31,13 +31,13 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
   }
 
   // 팝업 창을 보여주는 함수
-  void _showPopup(BuildContext context, String title, Widget content) {
+  void _showPopup(BuildContext context, String title, String description) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-          content: content,
+          content: Text(description),
           actions: [
             TextButton(
               onPressed: () {
@@ -77,7 +77,6 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
           IconButton(
             icon: Icon(Icons.shopping_cart, color: Colors.black),
             onPressed: () {
-              // 장바구니 페이지로 이동
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -156,38 +155,6 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
                         ),
                         SizedBox(height: 24),
 
-                        // 강조된 팝업 버튼들 (파워 정보, 벤치마킹 점수)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            _buildPopupButton(
-                              context,
-                              title: "파워 정보",
-                              buttonText: "파워",
-                              content: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _buildInfoRow("TDP", "250W"),
-                                  _buildInfoRow("최대 클럭", "1.8GHz"),
-                                ],
-                              ),
-                            ),
-                            _buildPopupButton(
-                              context,
-                              title: "벤치마킹 점수",
-                              buttonText: "벤치마킹",
-                              content: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _buildInfoRow("3DMark 점수", "15000"),
-                                  _buildInfoRow("CUDA 코어 수", "3072"),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 24),
-
                         // 구매하기 버튼
                         SizedBox(
                           width: double.infinity,
@@ -217,7 +184,6 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
                             Expanded(
                               child: OutlinedButton.icon(
                                 onPressed: () {
-                                  // 장바구니 페이지로 이동
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -255,6 +221,30 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
                             ),
                           ],
                         ),
+                        SizedBox(height: 24),
+
+                        // 파워와 성능 점수 정보 테이블
+                        Table(
+                          border: TableBorder.all(color: Colors.grey),
+                          columnWidths: {
+                            0: FlexColumnWidth(2),
+                            1: FlexColumnWidth(3),
+                          },
+                          children: [
+                            _buildClickableRow(
+                              context,
+                              "파워",
+                              "250W",
+                              "파워는 그래픽카드가 소모하는 전력을 나타내며, TDP(열설계전력)로 표현됩니다.",
+                            ),
+                            _buildClickableRow(
+                              context,
+                              "성능 점수",
+                              "싱글 코어: 700, 멀티 코어: 4500",
+                              "성능 점수는 그래픽카드의 처리 성능을 수치로 나타내며, 벤치마크 테스트를 통해 측정됩니다.",
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -264,50 +254,36 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
     );
   }
 
-  // 팝업 버튼 생성 함수
-  Widget _buildPopupButton(BuildContext context,
-      {required String title,
-      required String buttonText,
-      required Widget content}) {
-    return ElevatedButton(
-      onPressed: () {
-        _showPopup(context, title, content);
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blueAccent,
-        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-      child: Text(
-        buttonText,
-        style: TextStyle(
-            fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-      ),
-    );
-  }
-
-  // 정보 행을 생성하는 함수
-  Widget _buildInfoRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
+  // 클릭 가능한 테이블 행 생성 함수
+  TableRow _buildClickableRow(
+      BuildContext context, String label, String value, String description) {
+    return TableRow(
+      children: [
+        GestureDetector(
+          onTap: () {
+            _showPopup(context, label, description);
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Colors.blue,
+                decoration: TextDecoration.underline,
+              ),
             ),
           ),
-          Text(
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
             value,
             style: TextStyle(fontSize: 16, color: Colors.grey[700]),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

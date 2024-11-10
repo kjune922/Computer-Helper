@@ -32,13 +32,13 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
   }
 
   // 팝업 창을 보여주는 함수
-  void _showPopup(BuildContext context, String title, Widget content) {
+  void _showPopup(BuildContext context, String title, String description) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-          content: content,
+          content: Text(description),
           actions: [
             TextButton(
               onPressed: () {
@@ -151,38 +151,48 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
                         ),
                         SizedBox(height: 24),
 
-                        // 소켓 정보 버튼
-                        Center(
-                          child: ElevatedButton(
-                            onPressed: () {
-                              _showPopup(
-                                context,
-                                "소켓 정보",
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    _buildInfoRow("소켓 구분", "LGA 1200"),
-                                    _buildInfoRow("제조 공정", "14nm"),
-                                  ],
+                        // 소켓 정보 테이블
+                        Table(
+                          border: TableBorder.all(color: Colors.grey),
+                          columnWidths: {
+                            0: FlexColumnWidth(2),
+                            1: FlexColumnWidth(3),
+                          },
+                          children: [
+                            TableRow(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    _showPopup(
+                                      context,
+                                      "소켓 정보",
+                                      "소켓은 메인보드와 CPU가 연결되는 인터페이스를 의미합니다. LGA 1200은 인텔의 10세대 및 11세대 CPU와 호환되는 소켓 타입입니다.",
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "소켓",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.blue,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ),
                                 ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blueAccent,
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 16),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "LGA 1200",
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey[700]),
+                                  ),
+                                ),
+                              ],
                             ),
-                            child: Text(
-                              "소켓 정보",
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
+                          ],
                         ),
                         SizedBox(height: 24),
 
@@ -266,26 +276,6 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
                 ],
               ),
             ),
-    );
-  }
-
-  // 정보 행을 생성하는 함수
-  Widget _buildInfoRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-          ),
-          Text(
-            value,
-            style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-          ),
-        ],
-      ),
     );
   }
 }
