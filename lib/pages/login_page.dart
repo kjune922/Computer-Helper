@@ -109,8 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                             backgroundColor: Color(0xFF4A00E0), // 버튼 색상
                           ),
                           onPressed: () async {
-                            Network network =
-                                Network('http://116.124.191.174:15011/login');
+                            Network network = Network('http://116.124.191.174:15011/login');
 
                             data = await network.sendCredentials(
                                 _usernameController.text,
