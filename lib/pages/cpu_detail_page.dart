@@ -31,13 +31,13 @@ class _CpuDetailPageState extends State<CpuDetailPage> {
   }
 
   // 팝업 창을 보여주는 함수
-  void _showPopup(BuildContext context, String title, Widget content) {
+  void _showPopup(BuildContext context, String title, String description) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-          content: content,
+          content: Text(description),
           actions: [
             TextButton(
               onPressed: () {
@@ -71,7 +71,6 @@ class _CpuDetailPageState extends State<CpuDetailPage> {
           IconButton(
             icon: Icon(Icons.shopping_cart, color: Colors.black),
             onPressed: () {
-              // 장바구니 페이지로 이동
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -85,239 +84,207 @@ class _CpuDetailPageState extends State<CpuDetailPage> {
       body: nowLoading
           ? Center(child: CircularProgressIndicator()) // 로딩 표시
           : SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // 제품 이미지 및 기본 정보
-                  Container(
-                    color: Colors.grey[200],
-                    height: 300,
-                    width: double.infinity,
-                    child: Image.asset(
-                      'assets/images/cpu2.png', // CPU 이미지 경로
-                      fit: BoxFit.cover,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // 제품 이미지 및 기본 정보
+                    Container(
+                      color: Colors.grey[200],
+                      height: 300,
+                      width: double.infinity,
+                      child: Image.asset(
+                        'assets/images/cpu2.png', // CPU 이미지 경로
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    SizedBox(height: 16),
+                    Text(
+                      jsonData[0]['cpu_name'],
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 8),
+                    Row(
                       children: [
                         Text(
-                          jsonData[0]['cpu_name'],
+                          '${jsonData[0]['cpu_price']}원',
                           style: TextStyle(
-                            fontSize: 24,
+                            fontSize: 22,
                             fontWeight: FontWeight.bold,
+                            color: Colors.red,
                           ),
                         ),
-                        SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Text(
-                              '${jsonData[0]['cpu_price']}원',
-                              style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.red,
-                              ),
-                            ),
-                            SizedBox(width: 10),
-                            Text(
-                              '할인률 적기',
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.green,
-                              ),
-                            ),
-                          ],
+                        SizedBox(width: 10),
+                        Text(
+                          '할인률 적기',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.green,
+                          ),
                         ),
-                        SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Icon(Icons.star, color: Colors.orange, size: 20),
-                            SizedBox(width: 4),
-                            Text(
-                              '4.9',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            SizedBox(width: 5),
-                            Text(
-                              '(리뷰 200개)',
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.grey),
-                            ),
-                          ],
+                      ],
+                    ),
+                    SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Icon(Icons.star, color: Colors.orange, size: 20),
+                        SizedBox(width: 4),
+                        Text(
+                          '4.9',
+                          style: TextStyle(fontSize: 16),
                         ),
-                        SizedBox(height: 24),
+                        SizedBox(width: 5),
+                        Text(
+                          '(리뷰 200개)',
+                          style: TextStyle(fontSize: 16, color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 24),
 
-                        // 강조된 팝업 버튼들 (소켓, 파워, 벤치마킹 점수)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            _buildPopupButton(
-                              context,
-                              title: "소켓 정보",
-                              buttonText: "소켓",
-                              content: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _buildInfoRow("소켓 구분", "인텔(소켓1200)"),
-                                  _buildInfoRow("제조 공정", "14nm"),
-                                ],
-                              ),
-                            ),
-                            _buildPopupButton(
-                              context,
-                              title: "파워 정보",
-                              buttonText: "파워",
-                              content: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _buildInfoRow("TDP", "65W"),
-                                  _buildInfoRow("최대 클럭", "4.8GHz"),
-                                ],
-                              ),
-                            ),
-                            _buildPopupButton(
-                              context,
-                              title: "벤치마킹 점수",
-                              buttonText: "벤치마킹",
-                              content: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _buildInfoRow("싱글 코어 점수", "700"),
-                                  _buildInfoRow("멀티 코어 점수", "4500"),
-                                ],
-                              ),
-                            ),
-                          ],
+                    // 구매하기, 장바구니, 찜 버튼들
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // 구매하기 기능
+                        },
+                        child: Text(
+                          '구매하기',
+                          style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
-                        SizedBox(height: 24),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.purple,
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 12),
 
-                        // 구매하기 버튼
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
+                    // 장바구니 및 찜 버튼
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton.icon(
                             onPressed: () {
-                              // 구매하기 기능
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Shoppingcart(),
+                                ),
+                              );
                             },
-                            child: Text(
-                              '구매하기',
-                              style:
-                                  TextStyle(fontSize: 18, color: Colors.white),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.purple,
-                              padding: EdgeInsets.symmetric(vertical: 16),
+                            icon: Icon(Icons.shopping_cart_outlined),
+                            label: Text('장바구니'),
+                            style: OutlinedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(vertical: 14),
+                              side: BorderSide(color: Colors.grey),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
                               ),
                             ),
                           ),
                         ),
-                        SizedBox(height: 12),
-
-                        // 장바구니 및 찜 버튼
-                        Row(
-                          children: [
-                            Expanded(
-                              child: OutlinedButton.icon(
-                                onPressed: () {
-                                  // 장바구니 페이지로 이동
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Shoppingcart(),
-                                    ),
-                                  );
-                                },
-                                icon: Icon(Icons.shopping_cart_outlined),
-                                label: Text('장바구니'),
-                                style: OutlinedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(vertical: 14),
-                                  side: BorderSide(color: Colors.grey),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: OutlinedButton.icon(
+                            onPressed: () {
+                              setState(() {
+                                isFavorite = !isFavorite;
+                              });
+                            },
+                            icon: Icon(
+                              isFavorite
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: isFavorite ? Colors.red : Colors.grey,
+                            ),
+                            label: Text('찜'),
+                            style: OutlinedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(vertical: 14),
+                              side: BorderSide(color: Colors.grey),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                            SizedBox(width: 12),
-                            Expanded(
-                              child: OutlinedButton.icon(
-                                onPressed: () {
-                                  setState(() {
-                                    isFavorite = !isFavorite;
-                                  });
-                                },
-                                icon: Icon(
-                                  isFavorite
-                                      ? Icons.favorite
-                                      : Icons.favorite_border,
-                                  color: isFavorite ? Colors.red : Colors.grey,
-                                ),
-                                label: Text('찜'),
-                                style: OutlinedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(vertical: 14),
-                                  side: BorderSide(color: Colors.grey),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                    SizedBox(height: 24),
+
+                    // 소켓, 파워, 성능 점수 항목
+                    Table(
+                      border: TableBorder.all(color: Colors.grey),
+                      columnWidths: {
+                        0: FlexColumnWidth(2),
+                        1: FlexColumnWidth(3),
+                      },
+                      children: [
+                        _buildClickableRow(
+                          context,
+                          "소켓",
+                          "인텔(소켓1200)",
+                          "소켓이란 CPU가 메인보드에 장착되는 인터페이스를 의미합니다.",
+                        ),
+                        _buildClickableRow(
+                          context,
+                          "파워",
+                          "65W",
+                          "파워는 CPU가 소모하는 전력을 나타내며, TDP(열설계전력)로 표현됩니다.",
+                        ),
+                        _buildClickableRow(
+                          context,
+                          "성능 점수",
+                          "싱글 코어: 700, 멀티 코어: 4500",
+                          "성능 점수는 CPU의 처리 성능을 수치로 나타내며, 벤치마크 테스트를 통해 측정됩니다.",
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
     );
   }
 
-  // 팝업 버튼 생성 함수
-  Widget _buildPopupButton(BuildContext context,
-      {required String title,
-      required String buttonText,
-      required Widget content}) {
-    return ElevatedButton(
-      onPressed: () {
-        _showPopup(context, title, content);
-      },
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.blueAccent,
-        padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-      ),
-      child: Text(
-        buttonText,
-        style: TextStyle(
-            fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-      ),
-    );
-  }
-
-  // 정보 행을 생성하는 함수
-  Widget _buildInfoRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+  // 클릭 가능한 테이블 행 생성 함수
+  TableRow _buildClickableRow(
+      BuildContext context, String label, String value, String description) {
+    return TableRow(
+      children: [
+        GestureDetector(
+          onTap: () {
+            _showPopup(context, label, description);
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Colors.blue,
+                decoration: TextDecoration.underline,
+              ),
+            ),
           ),
-          Text(
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
             value,
             style: TextStyle(fontSize: 16, color: Colors.grey[700]),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
