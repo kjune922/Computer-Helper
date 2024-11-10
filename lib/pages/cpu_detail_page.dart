@@ -84,12 +84,16 @@ class _CpuDetailPageState extends State<CpuDetailPage> {
           IconButton(
             icon: Icon(Icons.shopping_cart, color: Colors.black),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Shoppingcart(),
-                ),
-              );
+              if(registeredUsername == null){
+                Navigator.pushNamed(context, '/login');
+              }else{
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Shoppingcart(),
+                  ),
+                );
+              }
             },
           ),
         ],
@@ -164,7 +168,13 @@ class _CpuDetailPageState extends State<CpuDetailPage> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          // 구매하기 기능
+                          if(registeredUsername == null){
+                            Navigator.pushNamed(context, '/login');
+                          }else{
+                            final Network _cpunetwork = Network("http://116.124.191.174:15011/shopcpuadd");//192.168.1.2:15011//116.124.191.174:15011
+                            _cpunetwork.updatedb(registeredUsername!,jsonData[0]['cpu_name']);
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('CPU 장바구니에 추가되었습니다')));
+                          }
                         },
                         child: Text(
                           '구매하기',
@@ -187,12 +197,16 @@ class _CpuDetailPageState extends State<CpuDetailPage> {
                         Expanded(
                           child: OutlinedButton.icon(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Shoppingcart(),
-                                ),
-                              );
+                              if(registeredUsername == null){
+                                Navigator.pushNamed(context, '/login');
+                              }else{
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Shoppingcart(),
+                                  ),
+                                );
+                              }
                             },
                             icon: Icon(Icons.shopping_cart_outlined),
                             label: Text('장바구니'),
@@ -259,7 +273,7 @@ class _CpuDetailPageState extends State<CpuDetailPage> {
                           context,
                           "성능 점수",
                           '${jsonData[0]['cpu_score']} 점',
-                          "성능 점수는 CPU의 처리 성능을 수치로 나타내며, 높을수록 좋은CPU입니다. 벤치마크 테스트를 통해 측정됩니다.",
+                          "성능 점수는 CPU의 처리 성능을 수치로 나타내며, 높을수록 좋은 CPU입니다. 벤치마크 테스트를 통해 측정됩니다.",
                           "assets/images/cpu_score_explan.png",
                         ),
                       ],
