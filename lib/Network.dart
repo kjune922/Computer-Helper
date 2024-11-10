@@ -63,6 +63,15 @@ class Network {
         // 응답이 성공적인 경우 JSON 데이터를 파싱
         var userJson = response.body;
         var parsedData = jsonDecode(userJson) as List<dynamic>; // 리스트로 변환
+
+        if (parsedData.isEmpty) {
+          parsedData.add({
+            'cpu': '상품이 없습니다',
+            'cpu_price': 0,
+            'cpu_score': 0,
+          });
+        }
+
         return parsedData;
       } else {
         print('Failed to load data. Status code: ${response.statusCode}');

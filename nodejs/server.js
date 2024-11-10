@@ -8,9 +8,9 @@ app.use(bodyParser.json());
 
 const connection = mysql.createConnection({
     host: 'localhost',//116.124.191.174
-    user: 'dilrun2001_2023665',//dilrun2001_2023665
-    password: 'dilrun2001_2023665',
-    database: 'dilrun2001_2023665'
+    user: 'root',//dilrun2001_2023665
+    password: '1234',
+    database: 'pc_db'
 });
 
 connection.connect((err) => {
@@ -133,6 +133,14 @@ app.post('/signup', (req, res) => {
 
 });
 
+app.post('/shop', (req, res) => {
+    const {productname} = req.body;
+    const sql ="SELECT cpu,graphics,mainboard from member WHERE id = ?;"
+    connection.query(sql,[productname], (err, results) => {
+        res.send(results)
+    });
+
+});
 
 
 

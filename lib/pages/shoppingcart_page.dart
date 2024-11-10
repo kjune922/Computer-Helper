@@ -1,24 +1,43 @@
+import 'package:com_recipe/Network.dart';
+import 'package:com_recipe/globals.dart';
 import 'package:flutter/material.dart';
 
-class Shoppingcart extends StatelessWidget {
+class Shoppingcart extends StatefulWidget {
   Shoppingcart({super.key});
 
+  @override
+  State<Shoppingcart> createState() => _ShoppingcartState();
+}
+
+class _ShoppingcartState extends State<Shoppingcart> {
+  bool nowLoading = true ;
   // 예시 데이터: CPU와 그래픽카드의 성능점수와 이름
-  final Map<String, dynamic> cpuProduct = {
+  /*
+  Map<String, dynamic> cpuProduct = {
     'name': 'Intel i7 Processor',
     'score': 700,
     'price': '299,000원'
   };
-  final Map<String, dynamic> graphicsProduct = {
+  Map<String, dynamic> graphicsProduct = {
     'name': 'NVIDIA GTX 3080',
     'score': 1200,
     'price': '1,200,000원'
   };
-  final Map<String, dynamic> mainboardProduct = {
+  Map<String, dynamic> mainboardProduct = {
     'name': 'ASUS ROG Strix B550-F',
     'price': '189,000원'
   };
 
+  Map<String, dynamic> cpuProduct ={};
+  Map<String, dynamic> graphicsProduct = {};
+  Map<String, dynamic> mainboardProduct = {};
+  */
+
+  List<dynamic> cpuProduct =[];
+  List<dynamic> graphicsProduct = [];
+  List<dynamic> mainboardProduct = [];
+
+  List<dynamic> usershopProduct = [];
   // 성능 점수 차이에 따른 경고 팝업을 보여주는 함수
   void _showPerformanceAlert(BuildContext context) {
     showDialog(
@@ -44,14 +63,68 @@ class Shoppingcart extends StatelessWidget {
   }
 
   @override
+
+  void initState() {
+    super.initState();
+    initializeData();
+  }
+
+  void initializeData() async {
+    await getuserdata();
+
+    if(usershopProduct[0]['cpu'] != null){
+      final Network _cpunetwork = Network("http://192.168.1.2:15011/cpudetail");//192.168.1.2:15011//116.124.191.174:15011
+      cpuProduct = await _cpunetwork.productDetail(usershopProduct[0]['cpu']);
+    }else{
+      cpuProduct.add({
+        'cpu_name': '상품이 없습니다',
+        'cpu_price': 0,
+        'cpu_score': 0,
+      });
+    }
+
+    if(usershopProduct[0]['graphics'] != null){
+      final Network _graphicsnetwork = Network("http://192.168.1.2:15011/graphicsdetail");//192.168.1.2:15011//116.124.191.174:15011
+      graphicsProduct = await _graphicsnetwork.productDetail(usershopProduct[0]['graphics']);
+    }else{
+      graphicsProduct.add({
+        'graphics_name': '상품이 없습니다',
+        'graphics_price': 0,
+        'graphics_score': 0,
+      });
+    }
+    if(usershopProduct[0]['mainboard'] != null){
+      final Network _mainboardnetwork = Network("http://192.168.1.2:15011/mainboarddetail");//192.168.1.2:15011//116.124.191.174:15011
+      mainboardProduct = await _mainboardnetwork.productDetail(usershopProduct[0]['mainboard']);
+    }else{
+      mainboardProduct.add({
+        'mainboard_name': '상품이 없습니다',
+        'mainboard_price': 0,
+      });
+    }
+    setState(() {
+      nowLoading = false;
+    });
+  }
+
+  Future<void> getuserdata() async{
+    final Network _usernetwork = Network("http://192.168.1.2:15011/shop");//192.168.1.2:15011//116.124.191.174:15011
+    usershopProduct = await _usernetwork.productDetail(registeredUsername!);
+  }
+
   Widget build(BuildContext context) {
     bool showAlertIcon = false;
-    if (cpuProduct['score'] != null &&
-        graphicsProduct['score'] != null &&
-        (graphicsProduct['score'] / cpuProduct['score'] >= 1.5 ||
-            cpuProduct['score'] / graphicsProduct['score'] >= 1.5)) {
-      showAlertIcon = true;
+    if (cpuProduct.isNotEmpty && graphicsProduct.isNotEmpty) {
+      if (cpuProduct[0]['cpu_score'] != 0 && graphicsProduct[0]['graphics_score'] != 0) {
+        if (cpuProduct[0]['cpu_score'] != null &&
+            graphicsProduct[0]['graphics_score'] != null &&
+            (graphicsProduct[0]['graphics_score'] / cpuProduct[0]['cpu_score'] >= 1.5 ||
+                cpuProduct[0]['cpu_score'] / graphicsProduct[0]['graphics_score'] >= 1.5)) {
+          showAlertIcon = true;
+        }
+      }
     }
+
 
     return Scaffold(
       appBar: AppBar(
@@ -68,7 +141,9 @@ class Shoppingcart extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
+      body: nowLoading             //데이터가 다 안받아졌으면 로딩동그라미가 돈다
+          ? Center(child: CircularProgressIndicator())
+          : Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,8 +152,8 @@ class Shoppingcart extends StatelessWidget {
             _buildSection(
               context,
               title: "CPU",
-              productName: cpuProduct['name'],
-              productPrice: cpuProduct['price'],
+              productName: cpuProduct[0]['cpu_name'],
+              productPrice: '${cpuProduct[0]['cpu_price']}원',
               showAlertIcon: showAlertIcon,
               onAlertIconPressed: () => _showPerformanceAlert(context),
             ),
@@ -88,8 +163,8 @@ class Shoppingcart extends StatelessWidget {
             _buildSection(
               context,
               title: "그래픽카드",
-              productName: graphicsProduct['name'],
-              productPrice: graphicsProduct['price'],
+              productName: graphicsProduct[0]['graphics_name'],
+              productPrice: '${graphicsProduct[0]['graphics_price']}원',
               showAlertIcon: showAlertIcon,
               onAlertIconPressed: () => _showPerformanceAlert(context),
             ),
@@ -99,8 +174,8 @@ class Shoppingcart extends StatelessWidget {
             _buildSection(
               context,
               title: "메인보드",
-              productName: mainboardProduct['name'],
-              productPrice: mainboardProduct['price'],
+              productName: mainboardProduct[0]['mainboard_name'],
+              productPrice: '${mainboardProduct[0]['mainboard_price']}원',
               showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
               onAlertIconPressed: () {},
             ),
