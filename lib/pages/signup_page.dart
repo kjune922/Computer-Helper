@@ -71,7 +71,20 @@ class _SignupPageState extends State<SignupPage> {
                     );
                   }
                 }else{
-                  print('둘중하나공백임');
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text('회원가입 실패'),
+                      content: Text('아이디와 비밀번호를 써주세요'),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(
+                              context),
+                          child: Text('확인'),
+                        ),
+                      ],
+                    ),
+                  );
                 }
 
               },
