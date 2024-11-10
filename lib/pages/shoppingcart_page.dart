@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Shoppingcart extends StatelessWidget {
+class Shoppingcart extends StatefulWidget {
   Shoppingcart({super.key});
 
   // 예시 데이터: CPU와 그래픽카드의 성능점수와 이름
@@ -19,6 +19,11 @@ class Shoppingcart extends StatelessWidget {
     'price': '189,000원'
   };
 
+  @override
+  _ShoppingcartState createState() => _ShoppingcartState();
+}
+
+class _ShoppingcartState extends State<Shoppingcart> {
   // 성능 점수 차이에 따른 경고 팝업을 보여주는 함수
   void _showPerformanceAlert(BuildContext context) {
     showDialog(
@@ -46,10 +51,11 @@ class Shoppingcart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool showAlertIcon = false;
-    if (cpuProduct['score'] != null &&
-        graphicsProduct['score'] != null &&
-        (graphicsProduct['score'] / cpuProduct['score'] >= 1.5 ||
-            cpuProduct['score'] / graphicsProduct['score'] >= 1.5)) {
+    if (widget.cpuProduct['score'] != null &&
+        widget.graphicsProduct['score'] != null &&
+        (widget.graphicsProduct['score'] / widget.cpuProduct['score'] >= 1.5 ||
+            widget.cpuProduct['score'] / widget.graphicsProduct['score'] >=
+                1.5)) {
       showAlertIcon = true;
     }
 
@@ -77,8 +83,8 @@ class Shoppingcart extends StatelessWidget {
             _buildSection(
               context,
               title: "CPU",
-              productName: cpuProduct['name'],
-              productPrice: cpuProduct['price'],
+              productName: widget.cpuProduct['name'],
+              productPrice: widget.cpuProduct['price'],
               showAlertIcon: showAlertIcon,
               onAlertIconPressed: () => _showPerformanceAlert(context),
             ),
@@ -88,8 +94,8 @@ class Shoppingcart extends StatelessWidget {
             _buildSection(
               context,
               title: "그래픽카드",
-              productName: graphicsProduct['name'],
-              productPrice: graphicsProduct['price'],
+              productName: widget.graphicsProduct['name'],
+              productPrice: widget.graphicsProduct['price'],
               showAlertIcon: showAlertIcon,
               onAlertIconPressed: () => _showPerformanceAlert(context),
             ),
@@ -99,8 +105,8 @@ class Shoppingcart extends StatelessWidget {
             _buildSection(
               context,
               title: "메인보드",
-              productName: mainboardProduct['name'],
-              productPrice: mainboardProduct['price'],
+              productName: widget.mainboardProduct['name'],
+              productPrice: widget.mainboardProduct['price'],
               showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
               onAlertIconPressed: () {},
             ),
