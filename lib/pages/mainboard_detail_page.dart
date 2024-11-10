@@ -185,7 +185,7 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "LGA 1200",
+                                    jsonData[0]['mainboard_socket'],
                                     style: TextStyle(
                                         fontSize: 16, color: Colors.grey[700]),
                                   ),
