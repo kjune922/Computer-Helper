@@ -31,13 +31,26 @@ class _CpuDetailPageState extends State<CpuDetailPage> {
   }
 
   // 팝업 창을 보여주는 함수
-  void _showPopup(BuildContext context, String title, String description) {
+  void _showPopup(BuildContext context, String imageUrl, String description) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-          content: Text(description),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                imageUrl,
+                height: 150, // 이미지 크기 조정
+                fit: BoxFit.cover,
+              ),
+              SizedBox(height: 10),
+              Text(
+                description,
+                style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+              ),
+            ],
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -233,18 +246,21 @@ class _CpuDetailPageState extends State<CpuDetailPage> {
                           "소켓",
                           jsonData[0]['cpu_socket'],
                           "소켓이란 CPU가 메인보드에 장착되는 인터페이스를 의미합니다.",
+                          "assets/images/cpu_socket_explan.jpg",
                         ),
                         _buildClickableRow(
                           context,
                           "파워",
                           '${jsonData[0]['cpu_pw']} W',
-                          "파워는 CPU가 소모하는 전력을 나타내며, TDP(열설계전력)로 표현됩니다.",
+                          "파워는 CPU가 소모하는 최대 전력을 나타냅니다. ",
+                          "assets/images/cpu_power_explan.png",
                         ),
                         _buildClickableRow(
                           context,
                           "성능 점수",
                           '${jsonData[0]['cpu_score']} 점',
-                          "성능 점수는 CPU의 처리 성능을 수치로 나타내며, 벤치마크 테스트를 통해 측정됩니다.",
+                          "성능 점수는 CPU의 처리 성능을 수치로 나타내며, 높을수록 좋은CPU입니다. 벤치마크 테스트를 통해 측정됩니다.",
+                          "assets/images/cpu_score_explan.png",
                         ),
                       ],
                     ),
@@ -257,12 +273,12 @@ class _CpuDetailPageState extends State<CpuDetailPage> {
 
   // 클릭 가능한 테이블 행 생성 함수
   TableRow _buildClickableRow(
-      BuildContext context, String label, String value, String description) {
+      BuildContext context, String label, String value, String description, String imageurl) {
     return TableRow(
       children: [
         GestureDetector(
           onTap: () {
-            _showPopup(context, label, description);
+            _showPopup(context, imageurl, description);
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
