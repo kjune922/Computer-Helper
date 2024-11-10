@@ -32,13 +32,26 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
   }
 
   // 팝업 창을 보여주는 함수
-  void _showPopup(BuildContext context, String title, String description) {
+  void _showPopup(BuildContext context, String imageUrl, String description ) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-          content: Text(description),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                imageUrl,
+                height: 150, // 이미지 크기 조정
+                fit: BoxFit.cover,
+              ),
+              SizedBox(height: 10),
+              Text(
+                description,
+                style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+              ),
+            ],
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -73,12 +86,16 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
             icon: Icon(Icons.shopping_cart, color: Colors.black),
             onPressed: () {
               // 장바구니 페이지로 이동
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Shoppingcart(),
-                ),
-              );
+              if(registeredUsername == null){
+                Navigator.pushNamed(context, '/login');
+              }else{
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Shoppingcart(),
+                  ),
+                );
+              }
             },
           ),
         ],
@@ -165,8 +182,8 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
                                   onTap: () {
                                     _showPopup(
                                       context,
-                                      "소켓 정보",
-                                      "소켓은 메인보드와 CPU가 연결되는 인터페이스를 의미합니다. LGA 1200은 인텔의 10세대 및 11세대 CPU와 호환되는 소켓 타입입니다.",
+                                      "assets/images/cpu_socket_explan.jpg",
+                                      "소켓은 메인보드와 CPU가 연결되는 인터페이스를 의미합니다.",
                                     );
                                   },
                                   child: Padding(
@@ -201,7 +218,13 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              // 구매하기 기능
+                              if(registeredUsername == null){
+                                Navigator.pushNamed(context, '/login');
+                              }else{
+                                final Network _mainboardnetwork = Network("http://116.124.191.174:15011/shopmainboardadd");//192.168.1.2:15011//116.124.191.174:15011
+                                _mainboardnetwork.updatedb(registeredUsername!,jsonData[0]['mainboard_name']);
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('메인보드 장바구니에 추가되었습니다')));
+                              }
                             },
                             child: Text(
                               '구매하기',
@@ -225,13 +248,16 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
                             Expanded(
                               child: OutlinedButton.icon(
                                 onPressed: () {
-                                  // 장바구니 페이지로 이동
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Shoppingcart(),
-                                    ),
-                                  );
+                                  if(registeredUsername == null){
+                                    Navigator.pushNamed(context, '/login');
+                                  }else{
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Shoppingcart(),
+                                      ),
+                                    );
+                                  }
                                 },
                                 icon: Icon(Icons.shopping_cart_outlined),
                                 label: Text('장바구니'),
