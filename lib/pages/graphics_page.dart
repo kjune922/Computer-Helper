@@ -95,7 +95,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
                   crossAxisSpacing: 16,
                   childAspectRatio: 3 / 4,
                 ),
-                itemCount: 8, // 상품 개수 (샘플 데이터)
+                itemCount: datacount, // 상품 개수 (샘플 데이터)
                 itemBuilder: (context, index) {
                   Map<String, dynamic> data = jsonData[index];
                   return _buildProductCard(context,data);
@@ -140,7 +140,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
               child: ClipRRect(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
                 child: Image.asset(
-                  'assets/images/graphics2.jpg', // 그래픽카드 이미지 경로
+                  data['image'], // 그래픽카드 이미지 경로
                   fit: BoxFit.cover,
                   width: double.infinity,
                 ),
