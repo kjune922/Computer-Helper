@@ -13,6 +13,29 @@ class Network {
     return parsingData;
   }
 
+  Future<dynamic> updatedb(String user, String product) async {
+    final uri = Uri.parse(url); // 서버의 엔드포인트 URL
+    final headers = {'Content-Type': 'application/json'};
+    final body = jsonEncode({
+      'username': user,
+      'product': product,
+    });
+
+    try {
+      // POST 요청 보내기
+      final response = await http.post(uri, headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        print("데이터 업데이트됨");
+        return [];
+      }
+    } catch (e) {
+      print('Error occurred: $e');
+      return [];
+    }
+  }
+
+
   Future<List<dynamic>> sendCredentials(String username, String userpassword) async {
     final uri = Uri.parse(url); // 서버의 엔드포인트 URL
     final headers = {'Content-Type': 'application/json'};

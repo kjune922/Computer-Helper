@@ -73,7 +73,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
     await getuserdata();
 
     if(usershopProduct[0]['cpu'] != null){
-      final Network _cpunetwork = Network("http://192.168.1.2:15011/cpudetail");//192.168.1.2:15011//116.124.191.174:15011
+      final Network _cpunetwork = Network("http://116.124.191.174:15011/cpudetail");//192.168.1.2:15011//116.124.191.174:15011
       cpuProduct = await _cpunetwork.productDetail(usershopProduct[0]['cpu']);
     }else{
       cpuProduct.add({
@@ -84,7 +84,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
     }
 
     if(usershopProduct[0]['graphics'] != null){
-      final Network _graphicsnetwork = Network("http://192.168.1.2:15011/graphicsdetail");//192.168.1.2:15011//116.124.191.174:15011
+      final Network _graphicsnetwork = Network("http://116.124.191.174:15011/graphicsdetail");//192.168.1.2:15011//116.124.191.174:15011
       graphicsProduct = await _graphicsnetwork.productDetail(usershopProduct[0]['graphics']);
     }else{
       graphicsProduct.add({
@@ -94,7 +94,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
       });
     }
     if(usershopProduct[0]['mainboard'] != null){
-      final Network _mainboardnetwork = Network("http://192.168.1.2:15011/mainboarddetail");//192.168.1.2:15011//116.124.191.174:15011
+      final Network _mainboardnetwork = Network("http://116.124.191.174:15011/mainboarddetail");//192.168.1.2:15011//116.124.191.174:15011
       mainboardProduct = await _mainboardnetwork.productDetail(usershopProduct[0]['mainboard']);
     }else{
       mainboardProduct.add({
@@ -108,7 +108,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
   }
 
   Future<void> getuserdata() async{
-    final Network _usernetwork = Network("http://192.168.1.2:15011/shop");//192.168.1.2:15011//116.124.191.174:15011
+    final Network _usernetwork = Network("http://116.124.191.174:15011/shop");//192.168.1.2:15011//116.124.191.174:15011
     usershopProduct = await _usernetwork.productDetail(registeredUsername!);
   }
 
@@ -156,6 +156,16 @@ class _ShoppingcartState extends State<Shoppingcart> {
               productPrice: '${cpuProduct[0]['cpu_price']}원',
               showAlertIcon: showAlertIcon,
               onAlertIconPressed: () => _showPerformanceAlert(context),
+              onDeletePressed: () async {
+                final Network _cpunetwork = Network("http://116.124.191.174:15011/shopcpudel");//192.168.1.2:15011//116.124.191.174:15011
+                await _cpunetwork.productDetail(registeredUsername!);
+                setState(() {
+                  cpuProduct[0]['cpu_name'] = '상품이 없습니다';
+                  cpuProduct[0]['cpu_price'] = 0;
+                  cpuProduct[0]['cpu_score'] = 0;
+                });
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
+              },
             ),
             SizedBox(height: 16),
 
@@ -167,6 +177,17 @@ class _ShoppingcartState extends State<Shoppingcart> {
               productPrice: '${graphicsProduct[0]['graphics_price']}원',
               showAlertIcon: showAlertIcon,
               onAlertIconPressed: () => _showPerformanceAlert(context),
+              onDeletePressed: () async {
+                final Network _graphicsnetwork = Network("http://116.124.191.174:15011/shopgraphicsdel");//192.168.1.2:15011//116.124.191.174:15011
+                await _graphicsnetwork.productDetail(registeredUsername!);
+                setState(() {
+                  graphicsProduct[0]['graphics_name'] = '상품이 없습니다';
+                  graphicsProduct[0]['graphics_price'] = 0;
+                  graphicsProduct[0]['graphics_score'] = 0;
+
+                });
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
+              },
             ),
             SizedBox(height: 16),
 
@@ -178,6 +199,15 @@ class _ShoppingcartState extends State<Shoppingcart> {
               productPrice: '${mainboardProduct[0]['mainboard_price']}원',
               showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
               onAlertIconPressed: () {},
+              onDeletePressed: () async {
+                final Network _mainboardnetwork = Network("http://116.124.191.174:15011/shopmainboarddel");//192.168.1.2:15011//116.124.191.174:15011
+                await _mainboardnetwork.productDetail(registeredUsername!);
+                setState(() {
+                  mainboardProduct[0]['mainboard_name'] = '상품이 없습니다';
+                  mainboardProduct[0]['mainboard_price'] = 0;
+                });
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
+              },
             ),
           ],
         ),
@@ -188,10 +218,11 @@ class _ShoppingcartState extends State<Shoppingcart> {
   // 항목을 구성하는 위젯
   Widget _buildSection(BuildContext context,
       {required String title,
-      required String productName,
-      required String productPrice,
-      required bool showAlertIcon,
-      required VoidCallback onAlertIconPressed}) {
+        required String productName,
+        required String productPrice,
+        required bool showAlertIcon,
+        required VoidCallback onAlertIconPressed,
+        required VoidCallback onDeletePressed}) { // onDeletePressed 추가
     return Card(
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -200,19 +231,33 @@ class _ShoppingcartState extends State<Shoppingcart> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
+            Stack( // Stack을 사용하여 위에 아이콘 배치
               children: [
-                Text(
-                  title,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                Row(
+                  children: [
+                    Text(
+                      title,
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    if (showAlertIcon) // 성능 차이 알림 아이콘 조건부 렌더링
+                      IconButton(
+                        icon: Icon(Icons.warning_amber_outlined,
+                            color: Colors.redAccent),
+                        onPressed: onAlertIconPressed,
+                        tooltip: "성능 차이 알림",
+                      ),
+                  ],
                 ),
-                if (showAlertIcon) // 느낌표 아이콘 조건부 렌더링
-                  IconButton(
-                    icon: Icon(Icons.warning_amber_outlined,
-                        color: Colors.redAccent),
-                    onPressed: onAlertIconPressed,
-                    tooltip: "성능 차이 알림",
+                // 지우기 아이콘 버튼
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  child: IconButton(
+                    icon: Icon(Icons.delete_outline, color: Colors.red),
+                    onPressed: onDeletePressed, // 삭제 버튼 클릭 시 동작
+                    tooltip: "지우기",
                   ),
+                ),
               ],
             ),
             Divider(),
@@ -227,3 +272,4 @@ class _ShoppingcartState extends State<Shoppingcart> {
     );
   }
 }
+

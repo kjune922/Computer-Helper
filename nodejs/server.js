@@ -8,9 +8,9 @@ app.use(bodyParser.json());
 
 const connection = mysql.createConnection({
     host: 'localhost',//116.124.191.174
-    user: 'root',//dilrun2001_2023665
-    password: '1234',
-    database: 'pc_db'
+    user: 'dilrun2001_2023665',//dilrun2001_2023665
+    password: 'dilrun2001_2023665',
+    database: 'dilrun2001_2023665'
 });
 
 connection.connect((err) => {
@@ -138,6 +138,58 @@ app.post('/shop', (req, res) => {
     const sql ="SELECT cpu,graphics,mainboard from member WHERE id = ?;"
     connection.query(sql,[productname], (err, results) => {
         res.send(results)
+    });
+
+});
+
+app.post('/shopcpudel', (req, res) => {
+    const {productname} = req.body;
+    const sql ="UPDATE member SET cpu = NULL WHERE id = ?;"
+    connection.query(sql,[productname], (err, results) => {
+        res.send(results)
+    });
+
+});
+app.post('/shopgraphicsdel', (req, res) => {
+    const {productname} = req.body;
+    const sql ="UPDATE member SET graphics = NULL WHERE id = ?;"
+    connection.query(sql,[productname], (err, results) => {
+        res.send(results)
+    });
+
+});
+app.post('/shopmainboarddel', (req, res) => {
+    const {productname} = req.body;
+    const sql ="UPDATE member SET mainboard = NULL WHERE id = ?;"
+    connection.query(sql,[productname], (err, results) => {
+        res.send(results)
+    });
+
+});
+
+app.post('/shopcpuadd', (req, res) => {
+    const { username, product } = req.body;
+    const sql ="UPDATE member SET cpu = ? WHERE id = ?;"
+    connection.query(sql,[product,username], (err, results) => {
+        res.send({good:'yeah'})
+    });
+
+});
+
+app.post('/shopgraphicsadd', (req, res) => {
+    const { username, product } = req.body;
+    const sql ="UPDATE member SET graphics = ? WHERE id = ?;"
+    connection.query(sql,[product,username], (err, results) => {
+        res.send({good:'yeah'})
+    });
+
+});
+
+app.post('/shopmainboardadd', (req, res) => {
+    const { username, product } = req.body;
+    const sql ="UPDATE member SET mainboard = ? WHERE id = ?;"
+    connection.query(sql,[product,username], (err, results) => {
+        res.send({good:'yeah'})
     });
 
 });
