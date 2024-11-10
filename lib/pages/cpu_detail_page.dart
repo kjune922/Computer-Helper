@@ -95,7 +95,7 @@ class _CpuDetailPageState extends State<CpuDetailPage> {
                       height: 300,
                       width: double.infinity,
                       child: Image.asset(
-                        'assets/images/cpu2.png', // CPU 이미지 경로
+                        jsonData[0]['image'], // CPU 이미지 경로
                         fit: BoxFit.cover,
                       ),
                     ),

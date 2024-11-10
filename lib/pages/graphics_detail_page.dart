@@ -99,7 +99,7 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
                     height: 300,
                     width: double.infinity,
                     child: Image.asset(
-                      'assets/images/graphics2.jpg', // 그래픽카드 이미지 경로
+                      jsonData[0]['image'], // 그래픽카드 이미지 경로
                       fit: BoxFit.cover,
                     ),
                   ),

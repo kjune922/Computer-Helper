@@ -95,7 +95,7 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
                     height: 300,
                     width: double.infinity,
                     child: Image.asset(
-                      'assets/images/mainboard.jpg', // 메인보드 이미지 경로
+                      jsonData[0]['image'], // 메인보드 이미지 경로
                       fit: BoxFit.cover,
                     ),
                   ),

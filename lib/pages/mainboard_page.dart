@@ -92,7 +92,7 @@ class _MainboardPageState extends State<MainboardPage> {
                   crossAxisSpacing: 16,
                   childAspectRatio: 3 / 4,
                 ),
-                itemCount: 8,
+                itemCount: datacount,
                 itemBuilder: (context, index) {
                   Map<String, dynamic> data = jsonData[index];
                   return _buildProductCard(context,data);
@@ -138,7 +138,7 @@ class _MainboardPageState extends State<MainboardPage> {
               child: ClipRRect(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
                 child: Image.asset(
-                  'assets/images/mainboard.jpg',
+                  data['image'],
                   fit: BoxFit.cover,
                   width: double.infinity,
                 ),
