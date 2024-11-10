@@ -11,7 +11,7 @@ class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
 
   final _passwordController = TextEditingController();
-  List<dynamic> data =[];
+  List<dynamic> data = [];
 
   @override
   Widget build(BuildContext context) {
@@ -109,15 +109,18 @@ class _LoginPageState extends State<LoginPage> {
                             backgroundColor: Color(0xFF4A00E0), // 버튼 색상
                           ),
                           onPressed: () async {
-                            Network network = Network('http://116.124.191.174:15011/login');
+                            Network network =
+                                Network('http://116.124.191.174:15011/login');
 
-                            data = await network.sendCredentials(_usernameController.text, _passwordController.text);
-                            if(data[0] != 0){
+                            data = await network.sendCredentials(
+                                _usernameController.text,
+                                _passwordController.text);
+                            if (data[0] != 0) {
                               registeredUsername = await data[0]['id'];
                               registeredUserLevel = await data[0]['level'];
 
                               Navigator.pushReplacementNamed(context, '/');
-                            }else{
+                            } else {
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
@@ -133,11 +136,10 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               );
                             }
-
                           },
                           child: Text(
                             "LOGIN",
-                            style: TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
                         ),
                       ),
