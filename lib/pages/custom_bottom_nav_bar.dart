@@ -17,24 +17,23 @@ class CustomBottomNavBar extends StatelessWidget {
         if (index == 0) {
           Navigator.pushReplacementNamed(context, '/');
         } else if (index == 1) {
-          if(registeredUsername == null){
+          if (registeredUsername == null) {
             Navigator.pushNamed(context, '/login');
-          }else {
+          } else {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (_) => const Shoppingcart()),
+              MaterialPageRoute(builder: (_) => Shoppingcart()),
             );
           }
         } else if (index == 2) {
-
-          if(registeredUsername == null){
+          if (registeredUsername == null) {
             Navigator.pushNamed(context, '/login');
-          }else{
-            if(registeredUserLevel == '관리자') {
+          } else {
+            if (registeredUserLevel == '관리자') {
               Navigator.pushNamed(context, '/master');
-            }else if(registeredUserLevel == '판매자'){
+            } else if (registeredUserLevel == '판매자') {
               Navigator.pushNamed(context, '/seller');
-            }else if(registeredUserLevel == '구매자'){
+            } else if (registeredUserLevel == '구매자') {
               Navigator.pushNamed(context, '/profile');
             }
           }
