@@ -1,32 +1,17 @@
+import 'package:com_recipe/Network.dart';
 import 'package:flutter/material.dart';
-import '../globals.dart'; // globals.dart 파일 import
 
-class SignupPage extends StatelessWidget {
+class SignupPage extends StatefulWidget {
+  @override
+  State<SignupPage> createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
   final _usernameController = TextEditingController();
+
   final _passwordController = TextEditingController();
 
-  void _register(BuildContext context) {
-    // 입력한 사용자 정보를 전역 변수에 저장
-    registeredUsername = _usernameController.text;
-    registeredPassword = _passwordController.text;
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('회원가입 완료'),
-        content: Text('회원가입이 성공적으로 완료되었습니다.'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context); // 회원가입 후 로그인 페이지로 이동
-            },
-            child: Text('확인'),
-          ),
-        ],
-      ),
-    );
-  }
+  List<dynamic> data = [];
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +33,48 @@ class SignupPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () => _register(context),
+              onPressed: () async {
+                if(_usernameController.text != '' && _passwordController.text != '' ){
+                  Network network = Network('http://116.124.191.174:15011/signup');//116.124.191.174:15011
+
+                  data = await network.sendCredentials(
+                      _usernameController.text,
+                      _passwordController.text);
+                  if (data[0] == -1){// 아이디 중복
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text('회원가입 실패'),
+                        content: Text('중복된 아이디입니다'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(
+                                context),
+                            child: Text('확인'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }else{
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Text('회원가입 성공'),
+                        content: Text('정상적으로 회원가입 되었습니다'),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pushNamed(context, '/login'),
+                            child: Text('확인'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                }else{
+                  print('둘중하나공백임');
+                }
+
+              },
               child: Text('회원가입'),
             ),
           ],

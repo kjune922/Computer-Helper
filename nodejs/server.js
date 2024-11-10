@@ -7,8 +7,8 @@ const app = express();
 app.use(bodyParser.json());
 
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'dilrun2001_2023665',
+    host: 'localhost',//116.124.191.174
+    user: 'dilrun2001_2023665',//dilrun2001_2023665
     password: 'dilrun2001_2023665',
     database: 'dilrun2001_2023665'
 });
@@ -94,8 +94,49 @@ app.post('/login', (req, res) => {
     });
 });
 
+app.post('/signup', (req, res) => {
+  const { username, userpassword } = req.body;
+
+            const selectSql = "SELECT * FROM `member` WHERE `id` = ?;";
+
+            connection.query(selectSql, [username], (err, results) => {
+              if (err) {
+                console.error('중복 확인 오류:', err);
+                res.status(500).send('회원가입 중 오류 발생');
+                return;
+              }
+
+              if (results.length > 0) {
+                // 이미 같은 아이디가 있는 경우
+                res.status(409).send({ message: '이미 사용 중인 아이디입니다' });
+              } else {
+                // 중복되지 않는 경우 새로운 회원 등록
+                const insertSql = "INSERT INTO `member` (`id`, `pw`, `level`) VALUES (?, ?, '구매자');";
+
+                connection.query(insertSql, [username, userpassword], (err, insertResults) => {
+                  if (err) {
+                    console.error('회원가입 오류:', err);
+                    res.status(500).send('회원가입 중 오류 발생');
+                    return;
+                  }
+
+                  if (insertResults.affectedRows > 0) {
+                    res.status(201).send();
+                  } else {
+                    res.status(500).send({ message: '회원가입 실패' });
+                  }
+                });
+              }
+            });
+
+
+
+});
+
+
+
 
 
 app.listen(port, () => {
-    console.log('Example app listening on port 3000!')
+    console.log('Example app listening on port 15011!')
 });

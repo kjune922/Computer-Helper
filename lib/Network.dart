@@ -30,10 +30,14 @@ class Network {
         var userJson = response.body;
         var parsedData = jsonDecode(userJson) as List<dynamic>; // 리스트로 변환
         return parsedData;
+      } else if(response.statusCode == 201){//회원가입 성공
+        return[1];
       } else if(response.statusCode == 404){
         print('아이디 혹은 비밀번호가 틀렸습니다');
-        return [0];
-      }else {
+        return [0];//로그인때 틀림
+      }else if(response.statusCode == 409){
+        return[-1];//회원가입때 아이디 중복임
+      }else{
         print('Failed to load data. Status code: ${response.statusCode}');
         return [];
       }
