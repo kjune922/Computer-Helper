@@ -57,33 +57,43 @@ class ExplanationPage extends StatelessWidget {
             ),
             SizedBox(height: 16),
             _buildAssemblyStep(
+              context,
               step: '1단계',
               title: 'CPU 설치',
               description:
                   '메인보드의 CPU 소켓을 열고, CPU를 소켓에 맞춰 신중하게 놓습니다. 소켓 레버로 CPU를 고정합니다.',
+              imagePath: 'assets/images/cpu_installation.png',
             ),
             _buildAssemblyStep(
+              context,
               step: '2단계',
               title: 'RAM 장착',
               description:
                   '메인보드의 RAM 슬롯을 찾아 RAM을 슬롯의 노치에 맞춰 삽입하고 클릭 소리가 날 때까지 눌러 고정합니다.',
+              imagePath: 'assets/images/ram.jpg',
             ),
             _buildAssemblyStep(
+              context,
               step: '3단계',
               title: '그래픽 카드 부착',
               description: '메인보드의 PCIe 슬롯에 그래픽 카드를 삽입합니다. 움직이지 않도록 나사로 고정합니다.',
+              imagePath: 'assets/images/put_graphics.jpeg',
             ),
             _buildAssemblyStep(
+              context,
               step: '4단계',
               title: '전원 공급 장치 연결',
               description:
                   '파워 서플라이에서 나온 전원 케이블을 메인보드, CPU, 그래픽 카드에 연결합니다. 모든 연결이 단단히 고정되었는지 확인합니다.',
+              imagePath: 'assets/images/powerOn.jpg',
             ),
             _buildAssemblyStep(
+              context,
               step: '5단계',
               title: '마무리 및 테스트',
               description:
                   '모든 부품이 연결되고 고정되었는지 확인합니다. 케이스를 닫고 전원을 켜서 시스템이 제대로 작동하는지 테스트합니다.',
+              imagePath: 'assets/images/test.png',
             ),
           ],
         ),
@@ -117,34 +127,73 @@ class ExplanationPage extends StatelessWidget {
     );
   }
 
-  // 조립 가이드 단계를 위한 메서드
-  Widget _buildAssemblyStep({
-    required String step,
-    required String title,
-    required String description,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            '$step: $title',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+  // 조립 가이드 단계를 위한 메서드 (이미지 포함 팝업)
+  Widget _buildAssemblyStep(BuildContext context,
+      {required String step,
+      required String title,
+      required String description,
+      required String imagePath}) {
+    return GestureDetector(
+      onTap: () {
+        _showImagePopup(context, title, description, imagePath);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '$step: $title',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
+                decoration: TextDecoration.underline,
+              ),
             ),
-          ),
-          SizedBox(height: 4),
-          Text(
-            description,
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.black87,
+            SizedBox(height: 4),
+            Text(
+              description,
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black87,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
+    );
+  }
+
+  // 팝업 창을 보여주는 함수
+  void _showImagePopup(BuildContext context, String title, String description,
+      String imagePath) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            title,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(imagePath),
+              SizedBox(height: 8),
+              Text(description),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("닫기"),
+            ),
+          ],
+        );
+      },
     );
   }
 }
