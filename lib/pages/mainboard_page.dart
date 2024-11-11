@@ -173,7 +173,14 @@ class _MainboardPageState extends State<MainboardPage> {
                 ),
                 IconButton(
                   icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
-                  onPressed: () {},
+                  onPressed: () {
+                    if(registeredUsername == null){
+                      Navigator.pushNamed(context, '/login');
+                    }else{
+                      final Network _mainboardnetwork = Network("http://116.124.191.174:15011/shopmainboardadd");//192.168.1.2:15011//116.124.191.174:15011
+                      _mainboardnetwork.updatedb(registeredUsername!,data['mainboard_name']);
+                    }
+                  },
                 ),
               ],
             ),

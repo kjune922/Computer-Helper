@@ -31,13 +31,26 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
   }
 
   // 팝업 창을 보여주는 함수
-  void _showPopup(BuildContext context, String title, String description) {
+  void _showPopup(BuildContext context, String imageUrl, String description) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-          content: Text(description),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                imageUrl,
+                height: 150, // 이미지 크기 조정
+                fit: BoxFit.cover,
+              ),
+              SizedBox(height: 10),
+              Text(
+                description,
+                style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+              ),
+            ],
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -77,12 +90,16 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
           IconButton(
             icon: Icon(Icons.shopping_cart, color: Colors.black),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => Shoppingcart(),
-                ),
-              );
+              if(registeredUsername == null){
+                Navigator.pushNamed(context, '/login');
+              }else{
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Shoppingcart(),
+                  ),
+                );
+              }
             },
           ),
         ],
@@ -160,7 +177,13 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              // 구매하기 기능
+                              if(registeredUsername == null){
+                                Navigator.pushNamed(context, '/login');
+                              }else{
+                                final Network _graphicsnetwork = Network("http://116.124.191.174:15011/shopgraphicsadd");//192.168.1.2:15011//116.124.191.174:15011
+                                _graphicsnetwork.updatedb(registeredUsername!,jsonData[0]['graphics_name']);
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('그래픽카드 장바구니에 추가되었습니다')));
+                              }
                             },
                             child: Text(
                               '구매하기',
@@ -184,12 +207,16 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
                             Expanded(
                               child: OutlinedButton.icon(
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Shoppingcart(),
-                                    ),
-                                  );
+                                  if(registeredUsername == null){
+                                    Navigator.pushNamed(context, '/login');
+                                  }else{
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => Shoppingcart(),
+                                      ),
+                                    );
+                                  }
                                 },
                                 icon: Icon(Icons.shopping_cart_outlined),
                                 label: Text('장바구니'),
@@ -235,13 +262,15 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
                               context,
                               "파워",
                               '${jsonData[0]['graphics_pw']} W',
-                              "파워는 그래픽카드가 소모하는 전력을 나타내며, TDP(열설계전력)로 표현됩니다.",
+                              "파워는 그래픽카드가 소모하는 최대 전력을 나타냅니다.",
+                              "assets/images/cpu_power_explan.png"
                             ),
                             _buildClickableRow(
                               context,
                               "성능 점수",
                               '${jsonData[0]['graphics_score']} 점',
-                              "성능 점수는 그래픽카드의 처리 성능을 수치로 나타내며, 벤치마크 테스트를 통해 측정됩니다.",
+                              "성능 점수는 그래픽카드의 처리 성능을 수치로 나타내며, 높을수록 좋은 그래픽카드입니다. 벤치마크 테스트를 통해 측정됩니다.",
+                              "assets/images/cpu_score_explan.png"
                             ),
                           ],
                         ),
@@ -256,12 +285,12 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
 
   // 클릭 가능한 테이블 행 생성 함수
   TableRow _buildClickableRow(
-      BuildContext context, String label, String value, String description) {
+      BuildContext context, String label, String value, String description, String imageurl) {
     return TableRow(
       children: [
         GestureDetector(
           onTap: () {
-            _showPopup(context, label, description);
+            _showPopup(context, imageurl, description);
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),

@@ -178,7 +178,14 @@ class _CpuPageState extends State<CpuPage> {
               ),
               IconButton(
                 icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
-                onPressed: () {},
+                onPressed: () {
+                  if(registeredUsername == null){
+                    Navigator.pushNamed(context, '/login');
+                  }else{
+                    final Network _cpunetwork = Network("http://116.124.191.174:15011/shopcpuadd");//192.168.1.2:15011//116.124.191.174:15011
+                    _cpunetwork.updatedb(registeredUsername!,data['cpu_name']);
+                  }
+                },
               ),
             ],
           ),

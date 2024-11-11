@@ -13,6 +13,29 @@ class Network {
     return parsingData;
   }
 
+  Future<dynamic> updatedb(String user, String product) async {
+    final uri = Uri.parse(url); // 서버의 엔드포인트 URL
+    final headers = {'Content-Type': 'application/json'};
+    final body = jsonEncode({
+      'username': user,
+      'product': product,
+    });
+
+    try {
+      // POST 요청 보내기
+      final response = await http.post(uri, headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        print("데이터 업데이트됨");
+        return [];
+      }
+    } catch (e) {
+      print('Error occurred: $e');
+      return [];
+    }
+  }
+
+
   Future<List<dynamic>> sendCredentials(String username, String userpassword) async {
     final uri = Uri.parse(url); // 서버의 엔드포인트 URL
     final headers = {'Content-Type': 'application/json'};
@@ -63,6 +86,15 @@ class Network {
         // 응답이 성공적인 경우 JSON 데이터를 파싱
         var userJson = response.body;
         var parsedData = jsonDecode(userJson) as List<dynamic>; // 리스트로 변환
+
+        if (parsedData.isEmpty) {
+          parsedData.add({
+            'cpu': '상품이 없습니다',
+            'cpu_price': 0,
+            'cpu_score': 0,
+          });
+        }
+
         return parsedData;
       } else {
         print('Failed to load data. Status code: ${response.statusCode}');
