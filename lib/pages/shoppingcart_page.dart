@@ -28,6 +28,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
     'price': '189,000원'
   };
 
+
   Map<String, dynamic> cpuProduct ={};
   Map<String, dynamic> graphicsProduct = {};
   Map<String, dynamic> mainboardProduct = {};
@@ -38,6 +39,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
   List<dynamic> mainboardProduct = [];
 
   List<dynamic> usershopProduct = [];
+
   // 성능 점수 차이에 따른 경고 팝업을 보여주는 함수
   void _showPerformanceAlert(BuildContext context) {
     showDialog(
@@ -114,6 +116,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
 
   Widget build(BuildContext context) {
     bool showAlertIcon = false;
+
     if (cpuProduct.isNotEmpty && graphicsProduct.isNotEmpty) {
       if (cpuProduct[0]['cpu_score'] != 0 && graphicsProduct[0]['graphics_score'] != 0) {
         if (cpuProduct[0]['cpu_score'] != null &&
@@ -123,6 +126,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
           showAlertIcon = true;
         }
       }
+
     }
 
 
@@ -152,8 +156,10 @@ class _ShoppingcartState extends State<Shoppingcart> {
             _buildSection(
               context,
               title: "CPU",
+
               productName: cpuProduct[0]['cpu_name'],
               productPrice: '${cpuProduct[0]['cpu_price']}원',
+
               showAlertIcon: showAlertIcon,
               onAlertIconPressed: () => _showPerformanceAlert(context),
               onDeletePressed: () async {
@@ -173,8 +179,10 @@ class _ShoppingcartState extends State<Shoppingcart> {
             _buildSection(
               context,
               title: "그래픽카드",
+
               productName: graphicsProduct[0]['graphics_name'],
               productPrice: '${graphicsProduct[0]['graphics_price']}원',
+
               showAlertIcon: showAlertIcon,
               onAlertIconPressed: () => _showPerformanceAlert(context),
               onDeletePressed: () async {
@@ -195,8 +203,10 @@ class _ShoppingcartState extends State<Shoppingcart> {
             _buildSection(
               context,
               title: "메인보드",
+
               productName: mainboardProduct[0]['mainboard_name'],
               productPrice: '${mainboardProduct[0]['mainboard_price']}원',
+
               showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
               onAlertIconPressed: () {},
               onDeletePressed: () async {
