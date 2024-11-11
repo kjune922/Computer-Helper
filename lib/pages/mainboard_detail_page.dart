@@ -32,7 +32,7 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
   }
 
   // 팝업 창을 보여주는 함수
-  void _showPopup(BuildContext context, String imageUrl, String description ) {
+  void _showPopup(BuildContext context, String imageUrl, String description) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -86,9 +86,9 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
             icon: Icon(Icons.shopping_cart, color: Colors.black),
             onPressed: () {
               // 장바구니 페이지로 이동
-              if(registeredUsername == null){
+              if (registeredUsername == null) {
                 Navigator.pushNamed(context, '/login');
-              }else{
+              } else {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -168,62 +168,21 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
                         ),
                         SizedBox(height: 24),
 
-                        // 소켓 정보 테이블
-                        Table(
-                          border: TableBorder.all(color: Colors.grey),
-                          columnWidths: {
-                            0: FlexColumnWidth(2),
-                            1: FlexColumnWidth(3),
-                          },
-                          children: [
-                            TableRow(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    _showPopup(
-                                      context,
-                                      "assets/images/cpu_socket_explan.jpg",
-                                      "소켓은 메인보드와 CPU가 연결되는 인터페이스를 의미합니다.",
-                                    );
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "소켓",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.blue,
-                                        decoration: TextDecoration.underline,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    jsonData[0]['mainboard_socket'],
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey[700]),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 24),
-
                         // 구매하기 버튼
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              if(registeredUsername == null){
+                              if (registeredUsername == null) {
                                 Navigator.pushNamed(context, '/login');
-                              }else{
-                                final Network _mainboardnetwork = Network("http://116.124.191.174:15011/shopmainboardadd");//192.168.1.2:15011//116.124.191.174:15011
-                                _mainboardnetwork.updatedb(registeredUsername!,jsonData[0]['mainboard_name']);
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('메인보드 장바구니에 추가되었습니다')));
+                              } else {
+                                final Network _mainboardnetwork = Network(
+                                    "http://116.124.191.174:15011/shopmainboardadd");
+                                _mainboardnetwork.updatedb(registeredUsername!,
+                                    jsonData[0]['mainboard_name']);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text('메인보드 장바구니에 추가되었습니다')));
                               }
                             },
                             child: Text(
@@ -248,9 +207,9 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
                             Expanded(
                               child: OutlinedButton.icon(
                                 onPressed: () {
-                                  if(registeredUsername == null){
+                                  if (registeredUsername == null) {
                                     Navigator.pushNamed(context, '/login');
-                                  }else{
+                                  } else {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -293,6 +252,51 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
                                   ),
                                 ),
                               ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 24),
+
+                        // 소켓 정보 테이블
+                        Table(
+                          border: TableBorder.all(color: Colors.grey),
+                          columnWidths: {
+                            0: FlexColumnWidth(2),
+                            1: FlexColumnWidth(3),
+                          },
+                          children: [
+                            TableRow(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    _showPopup(
+                                      context,
+                                      "assets/images/cpu_socket_explan.jpg",
+                                      "소켓은 메인보드와 CPU가 연결되는 인터페이스를 의미합니다.",
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "소켓",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.blue,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    jsonData[0]['mainboard_socket'],
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.grey[700]),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
