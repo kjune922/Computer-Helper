@@ -23,7 +23,7 @@ connection.connect((err) => {
 
 
 const port = 15011;
-
+//상품페이지 상품디테일페이지
 app.get('/cpu', (req, res) => {
     const sql ="SELECT * from cpu;"
     connection.query(sql, (err, results) => {
@@ -74,7 +74,7 @@ app.post('/mainboarddetail', (req, res) => {
     });
 
 });
-
+//로그인
 app.post('/login', (req, res) => {
   const { username, userpassword } = req.body;
 
@@ -93,7 +93,7 @@ app.post('/login', (req, res) => {
             }
     });
 });
-
+//회원가입
 app.post('/signup', (req, res) => {
   const { username, userpassword } = req.body;
 
@@ -141,7 +141,7 @@ app.post('/shop', (req, res) => {
     });
 
 });
-
+//여기는 delete
 app.post('/shopcpudel', (req, res) => {
     const {productname} = req.body;
     const sql ="UPDATE member SET cpu = NULL WHERE id = ?;"
@@ -166,7 +166,47 @@ app.post('/shopmainboarddel', (req, res) => {
     });
 
 });
+app.post('/shopmemorydel', (req, res) => {
+    const {productname} = req.body;
+    const sql ="UPDATE member SET memory = NULL WHERE id = ?;"
+    connection.query(sql,[productname], (err, results) => {
+        res.send(results)
+    });
 
+});
+app.post('/shoppowerdel', (req, res) => {
+    const {productname} = req.body;
+    const sql ="UPDATE member SET power = NULL WHERE id = ?;"
+    connection.query(sql,[productname], (err, results) => {
+        res.send(results)
+    });
+
+});
+app.post('/shopdiskdel', (req, res) => {
+    const {productname} = req.body;
+    const sql ="UPDATE member SET disk = NULL WHERE id = ?;"
+    connection.query(sql,[productname], (err, results) => {
+        res.send(results)
+    });
+
+});
+app.post('/shopcpu_coolerdel', (req, res) => {
+    const {productname} = req.body;
+    const sql ="UPDATE member SET cpu_cooler = NULL WHERE id = ?;"
+    connection.query(sql,[productname], (err, results) => {
+        res.send(results)
+    });
+
+});
+app.post('/shopcomputer_casedel', (req, res) => {
+    const {productname} = req.body;
+    const sql ="UPDATE member SET computer_case = NULL WHERE id = ?;"
+    connection.query(sql,[productname], (err, results) => {
+        res.send(results)
+    });
+
+});
+//요기부터 add
 app.post('/shopcpuadd', (req, res) => {
     const { username, product } = req.body;
     const sql ="UPDATE member SET cpu = ? WHERE id = ?;"
@@ -175,7 +215,6 @@ app.post('/shopcpuadd', (req, res) => {
     });
 
 });
-
 app.post('/shopgraphicsadd', (req, res) => {
     const { username, product } = req.body;
     const sql ="UPDATE member SET graphics = ? WHERE id = ?;"
@@ -184,10 +223,49 @@ app.post('/shopgraphicsadd', (req, res) => {
     });
 
 });
-
 app.post('/shopmainboardadd', (req, res) => {
     const { username, product } = req.body;
     const sql ="UPDATE member SET mainboard = ? WHERE id = ?;"
+    connection.query(sql,[product,username], (err, results) => {
+        res.send({good:'yeah'})
+    });
+
+});
+app.post('/shopmemoryadd', (req, res) => {
+    const { username, product } = req.body;
+    const sql ="UPDATE member SET memory = ? WHERE id = ?;"
+    connection.query(sql,[product,username], (err, results) => {
+        res.send({good:'yeah'})
+    });
+
+});
+app.post('/shoppoweradd', (req, res) => {
+    const { username, product } = req.body;
+    const sql ="UPDATE member SET power = ? WHERE id = ?;"
+    connection.query(sql,[product,username], (err, results) => {
+        res.send({good:'yeah'})
+    });
+
+});
+app.post('/shopdiskadd', (req, res) => {
+    const { username, product } = req.body;
+    const sql ="UPDATE member SET disk = ? WHERE id = ?;"
+    connection.query(sql,[product,username], (err, results) => {
+        res.send({good:'yeah'})
+    });
+
+});
+app.post('/shopcpu_cooleradd', (req, res) => {
+    const { username, product } = req.body;
+    const sql ="UPDATE member SET cpu_cooler = ? WHERE id = ?;"
+    connection.query(sql,[product,username], (err, results) => {
+        res.send({good:'yeah'})
+    });
+
+});
+app.post('/shopcomputer_caseadd', (req, res) => {
+    const { username, product } = req.body;
+    const sql ="UPDATE member SET computer_case = ? WHERE id = ?;"
     connection.query(sql,[product,username], (err, results) => {
         res.send({good:'yeah'})
     });
