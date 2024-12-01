@@ -74,6 +74,91 @@ app.post('/mainboarddetail', (req, res) => {
     });
 
 });
+
+app.get('/memory', (req, res) => {
+    const sql ="SELECT * from memory;"
+    connection.query(sql, (err, results) => {
+        res.send(results)
+    });
+
+});
+
+app.post('/memorydetail', (req, res) => {
+    const {productname} = req.body;
+    const sql ="SELECT * from memory WHERE memory_name = ?;"
+    connection.query(sql,[productname], (err, results) => {
+        res.send(results)
+    });
+
+});
+
+app.get('/power', (req, res) => {
+    const sql ="SELECT * from power;"
+    connection.query(sql, (err, results) => {
+        res.send(results)
+    });
+
+});
+
+app.post('/powerdetail', (req, res) => {
+    const {productname} = req.body;
+    const sql ="SELECT * from power WHERE power_name = ?;"
+    connection.query(sql,[productname], (err, results) => {
+        res.send(results)
+    });
+
+});
+
+app.get('/disk', (req, res) => {
+    const sql ="SELECT * from disk;"
+    connection.query(sql, (err, results) => {
+        res.send(results)
+    });
+
+});
+
+app.post('/diskdetail', (req, res) => {
+    const {productname} = req.body;
+    const sql ="SELECT * from disk WHERE disk_name = ?;"
+    connection.query(sql,[productname], (err, results) => {
+        res.send(results)
+    });
+
+});
+
+app.get('/cpu_cooler', (req, res) => {
+    const sql ="SELECT * from cpu_cooler;"
+    connection.query(sql, (err, results) => {
+        res.send(results)
+    });
+
+});
+
+app.post('/cpu_coolerdetail', (req, res) => {
+    const {productname} = req.body;
+    const sql ="SELECT * from cpu_cooler WHERE cooler_name = ?;"
+    connection.query(sql,[productname], (err, results) => {
+        res.send(results)
+    });
+
+});
+
+app.get('/computer_case', (req, res) => {
+    const sql ="SELECT * from computer_case;"
+    connection.query(sql, (err, results) => {
+        res.send(results)
+    });
+
+});
+
+app.post('/computer_casedetail', (req, res) => {
+    const {productname} = req.body;
+    const sql ="SELECT * from computer_case WHERE case_name = ?;"
+    connection.query(sql,[productname], (err, results) => {
+        res.send(results)
+    });
+
+});
 //로그인
 app.post('/login', (req, res) => {
   const { username, userpassword } = req.body;
