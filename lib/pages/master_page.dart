@@ -296,7 +296,7 @@ class _masterControllerState extends State<masterController> {
   }
 }
 
-class _productcard extends StatelessWidget {
+class _productcard extends StatelessWidget {//상품 관리
   final Map<String, dynamic> child;
   final String where;
   _productcard({required this.child, required this.where});
@@ -308,21 +308,21 @@ class _productcard extends StatelessWidget {
       child: Card(
         margin: EdgeInsets.symmetric(vertical: 8.0),
         child: ListTile(
-          title: Text(child["${where}_name"] ?? "이름 없음"), // null 체크 추가
-          subtitle: Text("가격: ${child["${where}_price"] ?? 0}원"), // null 체크 추가
+          title: Text(child["${where}_name"] ?? "이름 없음"),
+          subtitle: Text("가격: ${child["${where}_price"] ?? 0}원"),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
                 icon: Icon(Icons.edit),
-                onPressed: () {
-                  // 수정 버튼 비움
+                onPressed: () {//상품수정
+
                 },
               ),
               IconButton(
                 icon: Icon(Icons.delete),
-                onPressed: () {
-                  // 삭제 버튼 비움
+                onPressed: () {//상품삭제
+
                 },
               ),
             ],
@@ -333,7 +333,7 @@ class _productcard extends StatelessWidget {
   }
 }
 
-class _usercard extends StatelessWidget {
+class _usercard extends StatelessWidget {//유저관리
   final Map<String, dynamic> child;
   _usercard({required this.child});
 
@@ -344,26 +344,94 @@ class _usercard extends StatelessWidget {
       child: Card(
         margin: EdgeInsets.symmetric(vertical: 8.0),
         child: ListTile(
-          title: Text(child["id"] ?? "이름 없음"), // null 체크 추가
+          title: Text(child["id"] ?? "이름 없음"),
           subtitle: Column(
             children: [
               Text("비번: ${child['pw'] ?? '없음'}"),
               Text('등급: ${child['level'] ?? '없음'}'),
             ],
-          ), // null 체크 추가
+          ),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               IconButton(
                 icon: Icon(Icons.edit),
-                onPressed: () {
-                  // 수정 버튼 비움
+                onPressed: () {//유저수정
+
                 },
               ),
               IconButton(
                 icon: Icon(Icons.delete),
-                onPressed: () {
-                  // 삭제 버튼 비움
+                onPressed: () {//유저삭제
+                  String user = child['id'];
+                  String user2 =child['pw'];
+                  final Network _network = Network("http://116.124.191.174:15011/userdel");
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      TextEditingController textController1 = TextEditingController();
+                      TextEditingController textController2 = TextEditingController();
+
+                      return AlertDialog(
+                        title: Text('정보 입력'),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            TextField(
+                              controller: textController1,
+                              decoration: InputDecoration(
+                                labelText: 'id입력',
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                            SizedBox(height: 16), // 간격 추가ㄴ
+                            TextField(
+                              controller: textController2,
+                              decoration: InputDecoration(
+                                labelText: '비밀번호 입력',
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
+                          ],
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              if(textController1.text == child['id'] && textController2.text == child['pw']){
+                                _network.updatedb(user, user2);
+
+                              }else{
+                                print('비번다름');
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context){
+                                      return AlertDialog(
+                                        title: Text('아이디 비번이 다르다'),
+                                        actions: [
+                                          TextButton(onPressed: (){
+                                            Navigator.pop(context);
+                                          }, child: Text('확인'))
+                                        ],
+                                      );
+                                    },
+                                );
+                              }
+                          },
+                            child: Text(
+                              '삭제',
+                              style: TextStyle(color: Colors.red),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // 팝업 닫기
+                            },
+                            child: Text('취소'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
                 },
               ),
             ],
