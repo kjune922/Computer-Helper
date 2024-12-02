@@ -84,7 +84,6 @@ class _masterUserState extends State<masterUser> {
     final Network _network = Network("http://116.124.191.174:15011/member");
     jsonData = await _network.getJsonData();
     datacount = jsonData.length;
-    print(datacount);
     setState(() {
       nowLoading = false;
     });
@@ -103,6 +102,15 @@ class _masterUserState extends State<masterUser> {
               itemBuilder: (context,index){
             return _usercard(child: jsonData[index],);
           }),
+      floatingActionButton: Align(
+        alignment: Alignment.bottomRight,
+        child: FloatingActionButton(
+          onPressed: () {
+
+          }, // 상품 추가 버튼 비움
+          child: Icon(Icons.add),
+        ),
+      ),
     );
   }
 }
@@ -339,8 +347,8 @@ class _usercard extends StatelessWidget {
           title: Text(child["id"] ?? "이름 없음"), // null 체크 추가
           subtitle: Column(
             children: [
-              Text("비번: ${child['pw'] ?? 0}"),
-              Text('등급: ${child['level']}'),
+              Text("비번: ${child['pw'] ?? '없음'}"),
+              Text('등급: ${child['level'] ?? '없음'}'),
             ],
           ), // null 체크 추가
           trailing: Row(
@@ -365,56 +373,3 @@ class _usercard extends StatelessWidget {
     );
   }
 }
-
-
-/*
-Scaffold(
-      appBar: AppBar(title: Text("${widget.where} 관리")),
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
-              child: Column(
-                children: jsonData.map((product) {
-                  return Card(
-                    margin: EdgeInsets.symmetric(vertical: 8.0),
-                    child: ListTile(
-                      title: Text(product["cpu_name"]),
-                      subtitle: Text("가격: ${product["cpu_price"]}원"),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.edit),
-                            onPressed: () {
-
-                            }, // 수정 버튼 비움
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.delete),
-                            onPressed: () {
-
-                            }, // 삭제 버튼 비움
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: Align(
-        alignment: Alignment.bottomRight,
-        child: FloatingActionButton(
-          onPressed: () {
-
-          }, // 상품 추가 버튼 비움
-          child: Icon(Icons.add),
-        ),
-      ),
-    );
-    */
