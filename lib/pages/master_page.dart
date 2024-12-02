@@ -106,8 +106,82 @@ class _masterUserState extends State<masterUser> {
         alignment: Alignment.bottomRight,
         child: FloatingActionButton(
           onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                TextEditingController textController1 = TextEditingController();
+                TextEditingController textController2 = TextEditingController();
+                TextEditingController textController3 = TextEditingController();
 
-          }, // 상품 추가 버튼 비움
+                return AlertDialog(
+                  title: Text('생성 정보 입력'),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        controller: textController1,
+                        decoration: InputDecoration(
+                          labelText: 'id입력',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      TextField(
+                        controller: textController2,
+                        decoration: InputDecoration(
+                          labelText: '비밀번호 입력',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      TextField(
+                        controller: textController3,
+                        decoration: InputDecoration(
+                          labelText: '구매자,관리자,판매자',
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    ],
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        if(!textController1.text.isEmpty && !textController2.text.isEmpty){
+                          Network _masterusercrete = Network('http://116.124.191.174:15011/createuser');
+                          _masterusercrete.createuser(textController1.text, textController2.text, textController3.text);
+                        }else{
+                          showDialog(
+                              context: context,
+                              builder: (context){
+                                return AlertDialog(
+                                  title: Text('아이디와 비번을 써주세요'),
+                                  actions: [
+                                    TextButton(onPressed: (){
+                                      Navigator.pop(context);
+                                    }, child: Text('확인'))
+                                  ],
+                                );
+                              }
+                              );
+                        }
+
+                      },
+                      child: Text(
+                        '생성',
+                        style: TextStyle(color: Colors.blue),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop(); // 팝업 닫기
+                      },
+                      child: Text('취소'),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
           child: Icon(Icons.add),
         ),
       ),
@@ -333,9 +407,15 @@ class _productcard extends StatelessWidget {//상품 관리
   }
 }
 
-class _usercard extends StatelessWidget {//유저관리
+class _usercard extends StatefulWidget {//유저관리
   final Map<String, dynamic> child;
   _usercard({required this.child});
+
+  @override
+  State<_usercard> createState() => _usercardState();
+}
+
+class _usercardState extends State<_usercard> {
 
   @override
   Widget build(BuildContext context) {
@@ -344,11 +424,11 @@ class _usercard extends StatelessWidget {//유저관리
       child: Card(
         margin: EdgeInsets.symmetric(vertical: 8.0),
         child: ListTile(
-          title: Text(child["id"] ?? "이름 없음"),
+          title: Text(widget.child["id"] ?? "이름 없음"),
           subtitle: Column(
             children: [
-              Text("비번: ${child['pw'] ?? '없음'}"),
-              Text('등급: ${child['level'] ?? '없음'}'),
+              Text("비번: ${widget.child['pw'] ?? '없음'}"),
+              Text('등급: ${widget.child['level'] ?? '없음'}'),
             ],
           ),
           trailing: Row(
@@ -363,8 +443,8 @@ class _usercard extends StatelessWidget {//유저관리
               IconButton(
                 icon: Icon(Icons.delete),
                 onPressed: () {//유저삭제
-                  String user = child['id'];
-                  String user2 =child['pw'];
+                  String user = widget.child['id'];
+                  String user2 =widget.child['pw'];
                   final Network _network = Network("http://116.124.191.174:15011/userdel");
                   showDialog(
                     context: context,
@@ -373,7 +453,7 @@ class _usercard extends StatelessWidget {//유저관리
                       TextEditingController textController2 = TextEditingController();
 
                       return AlertDialog(
-                        title: Text('정보 입력'),
+                        title: Text('삭제 정보 입력'),
                         content: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
@@ -397,7 +477,7 @@ class _usercard extends StatelessWidget {//유저관리
                         actions: [
                           TextButton(
                             onPressed: () {
-                              if(textController1.text == child['id'] && textController2.text == child['pw']){
+                              if(textController1.text == widget.child['id'] && textController2.text == widget.child['pw']){
                                 _network.updatedb(user, user2);
 
                               }else{

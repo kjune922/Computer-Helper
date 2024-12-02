@@ -41,6 +41,15 @@ app.post('/userdel', (req, res) => {
 
 });
 
+app.post('/createuser', (req, res) => {
+    const {username,password,level} = req.body;
+    const sql ="INSERT INTO member (id, pw, level) VALUES (?, ?, ?);"
+    connection.query(sql,[username,password,level], (err, results) => {
+        res.send(results)
+    });
+
+});
+
 //상품페이지 상품디테일페이지
 app.get('/cpu', (req, res) => {
     const sql ="SELECT * from cpu;"
