@@ -100,7 +100,10 @@ class _masterUserState extends State<masterUser> {
           : ListView.builder(
               itemCount: datacount,
               itemBuilder: (context,index){
-            return _usercard(child: jsonData[index],);
+            return _usercard(
+              child: jsonData[index],
+              onDataUpdated: getdata,
+            );
           }),
       floatingActionButton: Align(
         alignment: Alignment.bottomRight,
@@ -145,10 +148,13 @@ class _masterUserState extends State<masterUser> {
                   ),
                   actions: [
                     TextButton(
-                      onPressed: () {
+                      onPressed: () {//생성버튼
                         if(!textController1.text.isEmpty && !textController2.text.isEmpty){
                           Network _masterusercrete = Network('http://116.124.191.174:15011/createuser');
                           _masterusercrete.createuser(textController1.text, textController2.text, textController3.text);
+                          setState(() {
+                            getdata();
+                          });
                           Navigator.pop(context);
                         }else{
                           showDialog(
@@ -410,7 +416,9 @@ class _productcard extends StatelessWidget {//상품 관리
 
 class _usercard extends StatefulWidget {//유저관리
   final Map<String, dynamic> child;
-  _usercard({required this.child});
+  final VoidCallback onDataUpdated;
+
+  _usercard({required this.child, required this.onDataUpdated});
 
   @override
   State<_usercard> createState() => _usercardState();
@@ -477,9 +485,10 @@ class _usercardState extends State<_usercard> {
                         ),
                         actions: [
                           TextButton(
-                            onPressed: () {
+                            onPressed: () {//삭제 눌렀을때
                               if(textController1.text == widget.child['id'] && textController2.text == widget.child['pw']){
                                 _network.updatedb(user, user2);
+                                widget.onDataUpdated();
                                 Navigator.pop(context);
                               }else{
                                 print('비번다름');
