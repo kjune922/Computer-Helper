@@ -32,25 +32,7 @@ class _MasterPageState extends State<MasterPage> {
           children: [
             ElevatedButton(
               onPressed: () {
-                // 유저 관리 기능 구현
-                // 예: showDialog 등을 통해 간단한 메시지를 표시
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text('유저 관리'),
-                      content: Text('유저 관리 기능을 여기에 추가할 수 있습니다.'),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text('닫기'),
-                        ),
-                      ],
-                    );
-                  },
-                );
+                Navigator.push(context,MaterialPageRoute(builder: (_) => masterUser()));
               },
               style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(vertical: 16, horizontal: 32),
@@ -79,6 +61,52 @@ class _MasterPageState extends State<MasterPage> {
     );
   }
 }
+
+class masterUser extends StatefulWidget {
+  const masterUser({super.key});
+
+  @override
+  State<masterUser> createState() => _masterUserState();
+}
+class _masterUserState extends State<masterUser> {
+
+  List<dynamic> jsonData = [];
+  int? datacount;
+  bool nowLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    getdata();
+  }
+
+  void getdata() async {
+    final Network _network = Network("http://116.124.191.174:15011/member");
+    jsonData = await _network.getJsonData();
+    datacount = jsonData.length;
+    print(datacount);
+    setState(() {
+      nowLoading = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("유저관리"),
+      ),
+      body: nowLoading
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+              itemCount: datacount,
+              itemBuilder: (context,index){
+            return _usercard(child: jsonData[index],);
+          }),
+    );
+  }
+}
+
 
 class masterProduct extends StatelessWidget {
   const masterProduct({super.key});
@@ -212,10 +240,6 @@ class masterController extends StatefulWidget {
 }
 
 class _masterControllerState extends State<masterController> {
-  List<Map<String, dynamic>> products = [
-    {"name": "상품1", "price": 1000},
-    {"name": "상품2", "price": 2000},
-  ];
   List<dynamic> jsonData = [];
   int? datacount;
   bool nowLoading = true;
@@ -240,14 +264,14 @@ class _masterControllerState extends State<masterController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('data'),
+        title: Text("${widget.where} 관리"),
       ),
       body: nowLoading
           ? Center(child: CircularProgressIndicator())
           : ListView.builder(
         itemCount: datacount,
         itemBuilder: (context, index) {
-          return _card(child: jsonData[index],where: widget.where,);
+          return _productcard(child: jsonData[index],where: widget.where,);
         },
       ),
       floatingActionButton: Align(
@@ -264,10 +288,10 @@ class _masterControllerState extends State<masterController> {
   }
 }
 
-class _card extends StatelessWidget {
+class _productcard extends StatelessWidget {
   final Map<String, dynamic> child;
   final String where;
-  _card({required this.child, required this.where});
+  _productcard({required this.child, required this.where});
 
   @override
   Widget build(BuildContext context) {
@@ -301,6 +325,46 @@ class _card extends StatelessWidget {
   }
 }
 
+class _usercard extends StatelessWidget {
+  final Map<String, dynamic> child;
+  _usercard({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Card(
+        margin: EdgeInsets.symmetric(vertical: 8.0),
+        child: ListTile(
+          title: Text(child["id"] ?? "이름 없음"), // null 체크 추가
+          subtitle: Column(
+            children: [
+              Text("비번: ${child['pw'] ?? 0}"),
+              Text('등급: ${child['level']}'),
+            ],
+          ), // null 체크 추가
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () {
+                  // 수정 버튼 비움
+                },
+              ),
+              IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () {
+                  // 삭제 버튼 비움
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 
 
 /*

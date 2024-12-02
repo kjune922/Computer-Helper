@@ -23,6 +23,15 @@ connection.connect((err) => {
 
 
 const port = 15011;
+
+app.get('/member', (req, res) => {
+    const sql ="SELECT * from member;"
+    connection.query(sql, (err, results) => {
+        res.send(results)
+    });
+
+});
+
 //상품페이지 상품디테일페이지
 app.get('/cpu', (req, res) => {
     const sql ="SELECT * from cpu;"
