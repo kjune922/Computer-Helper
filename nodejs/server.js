@@ -42,9 +42,9 @@ app.post('/userdel', (req, res) => {
 });
 
 app.post('/createuser', (req, res) => {
-    const {username,password,level} = req.body;
+    const {username,password,userlevel} = req.body;
     const sql ="INSERT INTO member (id, pw, level) VALUES (?, ?, ?);"
-    connection.query(sql,[username,password,level], (err, results) => {
+    connection.query(sql,[username,password,userlevel], (err, results) => {
         res.send(results)
     });
 

@@ -149,6 +149,7 @@ class _masterUserState extends State<masterUser> {
                         if(!textController1.text.isEmpty && !textController2.text.isEmpty){
                           Network _masterusercrete = Network('http://116.124.191.174:15011/createuser');
                           _masterusercrete.createuser(textController1.text, textController2.text, textController3.text);
+                          Navigator.pop(context);
                         }else{
                           showDialog(
                               context: context,
@@ -479,7 +480,7 @@ class _usercardState extends State<_usercard> {
                             onPressed: () {
                               if(textController1.text == widget.child['id'] && textController2.text == widget.child['pw']){
                                 _network.updatedb(user, user2);
-
+                                Navigator.pop(context);
                               }else{
                                 print('비번다름');
                                 showDialog(

@@ -36,13 +36,14 @@ class Network {
   }
 
   Future<dynamic> createuser(String user, String password, String level) async {//post로 3개의 string을 보내고 받지는 않는다
-    if(level.isEmpty) level = '구매자';
+    if(level.isEmpty) {level = '구매자';}
+    print(level);
     final uri = Uri.parse(url); // 서버의 엔드포인트 URL
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({
       'username': user,
       'password': password,
-      'userlevel': level
+      'userlevel': level,
     });
 
     try {
