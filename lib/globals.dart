@@ -4,6 +4,6 @@ String? registeredPassword;
 String? registeredUserLevel;
 String? productName;
 
-// 추가된 글로벌 변수
-List<Map<String, dynamic>> expertCartComponents = []; // 숙련자용 장바구니 데이터
-bool expertCartInitialized = false; // 장바구니 데이터 초기화 여부
+// 숙련자용 장바구니 데이터
+String? expertCartComponents; // 숙련자 장바구니 데이터를 JSON 문자열로 저장
+bool? expertCartInitialized = false;  // 초기화 여부를 단순한 플래그로 관리

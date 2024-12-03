@@ -24,6 +24,31 @@ class HomePage extends StatelessWidget {
         "goWhere": "/mainboard"
       },
       {
+        "category": "메모리", // 메모리 추가했음
+        "imgUrl": "assets/images/memory.jpeg",
+        "goWhere": "/memory"
+      },
+      {
+        "category": "케이스", // 케이스 추가했음
+        "imgUrl": "assets/images/case.jpeg",
+        "goWhere": "/case"
+      },
+      {
+        "category": "CPU 쿨러", // CPU 쿨러 추가
+        "imgUrl": "assests/images/computer_cooler.jpeg",
+        "goWhere": "/cpu_cooler"
+      },
+      {
+        "category": "파워", // 파워 추가
+        "imgUrl": "assets/images/computer_power.jpg",
+        "goWhere": "/power"
+      },
+      {
+        "category": "디스크", // 디스크추가
+        "imgUrl": "assets/images/disk.jpeg",
+        "goWhere": "/disk"
+      },
+      {
         "category": "사용시 주의사항",
         "imgUrl": "assets/images/warning.png",
         "goWhere": "/warning"

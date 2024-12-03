@@ -21,14 +21,42 @@ class _ExpertShoppingcartState extends State<ExpertShoppingcart> {
 
   // 초기 데이터 가져오기
   void initializeData() async {
-    final Network _userNetwork = Network("http://116.124.191.174:15011/shop");
-    final List<dynamic> userData =
-        await _userNetwork.productDetail(registeredUsername!);
+    if (expertCartInitialized == true) {
+      // 이미 초기화된 데이터가 있는 경우
+      setState(() {
+        components = _deserializeCartData(expertCartComponents);
+        nowLoading = false;
+      });
+    } else {
+      // 서버에서 데이터 가져오기
+      final Network _userNetwork = Network("http://116.124.191.174:15011/shop");
+      final List<dynamic> userData =
+          await _userNetwork.productDetail(registeredUsername!);
 
-    setState(() {
-      components = userData.cast<Map<String, dynamic>>();
-      nowLoading = false;
-    });
+      setState(() {
+        components = userData.cast<Map<String, dynamic>>();
+        expertCartComponents = _serializeCartData(components);
+        expertCartInitialized = true; // 여기에서 bool로 설정
+        nowLoading = false;
+      });
+    }
+  }
+
+  // 장바구니 데이터 직렬화 (List -> String)
+  String _serializeCartData(List<Map<String, dynamic>> cartData) {
+    return cartData.map((item) => "${item['name']}:${item['price']}").join(",");
+  }
+
+  // 장바구니 데이터 역직렬화 (String -> List)
+  List<Map<String, dynamic>> _deserializeCartData(String? serializedData) {
+    if (serializedData == null || serializedData.isEmpty) {
+      return [];
+    }
+
+    return serializedData.split(",").map((item) {
+      final parts = item.split(":");
+      return {"name": parts[0], "price": int.parse(parts[1])};
+    }).toList();
   }
 
   // 부품 추가
@@ -40,6 +68,7 @@ class _ExpertShoppingcartState extends State<ExpertShoppingcart> {
     if (response.isNotEmpty) {
       setState(() {
         components.add({"name": name, "price": price});
+        expertCartComponents = _serializeCartData(components);
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('부품이 추가되었습니다.')),
@@ -61,6 +90,7 @@ class _ExpertShoppingcartState extends State<ExpertShoppingcart> {
     if (response.isNotEmpty) {
       setState(() {
         components.removeAt(index);
+        expertCartComponents = _serializeCartData(components);
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('부품이 삭제되었습니다.')),
