@@ -400,7 +400,7 @@ app.post('/checkpw', (req, res) => {
     const { username, product } = req.body;
     const sql ="select * from member where id = ?"
     connection.query(sql,[username], (err, results) => {
-        res.send({good:'yeah'})
+        res.send(results)
     });
 
 });

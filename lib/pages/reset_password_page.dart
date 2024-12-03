@@ -7,6 +7,7 @@ class ResetPasswordPage extends StatelessWidget {
   final _newPasswordController = TextEditingController();
 
   void _resetPassword(BuildContext context) async{
+    print(registeredUsername);
     List<dynamic> nowpassword =[];
     Network _checkpw = Network('http://116.124.191.174:15011/checkpw');
     nowpassword = await _checkpw.sendCredentials(registeredUsername!,'');
