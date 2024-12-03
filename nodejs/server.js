@@ -41,6 +41,15 @@ app.post('/userdel', (req, res) => {
 
 });
 
+app.post('/usernagam', (req, res) => {
+    const {username,product} = req.body;
+    const sql ="DELETE FROM member WHERE id = ?"
+    connection.query(sql,[username], (err, results) => {
+        res.send(results)
+    });
+
+});
+
 app.post('/createuser', (req, res) => {
     const {username,password,userlevel} = req.body;
     const sql ="INSERT INTO member (id, pw, level) VALUES (?, ?, ?);"

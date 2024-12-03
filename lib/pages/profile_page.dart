@@ -1,3 +1,4 @@
+import 'package:com_recipe/Network.dart';
 import 'package:flutter/material.dart';
 import '../globals.dart';
 
@@ -130,23 +131,24 @@ class _ProfilePageState extends State<ProfilePage> {
           content: Text('정말로 계정을 탈퇴하시겠습니까? 이 작업은 되돌릴 수 없습니다.'),
           actions: [
             TextButton(
+              onPressed: () async {
+                String? user = registeredUsername;
+                final Network _network = Network("http://116.124.191.174:15011/usernagam");
+                await _network.updatedb(user!,'');
+
+                registeredUsername  = null;
+                registeredPassword = null;
+                registeredUserLevel = null;
+                Navigator.pushReplacementNamed(context, '/');
+              },
+              child: Text('탈퇴',
+              style: TextStyle(color: Colors.red),),
+            ),
+            TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               child: Text('취소'),
-            ),
-            TextButton(
-              onPressed: () {
-                // 계정 탈퇴 처리
-                registeredUsername = null;
-                registeredUserLevel = null;
-                Navigator.of(context).pop();
-                Navigator.pushNamed(context, '/');
-              },
-              child: Text(
-                '탈퇴',
-                style: TextStyle(color: Colors.red),
-              ),
             ),
           ],
         );
