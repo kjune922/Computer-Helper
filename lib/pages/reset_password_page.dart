@@ -48,7 +48,7 @@ class ResetPasswordPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Reset Password')),
+      appBar: AppBar(title: Text('새 비밀번호 설정')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -57,7 +57,7 @@ class ResetPasswordPage extends StatelessWidget {
             TextField(
               controller: _idController,
               decoration: InputDecoration(
-                labelText: "ID",
+                labelText: "password",
                 border: OutlineInputBorder(),
               ),
             ),

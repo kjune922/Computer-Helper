@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                                 context, '/reset_password'); // 비밀번호 재설정 페이지로 이동
                           },
                           child: Text(
-                            "Forgot Password?",
+                            "",
                             style: TextStyle(color: Color(0xFF4A00E0)),
                           ),
                         ),
@@ -137,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                             }
                           },
                           child: Text(
-                            "LOGIN",
+                            "로그인",
                             style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
                         ),
