@@ -26,8 +26,11 @@ class ResetPasswordPage extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context); // 로그인 페이지로 돌아가기
+                registeredUsername = null;
+                registeredUserLevel = null;
+                registeredPassword = null;
+                Navigator.pushReplacementNamed(context, '/');
+                Navigator.pushNamed(context, '/login');
               },
               child: Text('확인'),
             ),
@@ -40,7 +43,7 @@ class ResetPasswordPage extends StatelessWidget {
         context: context,
         builder: (context) => AlertDialog(
           title: Text('오류'),
-          content: Text('입력한 ID가 올바르지 않습니다.'),
+          content: Text('현재 비밀번호가 올바르지 않습니다.'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -64,7 +67,7 @@ class ResetPasswordPage extends StatelessWidget {
             TextField(
               controller: _passwordController,
               decoration: InputDecoration(
-                labelText: "password",
+                labelText: "현재 비밀번호",
                 border: OutlineInputBorder(),
               ),
             ),
@@ -73,7 +76,7 @@ class ResetPasswordPage extends StatelessWidget {
               controller: _newPasswordController,
               obscureText: true,
               decoration: InputDecoration(
-                labelText: "New Password",
+                labelText: "새 비밀번호",
                 border: OutlineInputBorder(),
               ),
             ),
