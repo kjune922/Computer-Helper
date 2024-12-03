@@ -13,7 +13,7 @@ class Network {
     return parsingData;
   }
 
-  Future<dynamic> updatedb(String user, String product) async {//post로 2개의 string을 보내고 받는다
+  Future<dynamic> updatedb(String user, String product) async {//post로 2개의 string을 보내고 받지않는다
     final uri = Uri.parse(url); // 서버의 엔드포인트 URL
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({
@@ -59,7 +59,7 @@ class Network {
   }
 
 
-  Future<List<dynamic>> sendCredentials(String username, String userpassword) async {
+  Future<List<dynamic>> sendCredentials(String username, String userpassword) async {//2개의 데이터를 보내고 받는다
     final uri = Uri.parse(url); // 서버의 엔드포인트 URL
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({
