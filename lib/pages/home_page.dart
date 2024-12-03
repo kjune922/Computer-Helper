@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
       },
       {
         "category": "CPU 쿨러", // CPU 쿨러 추가
-        "imgUrl": "assests/images/computer_cooler.jpeg",
+        "imgUrl": "assets/images/computer_cooler.jpeg",
         "goWhere": "/cpu_cooler"
       },
       {
