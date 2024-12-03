@@ -395,6 +395,25 @@ app.post('/shopcomputer_caseadd', (req, res) => {
 
 
 
+//유저 패스워드 확인
+app.post('/checkpw', (req, res) => {
+    const { username, product } = req.body;
+    const sql ="select * from member where id = ?"
+    connection.query(sql,[username], (err, results) => {
+        res.send({good:'yeah'})
+    });
+
+});
+
+//유저 패스워드 변경
+app.post('/resetpw', (req, res) => {
+    const { username, product } = req.body;
+    const sql ="UPDATE member SET pw = ? WHERE id = ?"
+    connection.query(sql,[product,username], (err, results) => {
+        res.send({good:'yeah'})
+    });
+
+});
 
 app.listen(port, () => {
     console.log('Example app listening on port 15011!')
