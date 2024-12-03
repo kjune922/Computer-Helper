@@ -37,6 +37,11 @@ class _ShoppingcartState extends State<Shoppingcart> {
   List<dynamic> cpuProduct =[];
   List<dynamic> graphicsProduct = [];
   List<dynamic> mainboardProduct = [];
+  List<dynamic> computer_caseProduct =[];
+  List<dynamic> cpu_coolerProduct =[];
+  List<dynamic> diskProduct =[];
+  List<dynamic> memoryProduct =[];
+  List<dynamic> powerProduct =[];
 
   List<dynamic> usershopProduct = [];
 
@@ -84,7 +89,6 @@ class _ShoppingcartState extends State<Shoppingcart> {
         'cpu_score': 0,
       });
     }
-
     if(usershopProduct[0]['graphics'] != null){
       final Network _graphicsnetwork = Network("http://116.124.191.174:15011/graphicsdetail");//192.168.1.2:15011//116.124.191.174:15011
       graphicsProduct = await _graphicsnetwork.productDetail(usershopProduct[0]['graphics']);
@@ -102,6 +106,51 @@ class _ShoppingcartState extends State<Shoppingcart> {
       mainboardProduct.add({
         'mainboard_name': '상품이 없습니다',
         'mainboard_price': 0,
+      });
+    }
+    if(usershopProduct[0]['memory'] != null){
+      final Network _memorynetwork = Network("http://116.124.191.174:15011/memorydetail");//192.168.1.2:15011//116.124.191.174:15011
+      memoryProduct = await _memorynetwork.productDetail(usershopProduct[0]['memory']);
+    }else{
+      memoryProduct.add({
+        'memory_name': '상품이 없습니다',
+        'memory_price': 0,
+      });
+    }
+    if(usershopProduct[0]['power'] != null){
+      final Network _powernetwork = Network("http://116.124.191.174:15011/powerdetail");//192.168.1.2:15011//116.124.191.174:15011
+      powerProduct = await _powernetwork.productDetail(usershopProduct[0]['power']);
+    }else{
+      powerProduct.add({
+        'power_name': '상품이 없습니다',
+        'power_price': 0,
+      });
+    }
+    if(usershopProduct[0]['disk'] != null){
+      final Network _disknetwork = Network("http://116.124.191.174:15011/diskdetail");//192.168.1.2:15011//116.124.191.174:15011
+      diskProduct = await _disknetwork.productDetail(usershopProduct[0]['disk']);
+    }else{
+      diskProduct.add({
+        'disk_name': '상품이 없습니다',
+        'disk_price': 0,
+      });
+    }
+    if(usershopProduct[0]['cpu_cooler'] != null){
+      final Network _cpu_coolernetwork = Network("http://116.124.191.174:15011/cpu_coolerdetail");//192.168.1.2:15011//116.124.191.174:15011
+      cpu_coolerProduct = await _cpu_coolernetwork.productDetail(usershopProduct[0]['cpu_cooler']);
+    }else{
+      cpu_coolerProduct.add({
+        'cooler_name': '상품이 없습니다',
+        'cooler_price': 0,
+      });
+    }
+    if(usershopProduct[0]['computer_case'] != null){
+      final Network _computer_casenetwork = Network("http://116.124.191.174:15011/computer_casedetail");//192.168.1.2:15011//116.124.191.174:15011
+      computer_caseProduct = await _computer_casenetwork.productDetail(usershopProduct[0]['computer_case']);
+    }else{
+      computer_caseProduct.add({
+        'case_name': '상품이 없습니다',
+        'case_price': 0,
       });
     }
     setState(() {
@@ -149,7 +198,8 @@ class _ShoppingcartState extends State<Shoppingcart> {
           ? Center(child: CircularProgressIndicator())
           : Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
+        child: SingleChildScrollView(
+          child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // CPU 항목
@@ -219,7 +269,113 @@ class _ShoppingcartState extends State<Shoppingcart> {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
               },
             ),
+            SizedBox(height: 16),
+
+            _buildSection(
+              context,
+              title: "메모리",
+
+              productName: memoryProduct[0]['memory_name'],
+              productPrice: '${memoryProduct[0]['memory_price']}원',
+
+              showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
+              onAlertIconPressed: () {},
+              onDeletePressed: () async {
+                final Network _memorynetwork = Network("http://116.124.191.174:15011/shopmemorydel");//192.168.1.2:15011//116.124.191.174:15011
+                await _memorynetwork.productDetail(registeredUsername!);
+                setState(() {
+                  memoryProduct[0]['memory_name'] = '상품이 없습니다';
+                  memoryProduct[0]['memory_price'] = 0;
+                });
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
+              },
+            ),
+            SizedBox(height: 16),
+
+            _buildSection(
+              context,
+              title: "파워",
+
+              productName: powerProduct[0]['power_name'],
+              productPrice: '${powerProduct[0]['power_price']}원',
+
+              showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
+              onAlertIconPressed: () {},
+              onDeletePressed: () async {
+                final Network _powernetwork = Network("http://116.124.191.174:15011/shoppowerdel");//192.168.1.2:15011//116.124.191.174:15011
+                await _powernetwork.productDetail(registeredUsername!);
+                setState(() {
+                  powerProduct[0]['power_name'] = '상품이 없습니다';
+                  powerProduct[0]['power_price'] = 0;
+                });
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
+              },
+            ),
+            SizedBox(height: 16),
+
+            _buildSection(
+              context,
+              title: "디스크(저장장치)",
+
+              productName: diskProduct[0]['disk_name'],
+              productPrice: '${diskProduct[0]['disk_price']}원',
+
+              showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
+              onAlertIconPressed: () {},
+              onDeletePressed: () async {
+                final Network _disknetwork = Network("http://116.124.191.174:15011/shopdiskdel");//192.168.1.2:15011//116.124.191.174:15011
+                await _disknetwork.productDetail(registeredUsername!);
+                setState(() {
+                  diskProduct[0]['disk_name'] = '상품이 없습니다';
+                  diskProduct[0]['disk_price'] = 0;
+                });
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
+              },
+            ),
+            SizedBox(height: 16),
+
+            _buildSection(
+              context,
+              title: "cpu쿨러",
+
+              productName: cpu_coolerProduct[0]['cooler_name'],
+              productPrice: '${cpu_coolerProduct[0]['cooler_price']}원',
+
+              showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
+              onAlertIconPressed: () {},
+              onDeletePressed: () async {
+                final Network _cpu_coolernetwork = Network("http://116.124.191.174:15011/shopcpu_coolerdel");//192.168.1.2:15011//116.124.191.174:15011
+                await _cpu_coolernetwork.productDetail(registeredUsername!);
+                setState(() {
+                  cpu_coolerProduct[0]['cooler_name'] = '상품이 없습니다';
+                  cpu_coolerProduct[0]['cooler_price'] = 0;
+                });
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
+              },
+            ),
+            SizedBox(height: 16),
+
+            _buildSection(
+              context,
+              title: "케이스",
+
+              productName: computer_caseProduct[0]['case_name'],
+              productPrice: '${computer_caseProduct[0]['case_price']}원',
+
+              showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
+              onAlertIconPressed: () {},
+              onDeletePressed: () async {
+                final Network _computer_casenetwork = Network("http://116.124.191.174:15011/shopcomputer_casedel");//192.168.1.2:15011//116.124.191.174:15011
+                await _computer_casenetwork.productDetail(registeredUsername!);
+                setState(() {
+                  computer_caseProduct[0]['case_name'] = '상품이 없습니다';
+                  computer_caseProduct[0]['case_price'] = 0;
+                });
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
+              },
+            ),
           ],
+        ),
         ),
       ),
     );
