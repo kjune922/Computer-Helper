@@ -5,7 +5,7 @@ class Network {
   final String url;
   Network(this.url);
 
-  Future<dynamic> getJsonData() async {
+  Future<dynamic> getJsonData() async {//get요청보내고 받는다
     // var url = Uri.parse('http://localhost:3000/');
     http.Response response = await http.get(Uri.parse(url));
     var userJson = response.body;
@@ -13,7 +13,7 @@ class Network {
     return parsingData;
   }
 
-  Future<dynamic> updatedb(String user, String product) async {
+  Future<dynamic> updatedb(String user, String product) async {//post로 2개의 string을 보내고 받는다
     final uri = Uri.parse(url); // 서버의 엔드포인트 URL
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({
@@ -31,6 +31,29 @@ class Network {
       }
     } catch (e) {
       print('Error occurred: $e');
+      return [];
+    }
+  }
+
+  Future<dynamic> createuser(String user, String password, String level) async {//post로 3개의 string을 보내고 받지는 않는다
+    if(level.isEmpty) {level = '구매자';}
+    final uri = Uri.parse(url); // 서버의 엔드포인트 URL
+    final headers = {'Content-Type': 'application/json'};
+    final body = jsonEncode({
+      'username': user,
+      'password': password,
+      'userlevel': level,
+    });
+
+    try {
+      // POST 요청 보내기
+      final response = await http.post(uri, headers: headers, body: body);
+      if (response.statusCode == 200) {
+        print("유저추가됨");
+        return [];
+      }
+    } catch (e) {
+      print('유저추가실패: $e');
       return [];
     }
   }
@@ -70,7 +93,7 @@ class Network {
     }
   }
 
-  Future<List<dynamic>> productDetail(String productname) async {
+  Future<List<dynamic>> productDetail(String productname) async {//post로 한개 요청보내고 받는다
     final uri = Uri.parse(url); // 서버의 엔드포인트 URL
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({

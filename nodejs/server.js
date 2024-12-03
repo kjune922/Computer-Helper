@@ -32,6 +32,33 @@ app.get('/member', (req, res) => {
 
 });
 
+app.post('/userdel', (req, res) => {
+    const {username,product} = req.body;
+    const sql ="DELETE FROM member WHERE id = ? and pw = ?"
+    connection.query(sql,[username,product], (err, results) => {
+        res.send(results)
+    });
+
+});
+
+app.post('/usernagam', (req, res) => {
+    const {username,product} = req.body;
+    const sql ="DELETE FROM member WHERE id = ?"
+    connection.query(sql,[username], (err, results) => {
+        res.send(results)
+    });
+
+});
+
+app.post('/createuser', (req, res) => {
+    const {username,password,userlevel} = req.body;
+    const sql ="INSERT INTO member (id, pw, level) VALUES (?, ?, ?);"
+    connection.query(sql,[username,password,userlevel], (err, results) => {
+        res.send(results)
+    });
+
+});
+
 //상품페이지 상품디테일페이지
 app.get('/cpu', (req, res) => {
     const sql ="SELECT * from cpu;"
@@ -229,7 +256,7 @@ app.post('/signup', (req, res) => {
 
 app.post('/shop', (req, res) => {
     const {productname} = req.body;
-    const sql ="SELECT cpu,graphics,mainboard from member WHERE id = ?;"
+    const sql ="SELECT cpu,graphics,mainboard,memory,disk,power,cpu_cooler,computer_case from member WHERE id = ?;"
     connection.query(sql,[productname], (err, results) => {
         res.send(results)
     });
