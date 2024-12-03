@@ -23,7 +23,7 @@ class _CasePageState extends State<CasePage> {
   }
 
   void getCaseData() async {
-    final Network _network = Network("http://116.124.191.174:15011/case");
+    final Network _network = Network("http://116.124.191.174:15011/computer_case");
     jsonData = await _network.getJsonData();
     datacount = jsonData.length;
     setState(() {
@@ -80,7 +80,7 @@ class _CasePageState extends State<CasePage> {
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
     return GestureDetector(
       onTap: () {
-        productName = data['case_name'];
+        productName = data['computer_case_name'];
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -116,7 +116,7 @@ class _CasePageState extends State<CasePage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                data['case_name'],
+                data['computer_case_name'],
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
@@ -126,7 +126,7 @@ class _CasePageState extends State<CasePage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
-                '${data['case_price']}원',
+                '${data['computer_case_price']}원',
                 style: TextStyle(
                   fontSize: 14,
                   color: Colors.grey,

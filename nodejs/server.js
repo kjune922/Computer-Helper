@@ -172,7 +172,7 @@ app.get('/cpu_cooler', (req, res) => {
 
 app.post('/cpu_coolerdetail', (req, res) => {
     const {productname} = req.body;
-    const sql ="SELECT * from cpu_cooler WHERE cooler_name = ?;"
+    const sql ="SELECT * from cpu_cooler WHERE cpu_cooler_name = ?;"
     connection.query(sql,[productname], (err, results) => {
         res.send(results)
     });
@@ -189,7 +189,7 @@ app.get('/computer_case', (req, res) => {
 
 app.post('/computer_casedetail', (req, res) => {
     const {productname} = req.body;
-    const sql ="SELECT * from computer_case WHERE case_name = ?;"
+    const sql ="SELECT * from computer_case WHERE computer_case_name = ?;"
     connection.query(sql,[productname], (err, results) => {
         res.send(results)
     });
