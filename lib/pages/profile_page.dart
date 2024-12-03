@@ -31,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     TextButton(onPressed: (){
                       registeredUsername = null;
                       registeredUserLevel = null;
-                      Navigator.pushNamed(context, '/');
+                      Navigator.pushReplacementNamed(context, '/');
                     }, child: Text('로그아웃')),
                     TextButton(onPressed: (){Navigator.pop(context);}, child: Text('취소'))
                   ],
