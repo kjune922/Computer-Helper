@@ -3,6 +3,17 @@ import 'package:com_recipe/globals.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import 'cpu_page.dart';
+import 'graphics_page.dart';
+import 'memory_page.dart';
+import 'case_page.dart';
+import 'cpu_cooler_page.dart';
+import 'disk_page.dart';
+import 'mainboard_page.dart';
+import 'power_page.dart';
+
+enum ProductType { cpu, graphics, mainboard, memory, power, disk, cpu_cooler, computer_case}
+
 class Shoppingcart extends StatefulWidget {
   Shoppingcart({super.key});
 
@@ -12,28 +23,17 @@ class Shoppingcart extends StatefulWidget {
 
 class _ShoppingcartState extends State<Shoppingcart> {
   bool nowLoading = true ;
-  // 예시 데이터: CPU와 그래픽카드의 성능점수와 이름
-  /*
-  Map<String, dynamic> cpuProduct = {
-    'name': 'Intel i7 Processor',
-    'score': 700,
-    'price': '299,000원'
-  };
-  Map<String, dynamic> graphicsProduct = {
-    'name': 'NVIDIA GTX 3080',
-    'score': 1200,
-    'price': '1,200,000원'
-  };
-  Map<String, dynamic> mainboardProduct = {
-    'name': 'ASUS ROG Strix B550-F',
-    'price': '189,000원'
-  };
 
-
-  Map<String, dynamic> cpuProduct ={};
-  Map<String, dynamic> graphicsProduct = {};
-  Map<String, dynamic> mainboardProduct = {};
-  */
+  final Map<ProductType, Widget Function(BuildContext)> productPageMap = {
+    ProductType.cpu: (context) => CpuPage(),
+    ProductType.graphics: (context) => GraphicsPage(),
+    ProductType.mainboard: (context) => MainboardPage(),
+    ProductType.memory: (context) => MemoryPage(),
+    ProductType.power: (context) => PowerPage(),
+    ProductType.disk: (context) =>DiskPage(),
+    ProductType.cpu_cooler: (context) => CpuCoolerPage(),
+    ProductType.computer_case: (context) => CasePage(),
+  };
 
   List<dynamic> cpuProduct =[];
   List<dynamic> graphicsProduct = [];
@@ -299,6 +299,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
               context,
               title: "CPU",
 
+              whatproduct: productPageMap[ProductType.cpu]!,
               productName: cpuProduct[0]['cpu_name'],
               productPrice: '${cpuProduct[0]['cpu_price']}원',
               image: cpuProduct[0]['image'],
@@ -324,6 +325,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
               context,
               title: "그래픽카드",
 
+              whatproduct: productPageMap[ProductType.graphics]!,
               productName: graphicsProduct[0]['graphics_name'],
               productPrice: '${graphicsProduct[0]['graphics_price']}원',
               image: graphicsProduct[0]['image'],
@@ -350,6 +352,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
               context,
               title: "메인보드",
 
+              whatproduct: productPageMap[ProductType.mainboard]!,
               productName: mainboardProduct[0]['mainboard_name'],
               productPrice: '${mainboardProduct[0]['mainboard_price']}원',
               image: mainboardProduct[0]['image'],
@@ -373,6 +376,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
               context,
               title: "메모리",
 
+              whatproduct: productPageMap[ProductType.memory]!,
               productName: memoryProduct[0]['memory_name'],
               productPrice: '${memoryProduct[0]['memory_price']}원',
               image: memoryProduct[0]['image'],
@@ -396,6 +400,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
               context,
               title: "파워",
 
+              whatproduct: productPageMap[ProductType.power]!,
               productName: powerProduct[0]['power_name'],
               productPrice: '${powerProduct[0]['power_price']}원',
               image: powerProduct[0]['image'],
@@ -419,6 +424,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
               context,
               title: "디스크(저장장치)",
 
+              whatproduct: productPageMap[ProductType.disk]!,
               productName: diskProduct[0]['disk_name'],
               productPrice: '${diskProduct[0]['disk_price']}원',
               image: diskProduct[0]['image'],
@@ -442,6 +448,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
               context,
               title: "cpu쿨러",
 
+              whatproduct: productPageMap[ProductType.cpu_cooler]!,
               productName: cpu_coolerProduct[0]['cpu_cooler_name'],
               productPrice: '${cpu_coolerProduct[0]['cpu_cooler_price']}원',
               image: cpu_coolerProduct[0]['image'],
@@ -465,6 +472,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
               context,
               title: "케이스",
 
+              whatproduct: productPageMap[ProductType.computer_case]!,
               productName: computer_caseProduct[0]['computer_case_name'],
               productPrice: '${computer_caseProduct[0]['computer_case_price']}원',
               image: computer_caseProduct[0]['image'],
@@ -492,6 +500,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
   // 항목을 구성하는 위젯
   Widget _buildSection(BuildContext context,
       {required String title,
+        required Widget Function(BuildContext) whatproduct,
         required String productName,
         required String productPrice,
         required String image,
@@ -556,11 +565,13 @@ class _ShoppingcartState extends State<Shoppingcart> {
                   child: ListTile(
                     title: Text(productName),
                     subtitle: Text(productPrice),
-                    trailing: showAlertIcon
+                    trailing: IconButton(onPressed: (){
+                      Navigator.push(context, MaterialPageRoute(builder: whatproduct));
+                      }, icon: showAlertIcon
                         ? Icon(Icons.warning, color: Colors.orange, size: 35)
                         : isbad
                         ? Icon(Icons.cancel, color: Colors.red, size: 35)
-                        : Icon(Icons.check_circle, color: Colors.green, size: 35),
+                        : Icon(Icons.check_circle, color: Colors.green, size: 35))
                   ),
                 ),
               ],
