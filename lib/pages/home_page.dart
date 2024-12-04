@@ -49,7 +49,7 @@ class HomePage extends StatelessWidget {
         "goWhere": "/disk"
       },
       {
-        "category": "사용시 주의사항",
+        "category": "조립시 주의사항",
         "imgUrl": "assets/images/warning.png",
         "goWhere": "/warning"
       },
