@@ -7,6 +7,7 @@ import 'pages/home_page.dart';
 import 'pages/mainboard_page.dart';
 import 'pages/master_page.dart';
 import 'pages/profile_page.dart';
+import 'pages/select.dart';
 import 'pages/seller_page.dart';
 import 'pages/signup_page.dart';
 import 'pages/reset_password_page.dart';
@@ -28,9 +29,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
+      initialRoute: '/select',
       routes: {
         '/login': (context) => LoginPage(),
+        '/select': (context) => SelectPage(),
         '/': (context) => HomePage(),
         '/signup': (context) => SignupPage(),
         '/reset_password': (context) => ResetPasswordPage(), // 비밀번호 재설정 경로 추가

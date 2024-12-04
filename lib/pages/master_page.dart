@@ -438,6 +438,7 @@ class _usercardState extends State<_usercard> {
             children: [
               Text("비번: ${widget.child['pw'] ?? '없음'}"),
               Text('등급: ${widget.child['level'] ?? '없음'}'),
+              Text('초보자여부 ${widget.child['isBeginner'] ?? '없음'}'),
             ],
           ),
           trailing: Row(

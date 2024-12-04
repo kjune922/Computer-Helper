@@ -21,7 +21,7 @@ class _CaseDetailPageState extends State<CaseDetailPage> {
   }
 
   void getCaseData(String name) async {
-    final Network _network = Network("http://116.124.191.174:15011/casedetail");
+    final Network _network = Network("http://116.124.191.174:15011/computer_casedetail");
     jsonData = await _network.productDetail(name);
     setState(() {
       nowLoading = false;
@@ -59,7 +59,7 @@ class _CaseDetailPageState extends State<CaseDetailPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          jsonData[0]['case_name'],
+                          jsonData[0]['computer_case_name'],
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
@@ -67,7 +67,7 @@ class _CaseDetailPageState extends State<CaseDetailPage> {
                         ),
                         SizedBox(height: 8),
                         Text(
-                          '${jsonData[0]['case_price']}원',
+                          '${jsonData[0]['computer_case_price']}원',
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,

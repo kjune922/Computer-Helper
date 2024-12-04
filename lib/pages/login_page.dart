@@ -9,10 +9,9 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
-
   final _passwordController = TextEditingController();
-  List<dynamic> data = [];
 
+  List<dynamic> data = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -113,11 +112,16 @@ class _LoginPageState extends State<LoginPage> {
 
                             data = await network.sendCredentials(
                                 _usernameController.text,
-                                _passwordController.text);
+                                _passwordController.text
+                            );
                             if (data[0] != 0) {
                               registeredUsername = await data[0]['id'];
                               registeredUserLevel = await data[0]['level'];
-
+                              if(await data[0]['isBeginner'] == 1){
+                                isBeginner = true;
+                              }else{
+                                isBeginner = false;
+                              }
                               Navigator.pushReplacementNamed(context, '/');
                             } else {
                               showDialog(

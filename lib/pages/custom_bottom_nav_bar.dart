@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'expertshoppingcart.dart';
 import 'shoppingcart_page.dart';
 import '../globals.dart';
 
@@ -13,19 +14,25 @@ class CustomBottomNavBar extends StatelessWidget {
     return BottomNavigationBar(
       currentIndex: currentIndex,
       onTap: (index) {
-        // 각 탭을 클릭했을 때 해당 페이지로 이동
-        if (index == 0) {
+        if (index == 0) {//홈눌렀을때
           Navigator.pushReplacementNamed(context, '/');
-        } else if (index == 1) {
+        } else if (index == 1) {// 카트눌렀을때
           if (registeredUsername == null) {
             Navigator.pushNamed(context, '/login');
           } else {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => Shoppingcart()),
-            );
+            if(isBeginner){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => Shoppingcart()),
+              );
+            }else{
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => ExpertShoppingcart()),
+              );
+            }
           }
-        } else if (index == 2) {
+        } else if (index == 2) {// 프로필 눌렀을때
           if (registeredUsername == null) {
             Navigator.pushNamed(context, '/login');
           } else {
