@@ -414,6 +414,15 @@ app.post('/resetpw', (req, res) => {
     });
 
 });
+//유저 초보자여부변경
+app.post('/changeuserbool', (req, res) => {
+    const { username, product } = req.body;
+    const sql ="UPDATE member SET isBeginner = ? WHERE id = ?;"
+    connection.query(sql,[product,username], (err, results) => {
+        res.send(results)
+    });
+
+});
 
 app.listen(port, () => {
     console.log('Example app listening on port 15011!')

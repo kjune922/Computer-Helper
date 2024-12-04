@@ -109,7 +109,7 @@ class _ExpertShoppingcartState extends State<ExpertShoppingcart> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("숙련자용 장바구니"),
+        title: Text("컴잘알 장바구니"),
         backgroundColor: Colors.green,
       ),
       body: nowLoading
