@@ -1,4 +1,5 @@
 import 'package:com_recipe/Network.dart';
+import 'package:com_recipe/globals.dart';
 import 'package:flutter/material.dart';
 
 class SignupPage extends StatefulWidget {
@@ -34,13 +35,15 @@ class _SignupPageState extends State<SignupPage> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                if(_usernameController.text != '' && _passwordController.text != '' ){
-                  Network network = Network('http://116.124.191.174:15011/signup');//116.124.191.174:15011
+                if (_usernameController.text != '' &&
+                    _passwordController.text != '') {
+                  Network network = Network(
+                      'http://116.124.191.174:15011/signup'); //116.124.191.174:15011
 
-                  data = await network.sendCredentials(
-                      _usernameController.text,
-                      _passwordController.text);
-                  if (data[0] == -1){// 아이디 중복
+                  data = await network.sendCredentials(_usernameController.text,
+                      _passwordController.text, isBeginner);
+                  if (data[0] == -1) {
+                    // 아이디 중복
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
@@ -48,14 +51,13 @@ class _SignupPageState extends State<SignupPage> {
                         content: Text('중복된 아이디입니다'),
                         actions: [
                           TextButton(
-                            onPressed: () => Navigator.pop(
-                                context),
+                            onPressed: () => Navigator.pop(context),
                             child: Text('확인'),
                           ),
                         ],
                       ),
                     );
-                  }else{
+                  } else {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
@@ -63,14 +65,15 @@ class _SignupPageState extends State<SignupPage> {
                         content: Text('정상적으로 회원가입 되었습니다'),
                         actions: [
                           TextButton(
-                            onPressed: () => Navigator.pushNamed(context, '/login'),
+                            onPressed: () =>
+                                Navigator.pushNamed(context, '/login'),
                             child: Text('확인'),
                           ),
                         ],
                       ),
                     );
                   }
-                }else{
+                } else {
                   showDialog(
                     context: context,
                     builder: (context) => AlertDialog(
@@ -78,15 +81,13 @@ class _SignupPageState extends State<SignupPage> {
                       content: Text('아이디와 비밀번호를 써주세요'),
                       actions: [
                         TextButton(
-                          onPressed: () => Navigator.pop(
-                              context),
+                          onPressed: () => Navigator.pop(context),
                           child: Text('확인'),
                         ),
                       ],
                     ),
                   );
                 }
-
               },
               child: Text('회원가입'),
             ),
