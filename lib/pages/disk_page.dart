@@ -133,6 +133,26 @@ class _DiskPageState extends State<DiskPage> {
                 ),
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.favorite_border, color: Colors.grey),
+                  onPressed: () {},
+                ),
+                IconButton(
+                  icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
+                  onPressed: () {
+                    if(registeredUsername == null){
+                      Navigator.pushNamed(context, '/login');
+                    }else{
+                      final Network _disknetwork = Network("http://116.124.191.174:15011/shopdiskadd");//192.168.1.2:15011//116.124.191.174:15011
+                      _disknetwork.updatedb(registeredUsername!,data['disk_name']);
+                    }
+                  },
+                ),
+              ],
+            ),
           ],
         ),
       ),

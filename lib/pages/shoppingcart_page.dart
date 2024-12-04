@@ -158,6 +158,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
         'cpu_name': '상품이 없습니다',
         'cpu_price': 0,
         'cpu_score': 0,
+        'cpu_socket': '소켓없습니다',
+        'cpu_pw':0,
+        'image':'assets/images/noproduct.jpg',
       });
     }
     if(usershopProduct[0]['graphics'] != null){
@@ -168,6 +171,10 @@ class _ShoppingcartState extends State<Shoppingcart> {
         'graphics_name': '상품이 없습니다',
         'graphics_price': 0,
         'graphics_score': 0,
+        'graphics_pw':0,
+        'graphics_width':0,
+        'graphics_length':0,
+        'image':'assets/images/noproduct.jpg',
       });
     }
     if(usershopProduct[0]['mainboard'] != null){
@@ -177,6 +184,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
       mainboardProduct.add({
         'mainboard_name': '상품이 없습니다',
         'mainboard_price': 0,
+        'mainboard_socket':'소켓이 없습니다',
+        'image':'assets/images/noproduct.jpg',
+
       });
     }
     if(usershopProduct[0]['memory'] != null){
@@ -186,6 +196,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
       memoryProduct.add({
         'memory_name': '상품이 없습니다',
         'memory_price': 0,
+        'image':'assets/images/noproduct.jpg',
       });
     }
     if(usershopProduct[0]['power'] != null){
@@ -195,6 +206,8 @@ class _ShoppingcartState extends State<Shoppingcart> {
       powerProduct.add({
         'power_name': '상품이 없습니다',
         'power_price': 0,
+        'power_pw':0,
+        'image':'assets/images/noproduct.jpg',
       });
     }
     if(usershopProduct[0]['disk'] != null){
@@ -204,6 +217,8 @@ class _ShoppingcartState extends State<Shoppingcart> {
       diskProduct.add({
         'disk_name': '상품이 없습니다',
         'disk_price': 0,
+        'disk_type':'타입이 없습니다',
+        'image':'assets/images/noproduct.jpg',
       });
     }
     if(usershopProduct[0]['cpu_cooler'] != null){
@@ -211,8 +226,10 @@ class _ShoppingcartState extends State<Shoppingcart> {
       cpu_coolerProduct = await _cpu_coolernetwork.productDetail(usershopProduct[0]['cpu_cooler']);
     }else{
       cpu_coolerProduct.add({
-        'cooler_name': '상품이 없습니다',
-        'cooler_price': 0,
+        'cpu_cooler_name': '상품이 없습니다',
+        'cpu_cooler_price': 0,
+        'cpu_cooler_height':0,
+        'image':'assets/images/noproduct.jpg',
       });
     }
     if(usershopProduct[0]['computer_case'] != null){
@@ -220,8 +237,13 @@ class _ShoppingcartState extends State<Shoppingcart> {
       computer_caseProduct = await _computer_casenetwork.productDetail(usershopProduct[0]['computer_case']);
     }else{
       computer_caseProduct.add({
-        'case_name': '상품이 없습니다',
-        'case_price': 0,
+        'computer_case_name': '상품이 없습니다',
+        'computer_case_price': 0,
+        'computer_case_width':0,
+        'computer_case_length':0,
+        'computer_case_thick':0,
+        'computer_case_cooler_height':0,
+        'image':'assets/images/noproduct.jpg',
       });
     }
     setState(() {
@@ -279,6 +301,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
 
               productName: cpuProduct[0]['cpu_name'],
               productPrice: '${cpuProduct[0]['cpu_price']}원',
+              image: cpuProduct[0]['image'],
 
               showAlertIcon: cpugraphicsshowAlertIcon,
               onAlertIconPressed: (){_showPerformanceAlert(context);},
@@ -289,6 +312,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
                   cpuProduct[0]['cpu_name'] = '상품이 없습니다';
                   cpuProduct[0]['cpu_price'] = 0;
                   cpuProduct[0]['cpu_score'] = 0;
+                  cpuProduct[0]['image']='assets/images/noproduct.jpg';
                 });
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
               },
@@ -302,6 +326,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
 
               productName: graphicsProduct[0]['graphics_name'],
               productPrice: '${graphicsProduct[0]['graphics_price']}원',
+              image: graphicsProduct[0]['image'],
 
               showAlertIcon: cpugraphicsshowAlertIcon,
               onAlertIconPressed: () {_showPerformanceAlert(context);},
@@ -312,6 +337,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
                   graphicsProduct[0]['graphics_name'] = '상품이 없습니다';
                   graphicsProduct[0]['graphics_price'] = 0;
                   graphicsProduct[0]['graphics_score'] = 0;
+                  graphicsProduct[0]['image']='assets/images/noproduct.jpg';
 
                 });
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
@@ -326,6 +352,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
 
               productName: mainboardProduct[0]['mainboard_name'],
               productPrice: '${mainboardProduct[0]['mainboard_price']}원',
+              image: mainboardProduct[0]['image'],
 
               showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
               onAlertIconPressed: () {},
@@ -335,6 +362,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
                 setState(() {
                   mainboardProduct[0]['mainboard_name'] = '상품이 없습니다';
                   mainboardProduct[0]['mainboard_price'] = 0;
+                  mainboardProduct[0]['image']='assets/images/noproduct.jpg';
                 });
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
               },
@@ -347,6 +375,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
 
               productName: memoryProduct[0]['memory_name'],
               productPrice: '${memoryProduct[0]['memory_price']}원',
+              image: memoryProduct[0]['image'],
 
               showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
               onAlertIconPressed: () {},
@@ -356,6 +385,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
                 setState(() {
                   memoryProduct[0]['memory_name'] = '상품이 없습니다';
                   memoryProduct[0]['memory_price'] = 0;
+                  memoryProduct[0]['image']='assets/images/noproduct.jpg';
                 });
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
               },
@@ -368,6 +398,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
 
               productName: powerProduct[0]['power_name'],
               productPrice: '${powerProduct[0]['power_price']}원',
+              image: powerProduct[0]['image'],
 
               showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
               onAlertIconPressed: () {},
@@ -377,6 +408,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
                 setState(() {
                   powerProduct[0]['power_name'] = '상품이 없습니다';
                   powerProduct[0]['power_price'] = 0;
+                  powerProduct[0]['image']='assets/images/noproduct.jpg';
                 });
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
               },
@@ -389,6 +421,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
 
               productName: diskProduct[0]['disk_name'],
               productPrice: '${diskProduct[0]['disk_price']}원',
+              image: diskProduct[0]['image'],
 
               showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
               onAlertIconPressed: () {},
@@ -398,6 +431,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
                 setState(() {
                   diskProduct[0]['disk_name'] = '상품이 없습니다';
                   diskProduct[0]['disk_price'] = 0;
+                  diskProduct[0]['image']='assets/images/noproduct.jpg';
                 });
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
               },
@@ -408,8 +442,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
               context,
               title: "cpu쿨러",
 
-              productName: cpu_coolerProduct[0]['cooler_name'],
-              productPrice: '${cpu_coolerProduct[0]['cooler_price']}원',
+              productName: cpu_coolerProduct[0]['cpu_cooler_name'],
+              productPrice: '${cpu_coolerProduct[0]['cpu_cooler_price']}원',
+              image: cpu_coolerProduct[0]['image'],
 
               showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
               onAlertIconPressed: () {},
@@ -417,8 +452,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
                 final Network _cpu_coolernetwork = Network("http://116.124.191.174:15011/shopcpu_coolerdel");//192.168.1.2:15011//116.124.191.174:15011
                 await _cpu_coolernetwork.productDetail(registeredUsername!);
                 setState(() {
-                  cpu_coolerProduct[0]['cooler_name'] = '상품이 없습니다';
-                  cpu_coolerProduct[0]['cooler_price'] = 0;
+                  cpu_coolerProduct[0]['cpu_cooler_name'] = '상품이 없습니다';
+                  cpu_coolerProduct[0]['cpu_cooler_price'] = 0;
+                  cpu_coolerProduct[0]['image']='assets/images/noproduct.jpg';
                 });
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
               },
@@ -429,8 +465,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
               context,
               title: "케이스",
 
-              productName: computer_caseProduct[0]['case_name'],
-              productPrice: '${computer_caseProduct[0]['case_price']}원',
+              productName: computer_caseProduct[0]['computer_case_name'],
+              productPrice: '${computer_caseProduct[0]['computer_case_price']}원',
+              image: computer_caseProduct[0]['image'],
 
               showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
               onAlertIconPressed: () {},
@@ -438,8 +475,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
                 final Network _computer_casenetwork = Network("http://116.124.191.174:15011/shopcomputer_casedel");//192.168.1.2:15011//116.124.191.174:15011
                 await _computer_casenetwork.productDetail(registeredUsername!);
                 setState(() {
-                  computer_caseProduct[0]['case_name'] = '상품이 없습니다';
-                  computer_caseProduct[0]['case_price'] = 0;
+                  computer_caseProduct[0]['computer_case_name'] = '상품이 없습니다';
+                  computer_caseProduct[0]['computer_case_price'] = 0;
+                  computer_caseProduct[0]['image']='assets/images/noproduct.jpg';
                 });
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
               },
@@ -456,9 +494,16 @@ class _ShoppingcartState extends State<Shoppingcart> {
       {required String title,
         required String productName,
         required String productPrice,
+        required String image,
         required bool showAlertIcon,
         required VoidCallback onAlertIconPressed,
-        required VoidCallback onDeletePressed}) { // onDeletePressed 추가
+        required VoidCallback onDeletePressed}) {
+    bool isbad;
+    if(productName == '상품이 없습니다'){
+      isbad = true;
+    }else{
+      isbad = false;
+    }
     return Card(
       elevation: 3,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -470,37 +515,55 @@ class _ShoppingcartState extends State<Shoppingcart> {
             Stack( // Stack을 사용하여 위에 아이콘 배치
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      title,
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    Row(
+                      children: [
+                        Text(
+                          title,
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                        if (showAlertIcon) // 성능 차이 알림 아이콘 조건부 렌더링
+                          IconButton(
+                            icon: Icon(Icons.warning_amber_outlined,
+                                color: Colors.redAccent),
+                            onPressed: onAlertIconPressed,
+                            tooltip: "성능 차이 알림",
+                          ),
+                      ],
                     ),
-                    if (showAlertIcon) // 성능 차이 알림 아이콘 조건부 렌더링
-                      IconButton(
-                        icon: Icon(Icons.warning_amber_outlined,
-                            color: Colors.redAccent),
-                        onPressed: onAlertIconPressed,
-                        tooltip: "성능 차이 알림",
-                      ),
+                    IconButton(
+                      icon: Icon(Icons.delete_outline, color: Colors.red),
+                      onPressed: onDeletePressed, // 삭제 버튼 클릭 시 동작
+                      tooltip: "지우기",
+                    ),
                   ],
-                ),
-                // 지우기 아이콘 버튼
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: IconButton(
-                    icon: Icon(Icons.delete_outline, color: Colors.red),
-                    onPressed: onDeletePressed, // 삭제 버튼 클릭 시 동작
-                    tooltip: "지우기",
-                  ),
                 ),
               ],
             ),
             Divider(),
-            ListTile(
-              title: Text(productName),
-              subtitle: Text(productPrice),
-              trailing: Icon(Icons.check_circle, color: Colors.green),
+            Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Image.asset(
+                    image,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: ListTile(
+                    title: Text(productName),
+                    subtitle: Text(productPrice),
+                    trailing: showAlertIcon
+                        ? Icon(Icons.warning, color: Colors.orange, size: 35)
+                        : isbad
+                        ? Icon(Icons.cancel, color: Colors.red, size: 35)
+                        : Icon(Icons.check_circle, color: Colors.green, size: 35),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
