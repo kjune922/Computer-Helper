@@ -149,6 +149,20 @@ class _CpuCoolerPageState extends State<CpuCoolerPage> {
                       final Network _cpu_coolernetwork = Network("http://116.124.191.174:15011/shopcpu_cooleradd");//192.168.1.2:15011//116.124.191.174:15011
                       _cpu_coolernetwork.updatedb(registeredUsername!,data['cpu_cooler_name']);
                     }
+                    ScaffoldMessenger.of(context).clearSnackBars();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'cpu쿨러 장바구니에 추가되었습니다',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: Colors.purple,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
                   },
                 ),
               ],

@@ -565,13 +565,52 @@ class _ShoppingcartState extends State<Shoppingcart> {
                   child: ListTile(
                     title: Text(productName),
                     subtitle: Text(productPrice),
-                    trailing: IconButton(onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: whatproduct));
-                      }, icon: showAlertIcon
-                        ? Icon(Icons.warning, color: Colors.orange, size: 35)
-                        : isbad
-                        ? Icon(Icons.cancel, color: Colors.red, size: 35)
-                        : Icon(Icons.check_circle, color: Colors.green, size: 35))
+                      trailing: showAlertIcon
+                          ? IconButton(onPressed: (){
+                        showDialog(
+                            context: context,
+                            builder: (context){
+                              return AlertDialog(
+                                title: Text('$title 상품페이지로 이동하시겠습니까?'),
+                                actions: [
+                                  TextButton(onPressed: (){Navigator.pop(context);Navigator.push(context, MaterialPageRoute(builder: whatproduct));}, child: Text('확인',style: TextStyle(fontSize: 20),)),
+                                  TextButton(onPressed: (){Navigator.pop(context);}, child: Text('취소',style: TextStyle(fontSize: 20),))
+                                ],
+                              );
+                            });
+                      }, icon: Icon(Icons.warning, color: Colors.orange, size: 35))
+                          : isbad
+                          ? IconButton(onPressed: (){
+                        showDialog(
+                            context: context,
+                            builder: (context){
+                              return AlertDialog(
+                                title: Text('$title 상품페이지로 이동하시겠습니까?'),
+                                actions: [
+                                  TextButton(onPressed: (){Navigator.pop(context);Navigator.push(context, MaterialPageRoute(builder: whatproduct));}, child: Text('확인',style: TextStyle(fontSize: 20),)),
+                                  TextButton(onPressed: (){Navigator.pop(context);}, child: Text('취소',style: TextStyle(fontSize: 20),))
+                                ],
+                              );
+                            });
+                      }, icon: Icon(Icons.cancel, color: Colors.red, size: 35))
+                          : IconButton(onPressed: (){
+                        ScaffoldMessenger.of(context).clearSnackBars();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Center(
+                              child: Text(
+                                '문제없습니다!',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            backgroundColor: Colors.blueAccent,
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      }, icon: Icon(Icons.check_circle, color: Colors.green, size: 35))
                   ),
                 ),
               ],

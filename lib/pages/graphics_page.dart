@@ -184,6 +184,20 @@ class _GraphicsPageState extends State<GraphicsPage> {
                       final Network _graphicsnetwork = Network("http://116.124.191.174:15011/shopgraphicsadd");//192.168.1.2:15011//116.124.191.174:15011
                       _graphicsnetwork.updatedb(registeredUsername!,data['graphics_name']);
                     }
+                    ScaffoldMessenger.of(context).clearSnackBars();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          '그래픽카드 장바구니에 추가되었습니다',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: Colors.purple,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
                   },
                 ),
               ],
