@@ -108,18 +108,20 @@ class _LoginPageState extends State<LoginPage> {
                             backgroundColor: Color(0xFF4A00E0), // 버튼 색상
                           ),
                           onPressed: () async {
-                            Network network = Network('http://116.124.191.174:15011/login');//116.124.191.174:15011
+                            Network network = Network(
+                                'http://116.124.191.174:15011/login'); //116.124.191.174:15011
 
                             data = await network.sendCredentials(
                                 _usernameController.text,
-                                _passwordController.text
-                            );
+                                _passwordController.text,
+                                true //1은더미데이터
+                                );
                             if (data[0] != 0) {
                               registeredUsername = await data[0]['id'];
                               registeredUserLevel = await data[0]['level'];
-                              if(await data[0]['isBeginner'] == 1){
+                              if (await data[0]['isBeginner'] == 1) {
                                 isBeginner = true;
-                              }else{
+                              } else {
                                 isBeginner = false;
                               }
                               Navigator.pushReplacementNamed(context, '/');

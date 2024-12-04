@@ -6,18 +6,18 @@ class ResetPasswordPage extends StatelessWidget {
   final _passwordController = TextEditingController();
   final _newPasswordController = TextEditingController();
 
-  void _resetPassword(BuildContext context) async{
+  void _resetPassword(BuildContext context) async {
     print(registeredUsername);
-    List<dynamic> nowpassword =[];
+    List<dynamic> nowpassword = [];
     Network _checkpw = Network('http://116.124.191.174:15011/checkpw');
-    nowpassword = await _checkpw.sendCredentials(registeredUsername!,'');
-
-
+    nowpassword = await _checkpw.sendCredentials(
+        registeredUsername!, '', true); //두번째와1은 더미데이터
 
     // 비번이 기존 비번이랑 일치하는지 확인
     if (_passwordController.text == nowpassword[0]['pw']) {
       Network _changepassword = Network("http://116.124.191.174:15011/resetpw");
-      await _changepassword.updatedb(registeredUsername!, _newPasswordController.text);
+      await _changepassword.updatedb(
+          registeredUsername!, _newPasswordController.text);
       showDialog(
         context: context,
         builder: (context) => AlertDialog(

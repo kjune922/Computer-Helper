@@ -216,7 +216,7 @@ app.post('/login', (req, res) => {
 });
 //회원가입
 app.post('/signup', (req, res) => {
-  const { username, userpassword } = req.body;
+  const { username, userpassword, isBeginner } = req.body;
 
             const selectSql = "SELECT * FROM `member` WHERE `id` = ?;";
 
@@ -232,9 +232,9 @@ app.post('/signup', (req, res) => {
                 res.status(409).send({ message: '이미 사용 중인 아이디입니다' });
               } else {
                 // 중복되지 않는 경우 새로운 회원 등록
-                const insertSql = "INSERT INTO `member` (`id`, `pw`, `level`) VALUES (?, ?, '구매자');";
+                const insertSql = "INSERT INTO `member` (`id`, `pw`, `level`, `isBeginner`) VALUES (?, ?, '구매자' ,?);";
 
-                connection.query(insertSql, [username, userpassword], (err, insertResults) => {
+                connection.query(insertSql, [username, userpassword,isBeginner], (err, insertResults) => {
                   if (err) {
                     console.error('회원가입 오류:', err);
                     res.status(500).send('회원가입 중 오류 발생');
