@@ -1,5 +1,6 @@
 import 'package:com_recipe/Network.dart';
 import 'package:com_recipe/globals.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 class Shoppingcart extends StatefulWidget {
@@ -51,17 +52,87 @@ class _ShoppingcartState extends State<Shoppingcart> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text(
-            '성능 차이 알림',
-            style: TextStyle(fontWeight: FontWeight.bold),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '성능 차이 알림',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              IconButton(
+                icon: Icon(Icons.help_outline), // 물음표 아이콘
+                onPressed: () {//성능차이 ?버튼
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('점수차이가 많으면?'),
+                              IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.close))
+                            ],
+                          ),
+                          content: Container(
+                            height: MediaQuery.of(context).size.height*0.2,
+                            width: 300,
+                            child: Text.rich(
+                              TextSpan(
+                                text: 'cpu와 그래픽카드의 ',
+                                style: TextStyle(fontSize: 20),
+                                children: [
+                                  TextSpan(
+                                    text: '성능차이',
+                                    style: TextStyle(
+                                      color: Colors.blue, // 파란색으로 색상 변경
+                                      decoration: TextDecoration.underline, // 밑줄 추가
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {//병목현상 클릭시
+                                      },
+                                  ),
+                                  TextSpan(text: '가 1.5배 이상 나면'),
+                                  TextSpan(
+                                    text: '병목현상',
+                                    style: TextStyle(
+                                      color: Colors.blue, // 파란색으로 색상 변경
+                                      decoration: TextDecoration.underline, // 밑줄 추가
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {//병목현상 클릭시
+                                      },
+                                  ),
+                                  TextSpan(text: '이 발생해요'),
+                                ],
+                              ),
+                            ),
+                          ),
+                          actions: [
+                          ],
+                        );
+                      });
+                },
+              ),
+              SizedBox(width: 40),
+              IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.close))
+            ],
           ),
-          content: Text('CPU와 그래픽카드의 성능 차이가 1.5배 이상입니다.'),
+          content: Text(
+              'CPU와 그래픽카드의 성능차이가 너무큽니다!\n\n'
+              'CPU 성능정수: ${cpuProduct[0]['cpu_score']}\n'
+                  '그래픽카드 성능점수: ${graphicsProduct[0]['graphics_score']}',
+            style: TextStyle(
+              fontSize: 18
+            ),
+          ),
           actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text("닫기"),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(onPressed: (){}, child: Text("CPU찾기",style: TextStyle(fontSize: 20),)),
+                TextButton(onPressed: () {}, child: Text("그래픽카드찾기",style: TextStyle(fontSize: 20)),
+                ),
+              ],
             ),
           ],
         );
@@ -164,7 +235,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
   }
 
   Widget build(BuildContext context) {
-    bool showAlertIcon = false;
+    bool cpugraphicsshowAlertIcon = false;
 
     if (cpuProduct.isNotEmpty && graphicsProduct.isNotEmpty) {
       if (cpuProduct[0]['cpu_score'] != 0 && graphicsProduct[0]['graphics_score'] != 0) {
@@ -172,10 +243,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
             graphicsProduct[0]['graphics_score'] != null &&
             (graphicsProduct[0]['graphics_score'] / cpuProduct[0]['cpu_score'] >= 1.5 ||
                 cpuProduct[0]['cpu_score'] / graphicsProduct[0]['graphics_score'] >= 1.5)) {
-          showAlertIcon = true;
+          cpugraphicsshowAlertIcon = true;
         }
       }
-
     }
 
 
@@ -210,8 +280,8 @@ class _ShoppingcartState extends State<Shoppingcart> {
               productName: cpuProduct[0]['cpu_name'],
               productPrice: '${cpuProduct[0]['cpu_price']}원',
 
-              showAlertIcon: showAlertIcon,
-              onAlertIconPressed: () => _showPerformanceAlert(context),
+              showAlertIcon: cpugraphicsshowAlertIcon,
+              onAlertIconPressed: (){_showPerformanceAlert(context);},
               onDeletePressed: () async {
                 final Network _cpunetwork = Network("http://116.124.191.174:15011/shopcpudel");//192.168.1.2:15011//116.124.191.174:15011
                 await _cpunetwork.productDetail(registeredUsername!);
@@ -233,8 +303,8 @@ class _ShoppingcartState extends State<Shoppingcart> {
               productName: graphicsProduct[0]['graphics_name'],
               productPrice: '${graphicsProduct[0]['graphics_price']}원',
 
-              showAlertIcon: showAlertIcon,
-              onAlertIconPressed: () => _showPerformanceAlert(context),
+              showAlertIcon: cpugraphicsshowAlertIcon,
+              onAlertIconPressed: () {_showPerformanceAlert(context);},
               onDeletePressed: () async {
                 final Network _graphicsnetwork = Network("http://116.124.191.174:15011/shopgraphicsdel");//192.168.1.2:15011//116.124.191.174:15011
                 await _graphicsnetwork.productDetail(registeredUsername!);
