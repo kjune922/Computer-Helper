@@ -566,14 +566,20 @@ class _ShoppingcartState extends State<Shoppingcart> {
                     title: Text(productName),
                     subtitle: Text(productPrice),
                       trailing: showAlertIcon
-                          ? IconButton(onPressed: (){
+                          ? IconButton(onPressed: () {
                         showDialog(
                             context: context,
                             builder: (context){
                               return AlertDialog(
                                 title: Text('$title 상품페이지로 이동하시겠습니까?'),
                                 actions: [
-                                  TextButton(onPressed: (){Navigator.pop(context);Navigator.push(context, MaterialPageRoute(builder: whatproduct));}, child: Text('확인',style: TextStyle(fontSize: 20),)),
+                                  TextButton(onPressed: () async {
+                                    Navigator.pop(context);
+                                    await Navigator.push(context, MaterialPageRoute(builder: whatproduct));
+                                    setState(() {
+                                      initializeData();
+                                    });
+                                    }, child: Text('확인',style: TextStyle(fontSize: 20),)),
                                   TextButton(onPressed: (){Navigator.pop(context);}, child: Text('취소',style: TextStyle(fontSize: 20),))
                                 ],
                               );
@@ -587,7 +593,14 @@ class _ShoppingcartState extends State<Shoppingcart> {
                               return AlertDialog(
                                 title: Text('$title 상품페이지로 이동하시겠습니까?'),
                                 actions: [
-                                  TextButton(onPressed: (){Navigator.pop(context);Navigator.push(context, MaterialPageRoute(builder: whatproduct));}, child: Text('확인',style: TextStyle(fontSize: 20),)),
+                                  TextButton(onPressed: ()async{
+                                    Navigator.pop(context);
+                                    await Navigator.push(context, MaterialPageRoute(builder: whatproduct));
+                                    setState(() {
+                                      initializeData();
+                                    });
+                                    },
+                                      child: Text('확인',style: TextStyle(fontSize: 20),)),
                                   TextButton(onPressed: (){Navigator.pop(context);}, child: Text('취소',style: TextStyle(fontSize: 20),))
                                 ],
                               );
