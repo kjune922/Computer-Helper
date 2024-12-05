@@ -809,13 +809,14 @@ class _ShoppingcartState extends State<Shoppingcart> {
                     ),
                     Row(
                       children: [
-                        TextButton(onPressed: (){
-                          globalproductName = productName;
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: whatproductDetail),
-                          );
-                        }, child: Text('상세정보보기',style: TextStyle(fontSize: 18),)),
+                        !isbad
+                            ? TextButton(onPressed: (){
+                                globalproductName = productName;
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: whatproductDetail),
+                                );}, child: Text('상세정보보기',style: TextStyle(fontSize: 18),))
+                            : SizedBox.shrink(),
                         IconButton(
                           icon: Icon(Icons.delete_outline, color: Colors.red),
                           onPressed: onDeletePressed, // 삭제 버튼 클릭 시 동작
