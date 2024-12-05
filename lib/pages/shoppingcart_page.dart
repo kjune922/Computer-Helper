@@ -2,6 +2,7 @@ import 'package:com_recipe/Network.dart';
 import 'package:com_recipe/globals.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'cpu_page.dart';
 import 'graphics_page.dart';
@@ -47,7 +48,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
   List<dynamic> usershopProduct = [];
 
   // 성능 점수 차이에 따른 경고 팝업을 보여주는 함수
-  void _showPerformanceAlert(BuildContext context) {
+  void _showcpugraphicsPerformanceAlert(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -131,6 +132,170 @@ class _ShoppingcartState extends State<Shoppingcart> {
               children: [
                 TextButton(onPressed: (){}, child: Text("CPU찾기",style: TextStyle(fontSize: 20),)),
                 TextButton(onPressed: () {}, child: Text("그래픽카드찾기",style: TextStyle(fontSize: 20)),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showcpumainboardSocketAlert(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '소켓 차이 알림',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              IconButton(
+                icon: Icon(Icons.help_outline), // 물음표 아이콘
+                onPressed: () {//성능차이 ?버튼
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('소켓이 다르면?'),
+                              IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.close))
+                            ],
+                          ),
+                          content: Container(
+                            height: MediaQuery.of(context).size.height*0.2,
+                            width: 300,
+                            child: Text.rich(
+                              TextSpan(
+                                text: 'cpu와 메인보드의 ',
+                                style: TextStyle(fontSize: 20),
+                                children: [
+                                  TextSpan(
+                                    text: '소켓',
+                                    style: TextStyle(
+                                      color: Colors.blue, // 파란색으로 색상 변경
+                                      decoration: TextDecoration.underline, // 밑줄 추가
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {//병목현상 클릭시
+                                      },
+                                  ),
+                                  TextSpan(text: '이 다르면 조립을 할수없어요'),
+                                ],
+                              ),
+                            ),
+                          ),
+                          actions: [
+                          ],
+                        );
+                      });
+                },
+              ),
+              SizedBox(width: 40),
+              IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.close))
+            ],
+          ),
+          content: Text(
+            'CPU와 메인보드의 소켓이 다릅니다\n\n'
+                'CPU 소켓: ${cpuProduct[0]['cpu_socket']}\n'
+                '메인보드 소켓: ${mainboardProduct[0]['mainboard_socket']}',
+            style: TextStyle(
+                fontSize: 18
+            ),
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(onPressed: (){}, child: Text("CPU찾기",style: TextStyle(fontSize: 20),)),
+                TextButton(onPressed: (){}, child: Text("메인보드찾기",style: TextStyle(fontSize: 20)),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showgraphicspowerPwAlert(BuildContext context){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '파워 낮음 알림',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              IconButton(
+                icon: Icon(Icons.help_outline), // 물음표 아이콘
+                onPressed: () {//성능차이 ?버튼
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('파워가 낮으면?'),
+                              IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.close))
+                            ],
+                          ),
+                          content: Container(
+                            height: MediaQuery.of(context).size.height*0.2,
+                            width: 300,
+                            child: Text.rich(
+                              TextSpan(
+                                text: '파워가 그래픽카드의 ',
+                                style: TextStyle(fontSize: 20),
+                                children: [
+                                  TextSpan(
+                                    text: '적정파워',
+                                    style: TextStyle(
+                                      color: Colors.blue, // 파란색으로 색상 변경
+                                      decoration: TextDecoration.underline, // 밑줄 추가
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {//병목현상 클릭시
+                                      },
+                                  ),
+                                  TextSpan(text: '보다 낮으면 컴퓨터가 꺼질수 있어요'),
+                                ],
+                              ),
+                            ),
+                          ),
+                          actions: [
+                          ],
+                        );
+                      });
+                },
+              ),
+              SizedBox(width: 40),
+              IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.close))
+            ],
+          ),
+          content: Text(
+            '그래픽카드 성능에비해 파워가 너무낮습니다\n\n'
+                '그래픽카드 적정파워: ${graphicsProduct[0]['graphics_pw']}\n'
+                '현재 파워: ${powerProduct[0]['power_pw']}',
+            style: TextStyle(
+                fontSize: 18
+            ),
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(onPressed: (){}, child: Text("그래픽카드찾기",style: TextStyle(fontSize: 20),)),
+                TextButton(onPressed: (){}, child: Text("파워찾기",style: TextStyle(fontSize: 20)),
                 ),
               ],
             ),
@@ -258,8 +423,10 @@ class _ShoppingcartState extends State<Shoppingcart> {
 
   Widget build(BuildContext context) {
     bool cpugraphicsshowAlertIcon = false;
+    bool cpumainboardshowAlertIcon = false;
+    bool graphicspowershowAlertIcon = false;
 
-    if (cpuProduct.isNotEmpty && graphicsProduct.isNotEmpty) {
+    if (cpuProduct.isNotEmpty && graphicsProduct.isNotEmpty) {//cpu글카 성능정수
       if (cpuProduct[0]['cpu_score'] != 0 && graphicsProduct[0]['graphics_score'] != 0) {
         if (cpuProduct[0]['cpu_score'] != null &&
             graphicsProduct[0]['graphics_score'] != null &&
@@ -269,6 +436,16 @@ class _ShoppingcartState extends State<Shoppingcart> {
         }
       }
     }
+    if(cpuProduct.isNotEmpty && mainboardProduct.isNotEmpty){
+      if(cpuProduct[0]['cpu_socket'] != mainboardProduct[0]['mainboard_socket']){
+      cpumainboardshowAlertIcon =true;
+    }}
+    if(cpuProduct.isNotEmpty && mainboardProduct.isNotEmpty){
+      if(graphicsProduct[0]['graphics_pw'] > powerProduct[0]['power_pw']){
+        graphicspowershowAlertIcon = true;
+      }
+    }
+
 
 
     return Scaffold(
@@ -301,11 +478,14 @@ class _ShoppingcartState extends State<Shoppingcart> {
 
               whatproduct: productPageMap[ProductType.cpu]!,
               productName: cpuProduct[0]['cpu_name'],
-              productPrice: '${cpuProduct[0]['cpu_price']}원',
+              productPrice: '${NumberFormat.decimalPattern('ko').format(cpuProduct[0]['cpu_price'])}원',
               image: cpuProduct[0]['image'],
 
-              showAlertIcon: cpugraphicsshowAlertIcon,
-              onAlertIconPressed: (){_showPerformanceAlert(context);},
+              showAlertIcon: cpugraphicsshowAlertIcon  || cpumainboardshowAlertIcon,
+              onAlertIconPressed: (){
+                if(cpugraphicsshowAlertIcon){_showcpugraphicsPerformanceAlert(context);}
+                else if(cpumainboardshowAlertIcon){_showcpumainboardSocketAlert(context);}
+                },
               onDeletePressed: () async {
                 final Network _cpunetwork = Network("http://116.124.191.174:15011/shopcpudel");//192.168.1.2:15011//116.124.191.174:15011
                 await _cpunetwork.productDetail(registeredUsername!);
@@ -327,11 +507,14 @@ class _ShoppingcartState extends State<Shoppingcart> {
 
               whatproduct: productPageMap[ProductType.graphics]!,
               productName: graphicsProduct[0]['graphics_name'],
-              productPrice: '${graphicsProduct[0]['graphics_price']}원',
+              productPrice: '${NumberFormat.decimalPattern('ko').format(graphicsProduct[0]['graphics_price'])}원',
               image: graphicsProduct[0]['image'],
 
-              showAlertIcon: cpugraphicsshowAlertIcon,
-              onAlertIconPressed: () {_showPerformanceAlert(context);},
+              showAlertIcon: cpugraphicsshowAlertIcon || graphicspowershowAlertIcon ,
+              onAlertIconPressed: () {
+                if(cpugraphicsshowAlertIcon){_showcpugraphicsPerformanceAlert(context);}
+                else if(graphicspowershowAlertIcon){_showgraphicspowerPwAlert(context);}
+                },
               onDeletePressed: () async {
                 final Network _graphicsnetwork = Network("http://116.124.191.174:15011/shopgraphicsdel");//192.168.1.2:15011//116.124.191.174:15011
                 await _graphicsnetwork.productDetail(registeredUsername!);
@@ -354,11 +537,11 @@ class _ShoppingcartState extends State<Shoppingcart> {
 
               whatproduct: productPageMap[ProductType.mainboard]!,
               productName: mainboardProduct[0]['mainboard_name'],
-              productPrice: '${mainboardProduct[0]['mainboard_price']}원',
+              productPrice: '${NumberFormat.decimalPattern('ko').format(mainboardProduct[0]['mainboard_price'])}원',
               image: mainboardProduct[0]['image'],
 
-              showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
-              onAlertIconPressed: () {},
+              showAlertIcon: cpumainboardshowAlertIcon, // 메인보드는 성능 점수 비교 제외
+              onAlertIconPressed: () {_showcpumainboardSocketAlert(context);},
               onDeletePressed: () async {
                 final Network _mainboardnetwork = Network("http://116.124.191.174:15011/shopmainboarddel");//192.168.1.2:15011//116.124.191.174:15011
                 await _mainboardnetwork.productDetail(registeredUsername!);
@@ -378,7 +561,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
 
               whatproduct: productPageMap[ProductType.memory]!,
               productName: memoryProduct[0]['memory_name'],
-              productPrice: '${memoryProduct[0]['memory_price']}원',
+              productPrice: '${NumberFormat.decimalPattern('ko').format(memoryProduct[0]['memory_price'])}원',
               image: memoryProduct[0]['image'],
 
               showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
@@ -402,11 +585,11 @@ class _ShoppingcartState extends State<Shoppingcart> {
 
               whatproduct: productPageMap[ProductType.power]!,
               productName: powerProduct[0]['power_name'],
-              productPrice: '${powerProduct[0]['power_price']}원',
+              productPrice: '${NumberFormat.decimalPattern('ko').format(powerProduct[0]['power_price'])}원',
               image: powerProduct[0]['image'],
 
-              showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
-              onAlertIconPressed: () {},
+              showAlertIcon: graphicspowershowAlertIcon,
+              onAlertIconPressed: () {_showgraphicspowerPwAlert(context);},
               onDeletePressed: () async {
                 final Network _powernetwork = Network("http://116.124.191.174:15011/shoppowerdel");//192.168.1.2:15011//116.124.191.174:15011
                 await _powernetwork.productDetail(registeredUsername!);
@@ -426,7 +609,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
 
               whatproduct: productPageMap[ProductType.disk]!,
               productName: diskProduct[0]['disk_name'],
-              productPrice: '${diskProduct[0]['disk_price']}원',
+              productPrice: '${NumberFormat.decimalPattern('ko').format(diskProduct[0]['disk_price'])}원',
               image: diskProduct[0]['image'],
 
               showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
@@ -450,7 +633,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
 
               whatproduct: productPageMap[ProductType.cpu_cooler]!,
               productName: cpu_coolerProduct[0]['cpu_cooler_name'],
-              productPrice: '${cpu_coolerProduct[0]['cpu_cooler_price']}원',
+              productPrice: '${NumberFormat.decimalPattern('ko').format(cpu_coolerProduct[0]['cpu_cooler_price'])}원',
               image: cpu_coolerProduct[0]['image'],
 
               showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
@@ -474,7 +657,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
 
               whatproduct: productPageMap[ProductType.computer_case]!,
               productName: computer_caseProduct[0]['computer_case_name'],
-              productPrice: '${computer_caseProduct[0]['computer_case_price']}원',
+              productPrice: '${NumberFormat.decimalPattern('ko').format(computer_caseProduct[0]['computer_case_price'])}원',
               image: computer_caseProduct[0]['image'],
 
               showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
@@ -490,6 +673,12 @@ class _ShoppingcartState extends State<Shoppingcart> {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
               },
             ),
+            Text('합계: ${NumberFormat.decimalPattern('ko').format(cpuProduct[0]['cpu_price'] + graphicsProduct[0]['graphics_price']+mainboardProduct[0]['mainboard_price']
+                +memoryProduct[0]['memory_price']+powerProduct[0]['power_price']+diskProduct[0]['disk_price']
+                +cpu_coolerProduct[0]['cpu_cooler_price']+computer_caseProduct[0]['computer_case_price'])}원',
+              style: TextStyle(fontSize: 40),
+            )
+
           ],
         ),
         ),
