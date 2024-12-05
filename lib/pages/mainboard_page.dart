@@ -111,7 +111,7 @@ class _MainboardPageState extends State<MainboardPage> {
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
     return GestureDetector(
       onTap: () {
-        productName = data['mainboard_name'];
+        globalproductName = data['mainboard_name'];
         Navigator.push(
           context,
           MaterialPageRoute(

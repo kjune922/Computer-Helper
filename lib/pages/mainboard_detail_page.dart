@@ -18,7 +18,7 @@ class _MainboardDetailPageState extends State<MainboardDetailPage> {
   @override
   void initState() {
     super.initState();
-    getMainboardData(productName!);
+    getMainboardData(globalproductName!);
   }
 
   void getMainboardData(String name) async {

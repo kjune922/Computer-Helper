@@ -80,7 +80,7 @@ class _DiskPageState extends State<DiskPage> {
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
     return GestureDetector(
       onTap: () {
-        productName = data['disk_name'];
+        globalproductName = data['disk_name'];
         Navigator.push(
           context,
           MaterialPageRoute(

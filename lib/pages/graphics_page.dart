@@ -113,7 +113,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
     return GestureDetector(
       onTap: () {
         // 그래픽카드 상세 페이지로 이동
-        productName = data['graphics_name'];
+        globalproductName = data['graphics_name'];
         Navigator.push(
           context,
           MaterialPageRoute(

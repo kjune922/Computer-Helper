@@ -80,7 +80,7 @@ class _MemoryPageState extends State<MemoryPage> {
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
     return GestureDetector(
       onTap: () {
-        productName = data['memory_name'];
+        globalproductName = data['memory_name'];
         Navigator.push(
           context,
           MaterialPageRoute(

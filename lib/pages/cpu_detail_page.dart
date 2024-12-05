@@ -18,7 +18,7 @@ class _CpuDetailPageState extends State<CpuDetailPage> {
   @override
   void initState() {
     super.initState();
-    getcpudata(productName!);
+    getcpudata(globalproductName!);
   }
 
   void getcpudata(String name) async {

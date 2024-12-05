@@ -17,7 +17,7 @@ class _GraphicsDetailPageState extends State<GraphicsDetailPage> {
   @override
   void initState() {
     super.initState();
-    getGraphicsData(productName!);
+    getGraphicsData(globalproductName!);
   }
 
   void getGraphicsData(String name) async {

@@ -80,7 +80,7 @@ class _CasePageState extends State<CasePage> {
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
     return GestureDetector(
       onTap: () {
-        productName = data['computer_case_name'];
+        globalproductName = data['computer_case_name'];
         Navigator.push(
           context,
           MaterialPageRoute(

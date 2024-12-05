@@ -80,7 +80,7 @@ class _PowerPageState extends State<PowerPage> {
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
     return GestureDetector(
       onTap: () {
-        productName = data['power_name'];
+        globalproductName = data['power_name'];
         Navigator.push(
           context,
           MaterialPageRoute(

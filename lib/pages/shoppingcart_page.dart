@@ -1,11 +1,19 @@
 import 'package:com_recipe/Network.dart';
 import 'package:com_recipe/globals.dart';
+import 'package:com_recipe/pages/power_detail_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'case_detail_page.dart';
+import 'cpu_cooler_detail_page.dart';
+import 'cpu_detail_page.dart';
 import 'cpu_page.dart';
+import 'disk_detail_page.dart';
+import 'graphics_detail_page.dart';
 import 'graphics_page.dart';
+import 'mainboard_detail_page.dart';
+import 'memory_detail_page.dart';
 import 'memory_page.dart';
 import 'case_page.dart';
 import 'cpu_cooler_page.dart';
@@ -36,7 +44,25 @@ class _ShoppingcartState extends State<Shoppingcart> {
     ProductType.computer_case: (context) => CasePage(),
   };
 
+  final Map<ProductType, Widget Function(BuildContext)> productDetailPageMap = {
+    ProductType.cpu: (context) => CpuDetailPage(),
+    ProductType.graphics: (context) => GraphicsDetailPage(),
+    ProductType.mainboard: (context) => MainboardDetailPage(),
+    ProductType.memory: (context) => MemoryDetailPage(),
+    ProductType.power: (context) => PowerDetailPage(),
+    ProductType.disk: (context) =>DiskDetailPage(),
+    ProductType.cpu_cooler: (context) => CpuCoolerDetailPage(),
+    ProductType.computer_case: (context) => CaseDetailPage(),
+  };
+
   List cpuinfo =[];
+  List graphicsinfo =[];
+  List mainboardinfo =[];
+  List memoryinfo =[];
+  List powerinfo =[];
+  List diskinfo =[];
+  List cpu_coolerinfo =[];
+  List computer_caseinfo =[];
 
   List<dynamic> cpuProduct =[];
   List<dynamic> graphicsProduct = [];
@@ -321,11 +347,11 @@ class _ShoppingcartState extends State<Shoppingcart> {
       final Network _cpunetwork = Network("http://116.124.191.174:15011/cpudetail");//192.168.1.2:15011//116.124.191.174:15011
       cpuProduct = await _cpunetwork.productDetail(usershopProduct[0]['cpu']);
 
-      cpuinfo.add(cpuProduct[0]['cpu_price']);
-      cpuinfo.add(cpuProduct[0]['cpu_score']);
-      cpuinfo.add(cpuProduct[0]['cpu_socket']);
-      cpuinfo.add(cpuProduct[0]['cpu_pw']);
-      print(cpuinfo);
+      cpuinfo.add('가격: ${NumberFormat.decimalPattern('ko').format(cpuProduct[0]['cpu_price']).toString()} 원');
+      cpuinfo.add('성능정수: ${cpuProduct[0]['cpu_score'].toString()} 점');
+      cpuinfo.add('소켓: ${cpuProduct[0]['cpu_socket']}');
+      cpuinfo.add('cpu사용파워: ${cpuProduct[0]['cpu_pw'].toString()} W');
+
     }else{
       cpuProduct.add({
         'cpu_name': '상품이 없습니다',
@@ -339,6 +365,13 @@ class _ShoppingcartState extends State<Shoppingcart> {
     if(usershopProduct[0]['graphics'] != null){
       final Network _graphicsnetwork = Network("http://116.124.191.174:15011/graphicsdetail");//192.168.1.2:15011//116.124.191.174:15011
       graphicsProduct = await _graphicsnetwork.productDetail(usershopProduct[0]['graphics']);
+
+      graphicsinfo.add('가격: ${NumberFormat.decimalPattern('ko').format(graphicsProduct[0]['graphics_price']).toString()} 원');
+      graphicsinfo.add('성능점수: ${graphicsProduct[0]['graphics_score'].toString()} 점');
+      graphicsinfo.add('적정파워: ${graphicsProduct[0]['graphics_pw'].toString()}W');
+      graphicsinfo.add('너비: ${graphicsProduct[0]['graphics_width'].toString()}mm');
+      graphicsinfo.add('길이: ${graphicsProduct[0]['graphics_length'].toString()}mm');
+
     }else{
       graphicsProduct.add({
         'graphics_name': '상품이 없습니다',
@@ -353,6 +386,10 @@ class _ShoppingcartState extends State<Shoppingcart> {
     if(usershopProduct[0]['mainboard'] != null){
       final Network _mainboardnetwork = Network("http://116.124.191.174:15011/mainboarddetail");//192.168.1.2:15011//116.124.191.174:15011
       mainboardProduct = await _mainboardnetwork.productDetail(usershopProduct[0]['mainboard']);
+
+      mainboardinfo.add('가격: ${NumberFormat.decimalPattern('ko').format(mainboardProduct[0]['mainboard_price']).toString()} 원');
+      mainboardinfo.add('소켓: ${mainboardProduct[0]['mainboard_socket']}');
+
     }else{
       mainboardProduct.add({
         'mainboard_name': '상품이 없습니다',
@@ -365,6 +402,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
     if(usershopProduct[0]['memory'] != null){
       final Network _memorynetwork = Network("http://116.124.191.174:15011/memorydetail");//192.168.1.2:15011//116.124.191.174:15011
       memoryProduct = await _memorynetwork.productDetail(usershopProduct[0]['memory']);
+
+      memoryinfo.add('가격: ${NumberFormat.decimalPattern('ko').format(memoryProduct[0]['memory_price']).toString()} 원');
+
     }else{
       memoryProduct.add({
         'memory_name': '상품이 없습니다',
@@ -375,6 +415,10 @@ class _ShoppingcartState extends State<Shoppingcart> {
     if(usershopProduct[0]['power'] != null){
       final Network _powernetwork = Network("http://116.124.191.174:15011/powerdetail");//192.168.1.2:15011//116.124.191.174:15011
       powerProduct = await _powernetwork.productDetail(usershopProduct[0]['power']);
+
+      powerinfo.add('가격: ${NumberFormat.decimalPattern('ko').format(powerProduct[0]['power_price']).toString()} 원');
+      powerinfo.add('파워전력: ${powerProduct[0]['power_pw'].toString()}W');
+
     }else{
       powerProduct.add({
         'power_name': '상품이 없습니다',
@@ -386,6 +430,10 @@ class _ShoppingcartState extends State<Shoppingcart> {
     if(usershopProduct[0]['disk'] != null){
       final Network _disknetwork = Network("http://116.124.191.174:15011/diskdetail");//192.168.1.2:15011//116.124.191.174:15011
       diskProduct = await _disknetwork.productDetail(usershopProduct[0]['disk']);
+
+      diskinfo.add('가격: ${NumberFormat.decimalPattern('ko').format(diskProduct[0]['disk_price']).toString()} 원');
+      diskinfo.add('종류: ${diskProduct[0]['disk_type']}');
+
     }else{
       diskProduct.add({
         'disk_name': '상품이 없습니다',
@@ -397,6 +445,10 @@ class _ShoppingcartState extends State<Shoppingcart> {
     if(usershopProduct[0]['cpu_cooler'] != null){
       final Network _cpu_coolernetwork = Network("http://116.124.191.174:15011/cpu_coolerdetail");//192.168.1.2:15011//116.124.191.174:15011
       cpu_coolerProduct = await _cpu_coolernetwork.productDetail(usershopProduct[0]['cpu_cooler']);
+
+      cpu_coolerinfo.add('가격: ${NumberFormat.decimalPattern('ko').format(cpu_coolerProduct[0]['cpu_cooler_price']).toString()} 원');
+      cpu_coolerinfo.add('cpu쿨러 높이: ${cpu_coolerProduct[0]['cpu_cooler_height'].toString()}mm');
+
     }else{
       cpu_coolerProduct.add({
         'cpu_cooler_name': '상품이 없습니다',
@@ -408,6 +460,13 @@ class _ShoppingcartState extends State<Shoppingcart> {
     if(usershopProduct[0]['computer_case'] != null){
       final Network _computer_casenetwork = Network("http://116.124.191.174:15011/computer_casedetail");//192.168.1.2:15011//116.124.191.174:15011
       computer_caseProduct = await _computer_casenetwork.productDetail(usershopProduct[0]['computer_case']);
+
+      computer_caseinfo.add('가격: ${NumberFormat.decimalPattern('ko').format(computer_caseProduct[0]['computer_case_price']).toString()} 원');
+      computer_caseinfo.add('너비: ${computer_caseProduct[0]['computer_case_width'].toString()}mm');
+      computer_caseinfo.add('길이: ${computer_caseProduct[0]['computer_case_length'].toString()}mm');
+      computer_caseinfo.add('두께: ${computer_caseProduct[0]['computer_case_thick'].toString()}mm');
+      computer_caseinfo.add('cpu쿨러 높이: ${computer_caseProduct[0]['computer_case_cooler_height'].toString()}mm');
+
     }else{
       computer_caseProduct.add({
         'computer_case_name': '상품이 없습니다',
@@ -485,8 +544,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
               title: "CPU",
 
               whatproduct: productPageMap[ProductType.cpu]!,
+              whatproductDetail:productDetailPageMap[ProductType.cpu]!,
               productName: cpuProduct[0]['cpu_name'],
-              productPrice: '${NumberFormat.decimalPattern('ko').format(cpuProduct[0]['cpu_price'])}원',
+              productInfo: cpuinfo,
               image: cpuProduct[0]['image'],
 
               showAlertIcon: cpugraphicsshowAlertIcon  || cpumainboardshowAlertIcon,
@@ -514,8 +574,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
               title: "그래픽카드",
 
               whatproduct: productPageMap[ProductType.graphics]!,
+              whatproductDetail:productDetailPageMap[ProductType.graphics]!,
               productName: graphicsProduct[0]['graphics_name'],
-              productPrice: '${NumberFormat.decimalPattern('ko').format(graphicsProduct[0]['graphics_price'])}원',
+              productInfo: graphicsinfo,
               image: graphicsProduct[0]['image'],
 
               showAlertIcon: cpugraphicsshowAlertIcon || graphicspowershowAlertIcon ,
@@ -544,8 +605,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
               title: "메인보드",
 
               whatproduct: productPageMap[ProductType.mainboard]!,
+              whatproductDetail:productDetailPageMap[ProductType.mainboard]!,
               productName: mainboardProduct[0]['mainboard_name'],
-              productPrice: '${NumberFormat.decimalPattern('ko').format(mainboardProduct[0]['mainboard_price'])}원',
+              productInfo: mainboardinfo,
               image: mainboardProduct[0]['image'],
 
               showAlertIcon: cpumainboardshowAlertIcon, // 메인보드는 성능 점수 비교 제외
@@ -568,8 +630,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
               title: "메모리",
 
               whatproduct: productPageMap[ProductType.memory]!,
+              whatproductDetail:productDetailPageMap[ProductType.memory]!,
               productName: memoryProduct[0]['memory_name'],
-              productPrice: '${NumberFormat.decimalPattern('ko').format(memoryProduct[0]['memory_price'])}원',
+              productInfo: memoryinfo,
               image: memoryProduct[0]['image'],
 
               showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
@@ -592,8 +655,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
               title: "파워",
 
               whatproduct: productPageMap[ProductType.power]!,
+              whatproductDetail:productDetailPageMap[ProductType.power]!,
               productName: powerProduct[0]['power_name'],
-              productPrice: '${NumberFormat.decimalPattern('ko').format(powerProduct[0]['power_price'])}원',
+              productInfo: powerinfo,
               image: powerProduct[0]['image'],
 
               showAlertIcon: graphicspowershowAlertIcon,
@@ -616,8 +680,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
               title: "디스크(저장장치)",
 
               whatproduct: productPageMap[ProductType.disk]!,
+              whatproductDetail:productDetailPageMap[ProductType.disk]!,
               productName: diskProduct[0]['disk_name'],
-              productPrice: '${NumberFormat.decimalPattern('ko').format(diskProduct[0]['disk_price'])}원',
+              productInfo: diskinfo,
               image: diskProduct[0]['image'],
 
               showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
@@ -640,8 +705,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
               title: "cpu쿨러",
 
               whatproduct: productPageMap[ProductType.cpu_cooler]!,
+              whatproductDetail:productDetailPageMap[ProductType.cpu_cooler]!,
               productName: cpu_coolerProduct[0]['cpu_cooler_name'],
-              productPrice: '${NumberFormat.decimalPattern('ko').format(cpu_coolerProduct[0]['cpu_cooler_price'])}원',
+              productInfo: cpu_coolerinfo,
               image: cpu_coolerProduct[0]['image'],
 
               showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
@@ -664,8 +730,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
               title: "케이스",
 
               whatproduct: productPageMap[ProductType.computer_case]!,
+              whatproductDetail:productDetailPageMap[ProductType.computer_case]!,
               productName: computer_caseProduct[0]['computer_case_name'],
-              productPrice: '${NumberFormat.decimalPattern('ko').format(computer_caseProduct[0]['computer_case_price'])}원',
+              productInfo: computer_caseinfo,
               image: computer_caseProduct[0]['image'],
 
               showAlertIcon: false, // 메인보드는 성능 점수 비교 제외
@@ -699,8 +766,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
   Widget _buildSection(BuildContext context,
       {required String title,
         required Widget Function(BuildContext) whatproduct,
+        required Widget Function(BuildContext) whatproductDetail,
         required String productName,
-        required String productPrice,
+        required List<dynamic> productInfo,
         required String image,
         required bool showAlertIcon,
         required VoidCallback onAlertIconPressed,
@@ -739,11 +807,23 @@ class _ShoppingcartState extends State<Shoppingcart> {
                           ),
                       ],
                     ),
-                    IconButton(
-                      icon: Icon(Icons.delete_outline, color: Colors.red),
-                      onPressed: onDeletePressed, // 삭제 버튼 클릭 시 동작
-                      tooltip: "지우기",
-                    ),
+                    Row(
+                      children: [
+                        TextButton(onPressed: (){
+                          globalproductName = productName;
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: whatproductDetail),
+                          );
+                        }, child: Text('상세정보보기',style: TextStyle(fontSize: 18),)),
+                        IconButton(
+                          icon: Icon(Icons.delete_outline, color: Colors.red),
+                          onPressed: onDeletePressed, // 삭제 버튼 클릭 시 동작
+                          tooltip: "지우기",
+                        ),
+                      ],
+                    )
+
                   ],
                 ),
               ],
@@ -762,7 +842,19 @@ class _ShoppingcartState extends State<Shoppingcart> {
                   flex: 2,
                   child: ListTile(
                     title: Text(productName),
-                    subtitle: Text(productPrice),
+                    subtitle: Column(
+                      children: [
+                        Container(
+                          height: 50,
+                          child: ListView.builder(
+                              itemCount: productInfo.length,
+                              itemBuilder: (context,index){
+                                return _productinfocard(infoData: productInfo[index],);
+                              },
+                          ),
+                        ),
+                      ],
+                    ),
                       trailing: showAlertIcon
                           ? IconButton(onPressed: () {
                         showDialog(
@@ -830,6 +922,16 @@ class _ShoppingcartState extends State<Shoppingcart> {
         ),
       ),
     );
+  }
+}
+
+class _productinfocard extends StatelessWidget {
+  final String infoData;
+  _productinfocard({required this.infoData});
+  @override
+
+  Widget build(BuildContext context) {
+    return Text(infoData);
   }
 }
 

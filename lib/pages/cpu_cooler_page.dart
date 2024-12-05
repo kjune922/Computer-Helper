@@ -80,7 +80,7 @@ class _CpuCoolerPageState extends State<CpuCoolerPage> {
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
     return GestureDetector(
       onTap: () {
-        productName = data['cpu_cooler_name'];
+        globalproductName = data['cpu_cooler_name'];
         Navigator.push(
           context,
           MaterialPageRoute(

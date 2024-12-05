@@ -118,7 +118,7 @@ class _CpuPageState extends State<CpuPage> {
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
   return InkWell(
     onTap: () {
-      productName = data['cpu_name'];
+      globalproductName = data['cpu_name'];
       Navigator.push(
         context,
         MaterialPageRoute(builder: (_) => const CpuDetailPage()),
