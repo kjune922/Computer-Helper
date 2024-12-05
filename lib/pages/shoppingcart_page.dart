@@ -36,6 +36,8 @@ class _ShoppingcartState extends State<Shoppingcart> {
     ProductType.computer_case: (context) => CasePage(),
   };
 
+  List cpuinfo =[];
+
   List<dynamic> cpuProduct =[];
   List<dynamic> graphicsProduct = [];
   List<dynamic> mainboardProduct = [];
@@ -318,6 +320,12 @@ class _ShoppingcartState extends State<Shoppingcart> {
     if(usershopProduct[0]['cpu'] != null){
       final Network _cpunetwork = Network("http://116.124.191.174:15011/cpudetail");//192.168.1.2:15011//116.124.191.174:15011
       cpuProduct = await _cpunetwork.productDetail(usershopProduct[0]['cpu']);
+
+      cpuinfo.add(cpuProduct[0]['cpu_price']);
+      cpuinfo.add(cpuProduct[0]['cpu_score']);
+      cpuinfo.add(cpuProduct[0]['cpu_socket']);
+      cpuinfo.add(cpuProduct[0]['cpu_pw']);
+      print(cpuinfo);
     }else{
       cpuProduct.add({
         'cpu_name': '상품이 없습니다',
@@ -677,7 +685,8 @@ class _ShoppingcartState extends State<Shoppingcart> {
                 +memoryProduct[0]['memory_price']+powerProduct[0]['power_price']+diskProduct[0]['disk_price']
                 +cpu_coolerProduct[0]['cpu_cooler_price']+computer_caseProduct[0]['computer_case_price'])}원',
               style: TextStyle(fontSize: 40),
-            )
+            ),
+            //구매하기버튼만들어야함
 
           ],
         ),
