@@ -271,9 +271,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(onPressed: (){//cpu 메인보드 문제에서 cpu찾기 눌렀을때
+                TextButton(onPressed: () async {//cpu 메인보드 문제에서 cpu찾기 눌렀을때
                   Navigator.pop(context);
-                  Navigator.push(
+                  await Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (_) =>
@@ -287,8 +287,21 @@ class _ShoppingcartState extends State<Shoppingcart> {
                     initializeData();
                   });
                 }, child: Text("CPU찾기",style: TextStyle(fontSize: 20),)),
-                TextButton(onPressed: (){//cpu 메인보드 문제에서 메인보드찾기 눌렀을때
-
+                TextButton(onPressed: () async {//cpu 메인보드 문제에서 메인보드찾기 눌렀을때
+                  Navigator.pop(context);
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) =>
+                              MainboardPage(
+                                whatserch: 'socket',
+                                socket: cpuProduct[0]['cpu_socket'],
+                              )
+                      )
+                  );
+                  setState(() {
+                    initializeData();
+                  });
                 }, child: Text("메인보드찾기",style: TextStyle(fontSize: 20)),
                 ),
               ],

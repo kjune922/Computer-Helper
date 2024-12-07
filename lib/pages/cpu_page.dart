@@ -43,7 +43,7 @@ class _CpuPageState extends State<CpuPage> {
       jsonData = await _network.getJsonData();
       datacount = jsonData.length;
     }
-    print('배열길이${datacount}');
+    print(jsonData);
     setState(() {
       nowLoading = false;
     });
@@ -129,96 +129,98 @@ class _CpuPageState extends State<CpuPage> {
 
   // 상품 카드
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
-  return InkWell(
-    onTap: () {
-      globalproductName = data['cpu_name'];
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => const CpuDetailPage()),
-      );
-    },
-    child: Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 8,
-            offset: Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-              child: Image.asset(
-                data['image'], // CPU 이미지 경로
-                fit: BoxFit.cover,
-                width: double.infinity,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              data['cpu_name'],
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              "${data['cpu_price']}원",
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
-              ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                icon: Icon(Icons.favorite_border, color: Colors.grey),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
-                onPressed: () {
-                  if(registeredUsername == null){
-                    Navigator.pushNamed(context, '/login');
-                  }else{
-                    final Network _cpunetwork = Network("http://116.124.191.174:15011/shopcpuadd");//192.168.1.2:15011//116.124.191.174:15011
-                    _cpunetwork.updatedb(registeredUsername!,data['cpu_name']);
-                  }
-                  ScaffoldMessenger.of(context).clearSnackBars();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'CPU 장바구니에 추가되었습니다',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
-                      ),
-                      backgroundColor: Colors.purple,
-                      duration: Duration(seconds: 2),
-                    ),
-                  );
-                },
+      return InkWell(
+        onTap: () {
+          globalproductName = data['cpu_name']??'';
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const CpuDetailPage()),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 8,
+                offset: Offset(0, 4),
               ),
             ],
           ),
-        ],
-      ),
-    ),
-  );
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                  child: Image.asset(
+                    data['image'] ?? 'assets/images/searchingfailed.png', // CPU 이미지 경로
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  data['cpu_name'] ?? '상품을 찾지 못했습니다',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  "${data['cpu_price']??0}원",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.favorite_border, color: Colors.grey),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
+                    onPressed: () {
+                      if(registeredUsername == null){
+                        Navigator.pushNamed(context, '/login');
+                      }else{
+                        final Network _cpunetwork = Network("http://116.124.191.174:15011/shopcpuadd");//192.168.1.2:15011//116.124.191.174:15011
+                        _cpunetwork.updatedb(registeredUsername!,data['cpu_name']??'');
+                      }
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'CPU 장바구니에 추가되었습니다',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                            ),
+                          ),
+                          backgroundColor: Colors.purple,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+
+  
 }
 }
