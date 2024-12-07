@@ -35,7 +35,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
 
   final Map<ProductType, Widget Function(BuildContext)> productPageMap = {
     ProductType.cpu: (context) => CpuPage(isserch: false,lowscore: -1,highscore: -1,),
-    ProductType.graphics: (context) => GraphicsPage(),
+    ProductType.graphics: (context) => GraphicsPage(isserch: false,lowscore: -1,highscore: -1,),
     ProductType.mainboard: (context) => MainboardPage(),
     ProductType.memory: (context) => MemoryPage(),
     ProductType.power: (context) => PowerPage(),
@@ -175,7 +175,19 @@ class _ShoppingcartState extends State<Shoppingcart> {
                     initializeData();
                   });
                 }, child: Text("CPU찾기",style: TextStyle(fontSize: 20),)),
-                TextButton(onPressed: () {}, child: Text("그래픽카드찾기",style: TextStyle(fontSize: 20)),
+                TextButton(onPressed: () {//클카찾기 눌렀을때
+                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (_) =>
+                          GraphicsPage(
+                              isserch: true,
+                              lowscore: (cpuProduct[0]['cpu_score'] / 1.5).toInt(),
+                              highscore: (cpuProduct[0]['cpu_score'] * 1.5).toInt()
+                          )
+                  )
+                  );
+
+                }, child: Text("그래픽카드찾기",style: TextStyle(fontSize: 20)),
                 ),
               ],
             ),

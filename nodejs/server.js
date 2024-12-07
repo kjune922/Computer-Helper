@@ -74,7 +74,6 @@ app.post('/cpuserch', (req, res) => {
     connection.query(sql, [lowscore,highscore], (err, results) => {
         res.send(results)
     });
-
 });
 
 app.post('/cpudetail', (req, res) => {
@@ -92,6 +91,14 @@ app.get('/graphics', (req, res) => {
         res.send(results)
     });
 
+});
+
+app.post('/graphicsserch', (req, res) => {
+    const {lowscore,highscore} = req.body;
+    const sql ="SELECT * FROM graphics WHERE graphics_score > ? AND graphics_score < ?;"
+    connection.query(sql, [lowscore,highscore], (err, results) => {
+        res.send(results)
+    });
 });
 
 app.post('/graphicsdetail', (req, res) => {

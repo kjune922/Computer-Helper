@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         '/signup': (context) => SignupPage(),
         '/reset_password': (context) => ResetPasswordPage(), // 비밀번호 재설정 경로 추가
         '/cpu': (context) => CpuPage(isserch: false,lowscore: -1,highscore: -1,),
-        '/graphics': (context) => GraphicsPage(),
+        '/graphics': (context) => GraphicsPage(isserch: false,lowscore: -1,highscore: -1,),
         '/mainboard': (context) => MainboardPage(),
         '/memory': (context) => MemoryPage(), // 메모리 경로 추가
         '/case': (context) => CasePage(), // 케이스 경로 추가

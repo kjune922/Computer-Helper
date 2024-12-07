@@ -6,7 +6,10 @@ import 'graphics_detail_page.dart'; // 그래픽카드 상세 페이지 import
 
 
 class GraphicsPage extends StatefulWidget {
-  const GraphicsPage({Key? key}) : super(key: key);
+  final bool isserch;
+  final int lowscore;
+  final int highscore;
+  GraphicsPage({required this.isserch, required this.lowscore, required this.highscore});//검색하려면 isserch true
 
   @override
   State<GraphicsPage> createState() => _GraphicsPageState();
@@ -26,9 +29,16 @@ class _GraphicsPageState extends State<GraphicsPage> {
   }
 
   void getgraphicsdata() async{
-    final Network _network = Network("http://116.124.191.174:15011/graphics");
-    jsonData = await _network.getJsonData();
-    datacount = jsonData.length;
+
+    if(widget.isserch){
+      final Network _network = Network("http://116.124.191.174:15011/graphicsserch");
+      jsonData = await _network.serch(widget.lowscore,widget.highscore);
+      datacount = jsonData.length;
+    }else{
+      final Network _network = Network("http://116.124.191.174:15011/graphics");
+      jsonData = await _network.getJsonData();
+      datacount = jsonData.length;
+    }
     print(datacount);
     setState(() {
       nowLoading = false;
