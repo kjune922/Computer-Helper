@@ -419,7 +419,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
         'cpu_name': '상품이 없습니다',
         'cpu_price': 0,
         'cpu_score': 0,
-        'cpu_socket': '소켓없습니다',
+        'cpu_socket': '소켓이 없습니다',
         'cpu_pw':0,
         'image':'assets/images/noproduct.jpg',
       });
