@@ -133,6 +133,33 @@ class _MemoryPageState extends State<MemoryPage> {
                 ),
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.favorite_border, color: Colors.grey),
+                  onPressed: () {
+                    // 찜 버튼 동작
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
+                  onPressed: () {
+                    if (registeredUsername == null) {
+                      Navigator.pushNamed(context, '/login');
+                    } else {
+                      final Network _network =
+                          Network("http://116.124.191.174:15011/shopmemoryadd");
+                      _network.updatedb(
+                          registeredUsername!, data['memory_name']);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('메모리가 장바구니에 추가되었습니다')),
+                      );
+                    }
+                  },
+                ),
+              ],
+            ),
           ],
         ),
       ),

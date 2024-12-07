@@ -23,7 +23,8 @@ class _CasePageState extends State<CasePage> {
   }
 
   void getCaseData() async {
-    final Network _network = Network("http://116.124.191.174:15011/computer_case");
+    final Network _network =
+        Network("http://116.124.191.174:15011/computer_case");
     jsonData = await _network.getJsonData();
     datacount = jsonData.length;
     setState(() {
@@ -132,6 +133,33 @@ class _CasePageState extends State<CasePage> {
                   color: Colors.grey,
                 ),
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.favorite_border, color: Colors.grey),
+                  onPressed: () {
+                    // 찜 버튼 동작
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
+                  onPressed: () {
+                    if (registeredUsername == null) {
+                      Navigator.pushNamed(context, '/login');
+                    } else {
+                      final Network _network =
+                          Network("http://116.124.191.174:15011/shopcaseadd");
+                      _network.updatedb(
+                          registeredUsername!, data['computer_case_name']);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('케이스가 장바구니에 추가되었습니다')),
+                      );
+                    }
+                  },
+                ),
+              ],
             ),
           ],
         ),
