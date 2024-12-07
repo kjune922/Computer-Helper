@@ -101,10 +101,26 @@ app.get('/graphics', (req, res) => {
 
 });
 
-app.post('/graphicsserch', (req, res) => {
+app.post('/graphicsscoreserch', (req, res) => {
     const {lowscore,highscore} = req.body;
     const sql ="SELECT * FROM graphics WHERE graphics_score > ? AND graphics_score < ?;"
     connection.query(sql, [lowscore,highscore], (err, results) => {
+        res.send(results)
+    });
+});
+
+app.post('/graphicspowerserchup', (req, res) => {
+    const {lowscore,highscore} = req.body;
+    const sql ="SELECT * FROM graphics WHERE graphics_pw > ?;"
+    connection.query(sql, [lowscore], (err, results) => {
+        res.send(results)
+    });
+});
+
+app.post('/graphicspowerserchdown', (req, res) => {
+    const {lowscore,highscore} = req.body;
+    const sql ="SELECT * FROM graphics WHERE graphics_pw < ?;"
+    connection.query(sql, [lowscore], (err, results) => {
         res.send(results)
     });
 });
@@ -166,6 +182,14 @@ app.get('/power', (req, res) => {
         res.send(results)
     });
 
+});
+
+app.post('/powerserchup', (req, res) => {
+    const {lowscore,highscore} = req.body;
+    const sql ="SELECT * FROM power WHERE power_pw > ?;"
+    connection.query(sql, [lowscore], (err, results) => {
+        res.send(results)
+    });
 });
 
 app.post('/powerdetail', (req, res) => {
