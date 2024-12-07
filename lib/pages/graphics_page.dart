@@ -32,7 +32,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
 
     if(widget.isserch){
       final Network _network = Network("http://116.124.191.174:15011/graphicsserch");
-      jsonData = await _network.serch(widget.lowscore,widget.highscore);
+      jsonData = await _network.scoreserch(widget.lowscore,widget.highscore);
       datacount = jsonData.length;
     }else{
       final Network _network = Network("http://116.124.191.174:15011/graphics");

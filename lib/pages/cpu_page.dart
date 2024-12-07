@@ -8,10 +8,11 @@ import 'custom_bottom_nav_bar.dart'; // 하단바 위젯 import
  // 받아온 JSON 데이터를 출력합니다
 
 class CpuPage extends StatefulWidget {
-  final bool isserch;
+  final String whatserch;
   final int lowscore;
   final int highscore;
-  CpuPage({required this.isserch, required this.lowscore, required this.highscore});//검색하려면 isserch true
+  final String socket;
+  CpuPage({this.whatserch ='', this.lowscore=-1,this.highscore=-1, this.socket=''});//소켓검색 whatserch=socket 스코어검색 whatserch=score
   @override
   State<CpuPage> createState() => _CpuPageState();
 }
@@ -29,16 +30,19 @@ class _CpuPageState extends State<CpuPage> {
   }
 
   void getcpudata() async{
-    if(widget.isserch){
-      final Network _network = Network("http://116.124.191.174:15011/cpuserch");
-      jsonData = await _network.serch(widget.lowscore,widget.highscore);
+    if(widget.whatserch == 'score'){
+      final Network _network = Network("http://116.124.191.174:15011/cpuscoreserch");
+      jsonData = await _network.scoreserch(widget.lowscore,widget.highscore);
+      datacount = jsonData.length;
+    }else if(widget.whatserch =='socket'){
+      final Network _network = Network("http://116.124.191.174:15011/cpusocketserch");
+      jsonData = await _network.productDetail(widget.socket);
       datacount = jsonData.length;
     }else{
       final Network _network = Network("http://116.124.191.174:15011/cpu");
       jsonData = await _network.getJsonData();
       datacount = jsonData.length;
     }
-
     print('배열길이${datacount}');
     setState(() {
       nowLoading = false;

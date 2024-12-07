@@ -143,8 +143,7 @@ class Network {
     }
   }
 
-  Future<List<dynamic>> serch(int lowscore, int highscore) async {
-    //post로 한개 요청보내고 받는다
+  Future<List<dynamic>> scoreserch(int lowscore, int highscore) async {//int 2개 보내고 받는다
     final uri = Uri.parse(url); // 서버의 엔드포인트 URL
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({
@@ -170,6 +169,4 @@ class Network {
       return [];
     }
   }
-
-
 }
