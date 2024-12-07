@@ -158,8 +158,22 @@ class _ShoppingcartState extends State<Shoppingcart> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(onPressed: (){//cpu찾기 눌렀을때
-                    CpuPage(isserch: true , lowscore: graphicsProduct[0]['graphics_score']/1.5 , highscore: graphicsProduct[0]['graphics_score']*1.5);
+                TextButton(onPressed: () async {//cpu찾기 눌렀을때
+                  Navigator.pop(context);
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) =>
+                              CpuPage(
+                                  isserch: true,
+                                  lowscore: (graphicsProduct[0]['graphics_score'] / 1.5).toInt(),
+                                  highscore: (graphicsProduct[0]['graphics_score']*1.5).toInt()
+                              )
+                      )
+                  );
+                  setState(() {
+                    initializeData();
+                  });
                 }, child: Text("CPU찾기",style: TextStyle(fontSize: 20),)),
                 TextButton(onPressed: () {}, child: Text("그래픽카드찾기",style: TextStyle(fontSize: 20)),
                 ),
