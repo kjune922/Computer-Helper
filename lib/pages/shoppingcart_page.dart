@@ -34,7 +34,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
   bool nowLoading = true ;
 
   final Map<ProductType, Widget Function(BuildContext)> productPageMap = {
-    ProductType.cpu: (context) => CpuPage(),
+    ProductType.cpu: (context) => CpuPage(isserch: false,lowscore: -1,highscore: -1,),
     ProductType.graphics: (context) => GraphicsPage(),
     ProductType.mainboard: (context) => MainboardPage(),
     ProductType.memory: (context) => MemoryPage(),
@@ -158,7 +158,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(onPressed: (){}, child: Text("CPU찾기",style: TextStyle(fontSize: 20),)),
+                TextButton(onPressed: (){//cpu찾기 눌렀을때
+                    CpuPage(isserch: true , lowscore: graphicsProduct[0]['graphics_score']/1.5 , highscore: graphicsProduct[0]['graphics_score']*1.5);
+                }, child: Text("CPU찾기",style: TextStyle(fontSize: 20),)),
                 TextButton(onPressed: () {}, child: Text("그래픽카드찾기",style: TextStyle(fontSize: 20)),
                 ),
               ],
@@ -347,6 +349,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
       final Network _cpunetwork = Network("http://116.124.191.174:15011/cpudetail");//192.168.1.2:15011//116.124.191.174:15011
       cpuProduct = await _cpunetwork.productDetail(usershopProduct[0]['cpu']);
 
+      cpuinfo.clear();
       cpuinfo.add('가격: ${NumberFormat.decimalPattern('ko').format(cpuProduct[0]['cpu_price']).toString()} 원');
       cpuinfo.add('성능정수: ${cpuProduct[0]['cpu_score'].toString()} 점');
       cpuinfo.add('소켓: ${cpuProduct[0]['cpu_socket']}');
@@ -361,11 +364,13 @@ class _ShoppingcartState extends State<Shoppingcart> {
         'cpu_pw':0,
         'image':'assets/images/noproduct.jpg',
       });
+      cpuinfo.clear();
     }
     if(usershopProduct[0]['graphics'] != null){
       final Network _graphicsnetwork = Network("http://116.124.191.174:15011/graphicsdetail");//192.168.1.2:15011//116.124.191.174:15011
       graphicsProduct = await _graphicsnetwork.productDetail(usershopProduct[0]['graphics']);
 
+      graphicsinfo.clear();
       graphicsinfo.add('가격: ${NumberFormat.decimalPattern('ko').format(graphicsProduct[0]['graphics_price']).toString()} 원');
       graphicsinfo.add('성능점수: ${graphicsProduct[0]['graphics_score'].toString()} 점');
       graphicsinfo.add('적정파워: ${graphicsProduct[0]['graphics_pw'].toString()}W');
@@ -382,11 +387,14 @@ class _ShoppingcartState extends State<Shoppingcart> {
         'graphics_length':0,
         'image':'assets/images/noproduct.jpg',
       });
+      graphicsinfo.clear();
+      print('비웠다');
     }
     if(usershopProduct[0]['mainboard'] != null){
       final Network _mainboardnetwork = Network("http://116.124.191.174:15011/mainboarddetail");//192.168.1.2:15011//116.124.191.174:15011
       mainboardProduct = await _mainboardnetwork.productDetail(usershopProduct[0]['mainboard']);
 
+      mainboardinfo.clear();
       mainboardinfo.add('가격: ${NumberFormat.decimalPattern('ko').format(mainboardProduct[0]['mainboard_price']).toString()} 원');
       mainboardinfo.add('소켓: ${mainboardProduct[0]['mainboard_socket']}');
 
@@ -396,8 +404,8 @@ class _ShoppingcartState extends State<Shoppingcart> {
         'mainboard_price': 0,
         'mainboard_socket':'소켓이 없습니다',
         'image':'assets/images/noproduct.jpg',
-
       });
+      mainboardinfo.clear();
     }
     if(usershopProduct[0]['memory'] != null){
       final Network _memorynetwork = Network("http://116.124.191.174:15011/memorydetail");//192.168.1.2:15011//116.124.191.174:15011
@@ -411,11 +419,13 @@ class _ShoppingcartState extends State<Shoppingcart> {
         'memory_price': 0,
         'image':'assets/images/noproduct.jpg',
       });
+      memoryinfo.clear();
     }
     if(usershopProduct[0]['power'] != null){
       final Network _powernetwork = Network("http://116.124.191.174:15011/powerdetail");//192.168.1.2:15011//116.124.191.174:15011
       powerProduct = await _powernetwork.productDetail(usershopProduct[0]['power']);
 
+      powerinfo.clear();
       powerinfo.add('가격: ${NumberFormat.decimalPattern('ko').format(powerProduct[0]['power_price']).toString()} 원');
       powerinfo.add('파워전력: ${powerProduct[0]['power_pw'].toString()}W');
 
@@ -426,11 +436,13 @@ class _ShoppingcartState extends State<Shoppingcart> {
         'power_pw':0,
         'image':'assets/images/noproduct.jpg',
       });
+      powerinfo.clear();
     }
     if(usershopProduct[0]['disk'] != null){
       final Network _disknetwork = Network("http://116.124.191.174:15011/diskdetail");//192.168.1.2:15011//116.124.191.174:15011
       diskProduct = await _disknetwork.productDetail(usershopProduct[0]['disk']);
 
+      diskinfo.clear();
       diskinfo.add('가격: ${NumberFormat.decimalPattern('ko').format(diskProduct[0]['disk_price']).toString()} 원');
       diskinfo.add('종류: ${diskProduct[0]['disk_type']}');
 
@@ -441,11 +453,13 @@ class _ShoppingcartState extends State<Shoppingcart> {
         'disk_type':'타입이 없습니다',
         'image':'assets/images/noproduct.jpg',
       });
+      diskinfo.clear();
     }
     if(usershopProduct[0]['cpu_cooler'] != null){
       final Network _cpu_coolernetwork = Network("http://116.124.191.174:15011/cpu_coolerdetail");//192.168.1.2:15011//116.124.191.174:15011
       cpu_coolerProduct = await _cpu_coolernetwork.productDetail(usershopProduct[0]['cpu_cooler']);
 
+      cpu_coolerinfo.clear();
       cpu_coolerinfo.add('가격: ${NumberFormat.decimalPattern('ko').format(cpu_coolerProduct[0]['cpu_cooler_price']).toString()} 원');
       cpu_coolerinfo.add('cpu쿨러 높이: ${cpu_coolerProduct[0]['cpu_cooler_height'].toString()}mm');
 
@@ -456,11 +470,13 @@ class _ShoppingcartState extends State<Shoppingcart> {
         'cpu_cooler_height':0,
         'image':'assets/images/noproduct.jpg',
       });
+      cpu_coolerinfo.clear();
     }
     if(usershopProduct[0]['computer_case'] != null){
       final Network _computer_casenetwork = Network("http://116.124.191.174:15011/computer_casedetail");//192.168.1.2:15011//116.124.191.174:15011
       computer_caseProduct = await _computer_casenetwork.productDetail(usershopProduct[0]['computer_case']);
 
+      computer_caseinfo.clear();
       computer_caseinfo.add('가격: ${NumberFormat.decimalPattern('ko').format(computer_caseProduct[0]['computer_case_price']).toString()} 원');
       computer_caseinfo.add('너비: ${computer_caseProduct[0]['computer_case_width'].toString()}mm');
       computer_caseinfo.add('길이: ${computer_caseProduct[0]['computer_case_length'].toString()}mm');
@@ -477,6 +493,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
         'computer_case_cooler_height':0,
         'image':'assets/images/noproduct.jpg',
       });
+      computer_caseinfo.clear();
     }
     setState(() {
       nowLoading = false;
@@ -562,6 +579,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
                   cpuProduct[0]['cpu_price'] = 0;
                   cpuProduct[0]['cpu_score'] = 0;
                   cpuProduct[0]['image']='assets/images/noproduct.jpg';
+                  cpuinfo.clear();
                 });
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
               },
@@ -592,7 +610,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
                   graphicsProduct[0]['graphics_price'] = 0;
                   graphicsProduct[0]['graphics_score'] = 0;
                   graphicsProduct[0]['image']='assets/images/noproduct.jpg';
-
+                  graphicsinfo.clear();
                 });
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
               },
@@ -619,6 +637,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
                   mainboardProduct[0]['mainboard_name'] = '상품이 없습니다';
                   mainboardProduct[0]['mainboard_price'] = 0;
                   mainboardProduct[0]['image']='assets/images/noproduct.jpg';
+                  mainboardinfo.clear();
                 });
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
               },
@@ -644,6 +663,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
                   memoryProduct[0]['memory_name'] = '상품이 없습니다';
                   memoryProduct[0]['memory_price'] = 0;
                   memoryProduct[0]['image']='assets/images/noproduct.jpg';
+                  memoryinfo.clear();
                 });
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
               },
@@ -669,6 +689,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
                   powerProduct[0]['power_name'] = '상품이 없습니다';
                   powerProduct[0]['power_price'] = 0;
                   powerProduct[0]['image']='assets/images/noproduct.jpg';
+                  powerinfo.clear();
                 });
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
               },
@@ -694,6 +715,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
                   diskProduct[0]['disk_name'] = '상품이 없습니다';
                   diskProduct[0]['disk_price'] = 0;
                   diskProduct[0]['image']='assets/images/noproduct.jpg';
+                  diskinfo.clear();
                 });
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
               },
@@ -719,6 +741,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
                   cpu_coolerProduct[0]['cpu_cooler_name'] = '상품이 없습니다';
                   cpu_coolerProduct[0]['cpu_cooler_price'] = 0;
                   cpu_coolerProduct[0]['image']='assets/images/noproduct.jpg';
+                  cpu_coolerinfo.clear();
                 });
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
               },
@@ -744,6 +767,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
                   computer_caseProduct[0]['computer_case_name'] = '상품이 없습니다';
                   computer_caseProduct[0]['computer_case_price'] = 0;
                   computer_caseProduct[0]['image']='assets/images/noproduct.jpg';
+                  computer_caseinfo.clear();
                 });
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('삭제되었습니다')));
               },
@@ -824,7 +848,6 @@ class _ShoppingcartState extends State<Shoppingcart> {
                         ),
                       ],
                     )
-
                   ],
                 ),
               ],
