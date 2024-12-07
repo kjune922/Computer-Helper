@@ -158,7 +158,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(onPressed: () async {//cpu찾기 눌렀을때
+                TextButton(onPressed: () async {//cpu 글카 문제에서 cpu찾기 눌렀을때
                   Navigator.pop(context);
                   await Navigator.push(
                       context,
@@ -175,9 +175,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
                     initializeData();
                   });
                 }, child: Text("CPU찾기",style: TextStyle(fontSize: 20),)),
-                TextButton(onPressed: () {//클카찾기 눌렀을때
+                TextButton(onPressed: () async {// cpu 글카 문제에서 클카찾기 눌렀을때
                   Navigator.pop(context);
-                  Navigator.push(context, MaterialPageRoute(
+                  await Navigator.push(context, MaterialPageRoute(
                       builder: (_) =>
                           GraphicsPage(
                               isserch: true,
@@ -186,6 +186,9 @@ class _ShoppingcartState extends State<Shoppingcart> {
                           )
                   )
                   );
+                  setState(() {
+                    initializeData();
+                  });
 
                 }, child: Text("그래픽카드찾기",style: TextStyle(fontSize: 20)),
                 ),
@@ -268,8 +271,12 @@ class _ShoppingcartState extends State<Shoppingcart> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(onPressed: (){}, child: Text("CPU찾기",style: TextStyle(fontSize: 20),)),
-                TextButton(onPressed: (){}, child: Text("메인보드찾기",style: TextStyle(fontSize: 20)),
+                TextButton(onPressed: (){//cpu 메인보드 문제에서 cpu찾기 눌렀을때
+
+                }, child: Text("CPU찾기",style: TextStyle(fontSize: 20),)),
+                TextButton(onPressed: (){//cpu 메인보드 문제에서 메인보드찾기 눌렀을때
+
+                }, child: Text("메인보드찾기",style: TextStyle(fontSize: 20)),
                 ),
               ],
             ),
