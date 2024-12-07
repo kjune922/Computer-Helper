@@ -2,7 +2,7 @@
 String? registeredUsername;
 String? registeredPassword;
 String? registeredUserLevel;
-String? productName;
+String? globalproductName;
 
 // 숙련자용 장바구니 데이터
 String? expertCartComponents; // 숙련자 장바구니 데이터를 JSON 문자열로 저장

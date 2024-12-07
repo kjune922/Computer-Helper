@@ -68,6 +68,14 @@ app.get('/cpu', (req, res) => {
 
 });
 
+app.post('/cpuserch', (req, res) => {
+    const {lowscore,highscore} = req.body;
+    const sql ="SELECT * FROM cpu WHERE cpu_score > ? AND cpu_score < ?;"
+    connection.query(sql, [lowscore,highscore], (err, results) => {
+        res.send(results)
+    });
+});
+
 app.post('/cpudetail', (req, res) => {
     const {productname} = req.body;
     const sql ="SELECT * from cpu WHERE cpu_name = ?;"
@@ -83,6 +91,14 @@ app.get('/graphics', (req, res) => {
         res.send(results)
     });
 
+});
+
+app.post('/graphicsserch', (req, res) => {
+    const {lowscore,highscore} = req.body;
+    const sql ="SELECT * FROM graphics WHERE graphics_score > ? AND graphics_score < ?;"
+    connection.query(sql, [lowscore,highscore], (err, results) => {
+        res.send(results)
+    });
 });
 
 app.post('/graphicsdetail', (req, res) => {

@@ -111,7 +111,7 @@ class _MainboardPageState extends State<MainboardPage> {
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
     return GestureDetector(
       onTap: () {
-        productName = data['mainboard_name'];
+        globalproductName = data['mainboard_name'];
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -180,6 +180,20 @@ class _MainboardPageState extends State<MainboardPage> {
                       final Network _mainboardnetwork = Network("http://116.124.191.174:15011/shopmainboardadd");//192.168.1.2:15011//116.124.191.174:15011
                       _mainboardnetwork.updatedb(registeredUsername!,data['mainboard_name']);
                     }
+                    ScaffoldMessenger.of(context).clearSnackBars();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          '메인보드 장바구니에 추가되었습니다',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: Colors.purple,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
                   },
                 ),
               ],

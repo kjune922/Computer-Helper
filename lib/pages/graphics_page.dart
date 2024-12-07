@@ -6,7 +6,10 @@ import 'graphics_detail_page.dart'; // 그래픽카드 상세 페이지 import
 
 
 class GraphicsPage extends StatefulWidget {
-  const GraphicsPage({Key? key}) : super(key: key);
+  final bool isserch;
+  final int lowscore;
+  final int highscore;
+  GraphicsPage({required this.isserch, required this.lowscore, required this.highscore});//검색하려면 isserch true
 
   @override
   State<GraphicsPage> createState() => _GraphicsPageState();
@@ -26,9 +29,16 @@ class _GraphicsPageState extends State<GraphicsPage> {
   }
 
   void getgraphicsdata() async{
-    final Network _network = Network("http://116.124.191.174:15011/graphics");
-    jsonData = await _network.getJsonData();
-    datacount = jsonData.length;
+
+    if(widget.isserch){
+      final Network _network = Network("http://116.124.191.174:15011/graphicsserch");
+      jsonData = await _network.serch(widget.lowscore,widget.highscore);
+      datacount = jsonData.length;
+    }else{
+      final Network _network = Network("http://116.124.191.174:15011/graphics");
+      jsonData = await _network.getJsonData();
+      datacount = jsonData.length;
+    }
     print(datacount);
     setState(() {
       nowLoading = false;
@@ -113,7 +123,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
     return GestureDetector(
       onTap: () {
         // 그래픽카드 상세 페이지로 이동
-        productName = data['graphics_name'];
+        globalproductName = data['graphics_name'];
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -184,6 +194,20 @@ class _GraphicsPageState extends State<GraphicsPage> {
                       final Network _graphicsnetwork = Network("http://116.124.191.174:15011/shopgraphicsadd");//192.168.1.2:15011//116.124.191.174:15011
                       _graphicsnetwork.updatedb(registeredUsername!,data['graphics_name']);
                     }
+                    ScaffoldMessenger.of(context).clearSnackBars();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          '그래픽카드 장바구니에 추가되었습니다',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: Colors.purple,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
                   },
                 ),
               ],

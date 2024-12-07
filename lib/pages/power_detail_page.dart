@@ -17,7 +17,7 @@ class _PowerDetailPageState extends State<PowerDetailPage> {
   @override
   void initState() {
     super.initState();
-    getPowerData(productName!);
+    getPowerData(globalproductName!);
   }
 
   void getPowerData(String name) async {

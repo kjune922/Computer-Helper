@@ -8,8 +8,10 @@ import 'custom_bottom_nav_bar.dart'; // 하단바 위젯 import
  // 받아온 JSON 데이터를 출력합니다
 
 class CpuPage extends StatefulWidget {
-  const CpuPage({Key? key}) : super(key: key);
-
+  final bool isserch;
+  final int lowscore;
+  final int highscore;
+  CpuPage({required this.isserch, required this.lowscore, required this.highscore});//검색하려면 isserch true
   @override
   State<CpuPage> createState() => _CpuPageState();
 }
@@ -27,10 +29,17 @@ class _CpuPageState extends State<CpuPage> {
   }
 
   void getcpudata() async{
-    final Network _network = Network("http://116.124.191.174:15011/cpu");
-    jsonData = await _network.getJsonData();
-    datacount = jsonData.length;
-    print(datacount);
+    if(widget.isserch){
+      final Network _network = Network("http://116.124.191.174:15011/cpuserch");
+      jsonData = await _network.serch(widget.lowscore,widget.highscore);
+      datacount = jsonData.length;
+    }else{
+      final Network _network = Network("http://116.124.191.174:15011/cpu");
+      jsonData = await _network.getJsonData();
+      datacount = jsonData.length;
+    }
+
+    print('배열길이${datacount}');
     setState(() {
       nowLoading = false;
     });
@@ -118,7 +127,7 @@ class _CpuPageState extends State<CpuPage> {
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
   return InkWell(
     onTap: () {
-      productName = data['cpu_name'];
+      globalproductName = data['cpu_name'];
       Navigator.push(
         context,
         MaterialPageRoute(builder: (_) => const CpuDetailPage()),
@@ -185,6 +194,20 @@ class _CpuPageState extends State<CpuPage> {
                     final Network _cpunetwork = Network("http://116.124.191.174:15011/shopcpuadd");//192.168.1.2:15011//116.124.191.174:15011
                     _cpunetwork.updatedb(registeredUsername!,data['cpu_name']);
                   }
+                  ScaffoldMessenger.of(context).clearSnackBars();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'CPU 장바구니에 추가되었습니다',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.white,
+                        ),
+                      ),
+                      backgroundColor: Colors.purple,
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
                 },
               ),
             ],

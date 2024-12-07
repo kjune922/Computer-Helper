@@ -122,7 +122,7 @@ class Network {
       if (response.statusCode == 200) {
         // 응답이 성공적인 경우 JSON 데이터를 파싱
         var userJson = response.body;
-        var parsedData = jsonDecode(userJson) as List<dynamic>; // 리스트로 변환
+        var parsedData = jsonDecode(userJson); // 리스트로 변환
 
         if (parsedData.isEmpty) {
           parsedData.add({
@@ -142,4 +142,34 @@ class Network {
       return [];
     }
   }
+
+  Future<List<dynamic>> serch(int lowscore, int highscore) async {
+    //post로 한개 요청보내고 받는다
+    final uri = Uri.parse(url); // 서버의 엔드포인트 URL
+    final headers = {'Content-Type': 'application/json'};
+    final body = jsonEncode({
+      'lowscore': lowscore,
+      'highscore': highscore,
+    });
+    try {
+      // POST 요청 보내기
+      final response = await http.post(uri, headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        // 응답이 성공적인 경우 JSON 데이터를 파싱
+        var userJson = response.body;
+        var parsedData = jsonDecode(userJson); // 리스트로 변환
+
+        return parsedData;
+      } else {
+        print('serch하다가 실패: ${response.statusCode}');
+        return [];
+      }
+    } catch (e) {
+      print('serch하다가 에러 $e');
+      return [];
+    }
+  }
+
+
 }

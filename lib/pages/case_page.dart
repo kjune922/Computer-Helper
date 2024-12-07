@@ -80,7 +80,7 @@ class _CasePageState extends State<CasePage> {
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
     return GestureDetector(
       onTap: () {
-        productName = data['computer_case_name'];
+        globalproductName = data['computer_case_name'];
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -149,6 +149,20 @@ class _CasePageState extends State<CasePage> {
                       final Network _computer_casenetwork = Network("http://116.124.191.174:15011/shopcomputer_caseadd");//192.168.1.2:15011//116.124.191.174:15011
                       _computer_casenetwork.updatedb(registeredUsername!,data['computer_case_name']);
                     }
+                    ScaffoldMessenger.of(context).clearSnackBars();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          '케이스 장바구니에 추가되었습니다',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: Colors.purple,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
                   },
                 ),
               ],

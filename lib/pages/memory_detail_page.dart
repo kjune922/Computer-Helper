@@ -17,7 +17,7 @@ class _MemoryDetailPageState extends State<MemoryDetailPage> {
   @override
   void initState() {
     super.initState();
-    getMemoryData(productName!);
+    getMemoryData(globalproductName!);
   }
 
   void getMemoryData(String name) async {
