@@ -8,10 +8,11 @@ import 'custom_bottom_nav_bar.dart'; // 하단바 위젯 import
  // 받아온 JSON 데이터를 출력합니다
 
 class CpuPage extends StatefulWidget {
-  final bool isserch;
+  final String whatserch;
   final int lowscore;
   final int highscore;
-  CpuPage({required this.isserch, required this.lowscore, required this.highscore});//검색하려면 isserch true
+  final String socket;
+  CpuPage({this.whatserch ='', this.lowscore=-1,this.highscore=-1, this.socket=''});//소켓검색 whatserch=socket 스코어검색 whatserch=score
   @override
   State<CpuPage> createState() => _CpuPageState();
 }
@@ -29,17 +30,20 @@ class _CpuPageState extends State<CpuPage> {
   }
 
   void getcpudata() async{
-    if(widget.isserch){
-      final Network _network = Network("http://116.124.191.174:15011/cpuserch");
-      jsonData = await _network.serch(widget.lowscore,widget.highscore);
+    if(widget.whatserch == 'score'){
+      final Network _network = Network("http://116.124.191.174:15011/cpuscoreserch");
+      jsonData = await _network.scoreserch(widget.lowscore,widget.highscore);
+      datacount = jsonData.length;
+    }else if(widget.whatserch =='socket'){
+      final Network _network = Network("http://116.124.191.174:15011/cpusocketserch");
+      jsonData = await _network.productDetail(widget.socket);
       datacount = jsonData.length;
     }else{
       final Network _network = Network("http://116.124.191.174:15011/cpu");
       jsonData = await _network.getJsonData();
       datacount = jsonData.length;
     }
-
-    print('배열길이${datacount}');
+    print(jsonData);
     setState(() {
       nowLoading = false;
     });
@@ -125,96 +129,98 @@ class _CpuPageState extends State<CpuPage> {
 
   // 상품 카드
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
-  return InkWell(
-    onTap: () {
-      globalproductName = data['cpu_name'];
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (_) => const CpuDetailPage()),
-      );
-    },
-    child: Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 8,
-            offset: Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-              child: Image.asset(
-                data['image'], // CPU 이미지 경로
-                fit: BoxFit.cover,
-                width: double.infinity,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              data['cpu_name'],
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              "${data['cpu_price']}원",
-              style: TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
-              ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                icon: Icon(Icons.favorite_border, color: Colors.grey),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
-                onPressed: () {
-                  if(registeredUsername == null){
-                    Navigator.pushNamed(context, '/login');
-                  }else{
-                    final Network _cpunetwork = Network("http://116.124.191.174:15011/shopcpuadd");//192.168.1.2:15011//116.124.191.174:15011
-                    _cpunetwork.updatedb(registeredUsername!,data['cpu_name']);
-                  }
-                  ScaffoldMessenger.of(context).clearSnackBars();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'CPU 장바구니에 추가되었습니다',
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                        ),
-                      ),
-                      backgroundColor: Colors.purple,
-                      duration: Duration(seconds: 2),
-                    ),
-                  );
-                },
+      return InkWell(
+        onTap: () {
+          globalproductName = data['cpu_name']??'';
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const CpuDetailPage()),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 8,
+                offset: Offset(0, 4),
               ),
             ],
           ),
-        ],
-      ),
-    ),
-  );
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                  child: Image.asset(
+                    data['image'] ?? 'assets/images/searchingfailed.png', // CPU 이미지 경로
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  data['cpu_name'] ?? '상품을 찾지 못했습니다',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text(
+                  "${data['cpu_price']??0}원",
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.favorite_border, color: Colors.grey),
+                    onPressed: () {},
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
+                    onPressed: () {
+                      if(registeredUsername == null){
+                        Navigator.pushNamed(context, '/login');
+                      }else{
+                        final Network _cpunetwork = Network("http://116.124.191.174:15011/shopcpuadd");//192.168.1.2:15011//116.124.191.174:15011
+                        _cpunetwork.updatedb(registeredUsername!,data['cpu_name']??'');
+                      }
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'CPU 장바구니에 추가되었습니다',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.white,
+                            ),
+                          ),
+                          backgroundColor: Colors.purple,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+
+  
 }
 }

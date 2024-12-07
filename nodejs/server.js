@@ -68,10 +68,18 @@ app.get('/cpu', (req, res) => {
 
 });
 
-app.post('/cpuserch', (req, res) => {
+app.post('/cpuscoreserch', (req, res) => {
     const {lowscore,highscore} = req.body;
     const sql ="SELECT * FROM cpu WHERE cpu_score > ? AND cpu_score < ?;"
     connection.query(sql, [lowscore,highscore], (err, results) => {
+        res.send(results)
+    });
+});
+
+app.post('/cpusocketserch', (req, res) => {
+    const {productname} = req.body;
+    const sql ="SELECT * FROM cpu WHERE cpu_socket = ?;"
+    connection.query(sql, [productname], (err, results) => {
         res.send(results)
     });
 });
@@ -116,6 +124,14 @@ app.get('/mainboard', (req, res) => {
         res.send(results)
     });
 
+});
+
+app.post('/mainboardsocketserch', (req, res) => {
+    const {productname} = req.body;
+    const sql ="SELECT * FROM mainboard WHERE mainboard_socket = ?;"
+    connection.query(sql, [productname], (err, results) => {
+        res.send(results)
+    });
 });
 
 app.post('/mainboarddetail', (req, res) => {

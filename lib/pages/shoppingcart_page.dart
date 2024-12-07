@@ -34,7 +34,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
   bool nowLoading = true ;
 
   final Map<ProductType, Widget Function(BuildContext)> productPageMap = {
-    ProductType.cpu: (context) => CpuPage(isserch: false,lowscore: -1,highscore: -1,),
+    ProductType.cpu: (context) => CpuPage(),
     ProductType.graphics: (context) => GraphicsPage(isserch: false,lowscore: -1,highscore: -1,),
     ProductType.mainboard: (context) => MainboardPage(),
     ProductType.memory: (context) => MemoryPage(),
@@ -165,7 +165,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
                       MaterialPageRoute(
                           builder: (_) =>
                               CpuPage(
-                                  isserch: true,
+                                  whatserch: 'score',
                                   lowscore: (graphicsProduct[0]['graphics_score'] / 1.5).toInt(),
                                   highscore: (graphicsProduct[0]['graphics_score']*1.5).toInt()
                               )
@@ -271,11 +271,37 @@ class _ShoppingcartState extends State<Shoppingcart> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(onPressed: (){//cpu 메인보드 문제에서 cpu찾기 눌렀을때
-
+                TextButton(onPressed: () async {//cpu 메인보드 문제에서 cpu찾기 눌렀을때
+                  Navigator.pop(context);
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) =>
+                              CpuPage(
+                                whatserch: 'socket',
+                                socket: mainboardProduct[0]['mainboard_socket'],
+                              )
+                      )
+                  );
+                  setState(() {
+                    initializeData();
+                  });
                 }, child: Text("CPU찾기",style: TextStyle(fontSize: 20),)),
-                TextButton(onPressed: (){//cpu 메인보드 문제에서 메인보드찾기 눌렀을때
-
+                TextButton(onPressed: () async {//cpu 메인보드 문제에서 메인보드찾기 눌렀을때
+                  Navigator.pop(context);
+                  await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) =>
+                              MainboardPage(
+                                whatserch: 'socket',
+                                socket: cpuProduct[0]['cpu_socket'],
+                              )
+                      )
+                  );
+                  setState(() {
+                    initializeData();
+                  });
                 }, child: Text("메인보드찾기",style: TextStyle(fontSize: 20)),
                 ),
               ],

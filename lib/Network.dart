@@ -124,14 +124,6 @@ class Network {
         var userJson = response.body;
         var parsedData = jsonDecode(userJson); // 리스트로 변환
 
-        if (parsedData.isEmpty) {
-          parsedData.add({
-            'cpu': '상품이 없습니다',
-            'cpu_price': 0,
-            'cpu_score': 0,
-          });
-        }
-
         return parsedData;
       } else {
         print('Failed to load data. Status code: ${response.statusCode}');
@@ -143,8 +135,7 @@ class Network {
     }
   }
 
-  Future<List<dynamic>> serch(int lowscore, int highscore) async {
-    //post로 한개 요청보내고 받는다
+  Future<List<dynamic>> scoreserch(int lowscore, int highscore) async {//int 2개 보내고 받는다
     final uri = Uri.parse(url); // 서버의 엔드포인트 URL
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({
@@ -170,6 +161,4 @@ class Network {
       return [];
     }
   }
-
-
 }
