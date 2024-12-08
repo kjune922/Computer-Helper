@@ -388,11 +388,20 @@ class _ShoppingcartState extends State<Shoppingcart> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(onPressed: (){
+                TextButton(onPressed: () async {
                   Navigator.pop(context);
-                  Navigator.push(context, MaterialPageRoute(builder: (_)=> GraphicsPage(whatserch: 'powerdown',power: powerProduct[0]['power_pw'],)));
+                  await Navigator.push(context, MaterialPageRoute(builder: (_)=> GraphicsPage(whatserch: 'powerdown',power: powerProduct[0]['power_pw'],)));
+                  setState(() {
+                    initializeData();
+                  });
                 }, child: Text("그래픽카드찾기",style: TextStyle(fontSize: 20),)),
-                TextButton(onPressed: (){}, child: Text("파워찾기",style: TextStyle(fontSize: 20)),
+                TextButton(onPressed: () async{
+                  Navigator.pop(context);
+                  await Navigator.push(context, MaterialPageRoute(builder: (_) => PowerPage(whatserch: 'power',power: graphicsProduct[0]['graphics_pw'],)));
+                  setState(() {
+                    initializeData();
+                  });
+                }, child: Text("파워찾기",style: TextStyle(fontSize: 20)),
                 ),
               ],
             ),

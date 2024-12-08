@@ -37,7 +37,7 @@ Future<void> showSocketPopup({required BuildContext context}) {
 
 Future<void> showPowerPopup({required BuildContext context}) {
   String imageUrl ="assets/images/cpu_power_explan.png";
-  String description ="파워는 CPU가 소모하는 최대 전력을 나타냅니다.";
+  String description ="컴퓨터의 전원을 공급하는 부품입니다. PC에겐 인간의 심장과 같은 역할을 합니다.";
   return showDialog(
     context: context,
     builder: (BuildContext context) {
