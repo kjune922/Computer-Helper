@@ -5,7 +5,9 @@ import '../globals.dart';
 import '../Network.dart';
 
 class PowerPage extends StatefulWidget {
-  const PowerPage({Key? key}) : super(key: key);
+  final String whatserch;
+  final int power;
+  PowerPage({this.whatserch ='',this.power=-1});//검색하려면 isserch true
 
   @override
   State<PowerPage> createState() => _PowerPageState();
@@ -23,9 +25,15 @@ class _PowerPageState extends State<PowerPage> {
   }
 
   void getPowerData() async {
-    final Network _network = Network("http://116.124.191.174:15011/power");
-    jsonData = await _network.getJsonData();
-    datacount = jsonData.length;
+    if(widget.whatserch == 'power'){
+      final Network _network = Network("http://116.124.191.174:15011/powerserchup");
+      jsonData = await _network.scoreserch(widget.power,0);
+      datacount = jsonData.length;
+    }else{
+      final Network _network = Network("http://116.124.191.174:15011/power");
+      jsonData = await _network.getJsonData();
+      datacount = jsonData.length;
+    }
     setState(() {
       nowLoading = false;
     });

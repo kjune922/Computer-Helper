@@ -1,5 +1,6 @@
 import 'package:com_recipe/Network.dart';
 import 'package:com_recipe/globals.dart';
+import 'package:com_recipe/pages/popupexplan.dart';
 import 'package:com_recipe/pages/power_detail_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +36,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
 
   final Map<ProductType, Widget Function(BuildContext)> productPageMap = {
     ProductType.cpu: (context) => CpuPage(),
-    ProductType.graphics: (context) => GraphicsPage(isserch: false,lowscore: -1,highscore: -1,),
+    ProductType.graphics: (context) => GraphicsPage(),
     ProductType.mainboard: (context) => MainboardPage(),
     ProductType.memory: (context) => MemoryPage(),
     ProductType.power: (context) => PowerPage(),
@@ -111,13 +112,14 @@ class _ShoppingcartState extends State<Shoppingcart> {
                                 style: TextStyle(fontSize: 20),
                                 children: [
                                   TextSpan(
-                                    text: '성능차이',
+                                    text: '성능점수',
                                     style: TextStyle(
                                       color: Colors.blue, // 파란색으로 색상 변경
                                       decoration: TextDecoration.underline, // 밑줄 추가
                                     ),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {//병목현상 클릭시
+                                      showScorePopup(context: context);
                                       },
                                   ),
                                   TextSpan(text: '가 1.5배 이상 나면'),
@@ -129,6 +131,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
                                     ),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {//병목현상 클릭시
+                                        showBottleneckPopup(context: context);
                                       },
                                   ),
                                   TextSpan(text: '이 발생해요'),
@@ -180,7 +183,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
                   await Navigator.push(context, MaterialPageRoute(
                       builder: (_) =>
                           GraphicsPage(
-                              isserch: true,
+                              whatserch:'score',
                               lowscore: (cpuProduct[0]['cpu_score'] / 1.5).toInt(),
                               highscore: (cpuProduct[0]['cpu_score'] * 1.5).toInt()
                           )
@@ -242,6 +245,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
                                     ),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {//병목현상 클릭시
+                                      showSocketPopup(context: context);
                                       },
                                   ),
                                   TextSpan(text: '이 다르면 조립을 할수없어요'),
@@ -326,7 +330,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
               ),
               IconButton(
                 icon: Icon(Icons.help_outline), // 물음표 아이콘
-                onPressed: () {//성능차이 ?버튼
+                onPressed: () {//파워차이 ?버튼
                   showDialog(
                       context: context,
                       builder: (context) {
@@ -343,17 +347,18 @@ class _ShoppingcartState extends State<Shoppingcart> {
                             width: 300,
                             child: Text.rich(
                               TextSpan(
-                                text: '파워가 그래픽카드의 ',
+                                text: '파워가 그래픽카드의 적정 ',
                                 style: TextStyle(fontSize: 20),
                                 children: [
                                   TextSpan(
-                                    text: '적정파워',
+                                    text: '파워',
                                     style: TextStyle(
                                       color: Colors.blue, // 파란색으로 색상 변경
                                       decoration: TextDecoration.underline, // 밑줄 추가
                                     ),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {//병목현상 클릭시
+                                      showPowerPopup(context: context);
                                       },
                                   ),
                                   TextSpan(text: '보다 낮으면 컴퓨터가 꺼질수 있어요'),
@@ -383,8 +388,20 @@ class _ShoppingcartState extends State<Shoppingcart> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton(onPressed: (){}, child: Text("그래픽카드찾기",style: TextStyle(fontSize: 20),)),
-                TextButton(onPressed: (){}, child: Text("파워찾기",style: TextStyle(fontSize: 20)),
+                TextButton(onPressed: () async {
+                  Navigator.pop(context);
+                  await Navigator.push(context, MaterialPageRoute(builder: (_)=> GraphicsPage(whatserch: 'powerdown',power: powerProduct[0]['power_pw'],)));
+                  setState(() {
+                    initializeData();
+                  });
+                }, child: Text("그래픽카드찾기",style: TextStyle(fontSize: 20),)),
+                TextButton(onPressed: () async{
+                  Navigator.pop(context);
+                  await Navigator.push(context, MaterialPageRoute(builder: (_) => PowerPage(whatserch: 'power',power: graphicsProduct[0]['graphics_pw'],)));
+                  setState(() {
+                    initializeData();
+                  });
+                }, child: Text("파워찾기",style: TextStyle(fontSize: 20)),
                 ),
               ],
             ),
@@ -419,7 +436,7 @@ class _ShoppingcartState extends State<Shoppingcart> {
         'cpu_name': '상품이 없습니다',
         'cpu_price': 0,
         'cpu_score': 0,
-        'cpu_socket': '소켓없습니다',
+        'cpu_socket': '소켓이 없습니다',
         'cpu_pw':0,
         'image':'assets/images/noproduct.jpg',
       });
