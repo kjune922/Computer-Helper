@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../globals.dart';
 import '../Network.dart';
 import 'shoppingcart_page.dart';
-import 'word.dart';
 
 class CpuCoolerDetailPage extends StatefulWidget {
   const CpuCoolerDetailPage({Key? key}) : super(key: key);
@@ -159,20 +158,9 @@ class _CpuCoolerDetailPageState extends State<CpuCoolerDetailPage> {
                         SizedBox(width: 12),
                         Expanded(
                           child: OutlinedButton.icon(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => WordPage(
-                                    label: "쿨러 높이",
-                                    value:
-                                        '${jsonData[0]['cpu_cooler_height']} mm',
-                                  ),
-                                ),
-                              );
-                            },
+                            onPressed: () {}, // 추가 동작 없음
                             icon: Icon(Icons.info_outline),
-                            label: Text('쿨러 높이 정보'),
+                            label: Text('쿨러 정보'),
                             style: OutlinedButton.styleFrom(
                               padding: EdgeInsets.symmetric(vertical: 14),
                               side: BorderSide(color: Colors.grey),

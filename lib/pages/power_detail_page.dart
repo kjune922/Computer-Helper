@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../globals.dart';
 import '../Network.dart';
 import 'shoppingcart_page.dart';
-import 'word.dart';
 
 class PowerDetailPage extends StatefulWidget {
   const PowerDetailPage({Key? key}) : super(key: key);
@@ -156,30 +155,37 @@ class _PowerDetailPageState extends State<PowerDetailPage> {
                             ),
                           ),
                         ),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: OutlinedButton.icon(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => WordPage(
-                                    label: "파워",
-                                    value: '${jsonData[0]['power_pw']} W',
-                                  ),
+                      ],
+                    ),
+                    SizedBox(height: 24),
+                    Table(
+                      border: TableBorder.all(color: Colors.grey),
+                      columnWidths: {
+                        0: FlexColumnWidth(2),
+                        1: FlexColumnWidth(3),
+                      },
+                      children: [
+                        TableRow(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "파워",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
                                 ),
-                              );
-                            },
-                            icon: Icon(Icons.info_outline),
-                            label: Text('파워 정보'),
-                            style: OutlinedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(vertical: 14),
-                              side: BorderSide(color: Colors.grey),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
                               ),
                             ),
-                          ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '${jsonData[0]['power_pw']} W',
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.grey[700]),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

@@ -183,7 +183,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
                       _graphicsnetwork.updatedb(
                           registeredUsername!, data['graphics_name']);
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('그래픽카드가 장바구니에 추가되었습니다')),
+                        SnackBar(content: Text('그래픽카드가 장바구니에 추가되었습니다')), // 추가함
                       );
                     }
                   },

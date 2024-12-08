@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../globals.dart';
 import '../Network.dart';
 import 'shoppingcart_page.dart';
-import 'word.dart';
 
 class CaseDetailPage extends StatefulWidget {
   const CaseDetailPage({Key? key}) : super(key: key);
@@ -219,25 +218,93 @@ class _CaseDetailPageState extends State<CaseDetailPage> {
                         1: FlexColumnWidth(3),
                       },
                       children: [
-                        _buildNavigableRow(
-                          context,
-                          "가로 길이",
-                          '${jsonData[0]['width']} mm',
+                        TableRow(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "가로 길이",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '${jsonData[0]['width']} mm',
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.grey[700]),
+                              ),
+                            ),
+                          ],
                         ),
-                        _buildNavigableRow(
-                          context,
-                          "높이",
-                          '${jsonData[0]['length']} mm',
+                        TableRow(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "높이",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '${jsonData[0]['length']} mm',
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.grey[700]),
+                              ),
+                            ),
+                          ],
                         ),
-                        _buildNavigableRow(
-                          context,
-                          "세로 길이",
-                          '${jsonData[0]['thick']} mm',
+                        TableRow(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "세로 길이",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '${jsonData[0]['thick']} mm',
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.grey[700]),
+                              ),
+                            ),
+                          ],
                         ),
-                        _buildNavigableRow(
-                          context,
-                          "쿨러 높이",
-                          '${jsonData[0]['cooler_height']} mm',
+                        TableRow(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                "쿨러 높이",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '${jsonData[0]['cooler_height']} mm',
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.grey[700]),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -245,43 +312,6 @@ class _CaseDetailPageState extends State<CaseDetailPage> {
                 ),
               ),
             ),
-    );
-  }
-
-  TableRow _buildNavigableRow(
-      BuildContext context, String label, String value) {
-    return TableRow(
-      children: [
-        GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => WordPage(label: label, value: value),
-              ),
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.blue,
-                decoration: TextDecoration.underline,
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            value,
-            style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-          ),
-        ),
-      ],
     );
   }
 }
