@@ -22,7 +22,7 @@ class _CpuCoolerDetailPageState extends State<CpuCoolerDetailPage> {
 
   void getCpuCoolerData(String name) async {
     final Network _network =
-        Network("http://116.124.191.174:15011/cpucoolerdetail");
+        Network("http://116.124.191.174:15011/cpu_coolerdetail");
     jsonData = await _network.productDetail(name);
     setState(() {
       nowLoading = false;
@@ -106,7 +106,7 @@ class _CpuCoolerDetailPageState extends State<CpuCoolerDetailPage> {
                             Navigator.pushNamed(context, '/login');
                           } else {
                             final Network _network = Network(
-                                "http://116.124.191.174:15011/shopcpucooleradd");
+                                "http://116.124.191.174:15011/shopcpu_cooleradd"); // shopcpu_cooleradd
                             _network.updatedb(registeredUsername!,
                                 jsonData[0]['cpu_cooler_name']);
                             ScaffoldMessenger.of(context).showSnackBar(

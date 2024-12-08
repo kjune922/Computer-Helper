@@ -135,7 +135,7 @@ class _CaseDetailPageState extends State<CaseDetailPage> {
                             Navigator.pushNamed(context, '/login');
                           } else {
                             final Network _network = Network(
-                                "http://116.124.191.174:15011/shopcaseadd");
+                                "http://116.124.191.174:15011/shopcomputer_caseadd");
                             _network.updatedb(registeredUsername!,
                                 jsonData[0]['computer_case_name']);
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -233,7 +233,7 @@ class _CaseDetailPageState extends State<CaseDetailPage> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                '${jsonData[0]['width']} mm',
+                                '${jsonData[0]['computer_case_width']} mm',
                                 style: TextStyle(
                                     fontSize: 16, color: Colors.grey[700]),
                               ),
@@ -255,7 +255,7 @@ class _CaseDetailPageState extends State<CaseDetailPage> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                '${jsonData[0]['length']} mm',
+                                '${jsonData[0]['computer_case_length']} mm',
                                 style: TextStyle(
                                     fontSize: 16, color: Colors.grey[700]),
                               ),
@@ -277,7 +277,7 @@ class _CaseDetailPageState extends State<CaseDetailPage> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                '${jsonData[0]['thick']} mm',
+                                '${jsonData[0]['computer_case_thick']} mm',
                                 style: TextStyle(
                                     fontSize: 16, color: Colors.grey[700]),
                               ),
@@ -299,7 +299,7 @@ class _CaseDetailPageState extends State<CaseDetailPage> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                '${jsonData[0]['cooler_height']} mm',
+                                '${jsonData[0]['computer_case_cooler_height']} mm',
                                 style: TextStyle(
                                     fontSize: 16, color: Colors.grey[700]),
                               ),
