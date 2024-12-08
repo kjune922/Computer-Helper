@@ -7,8 +7,8 @@ import 'mainboard_detail_page.dart';
 class MainboardPage extends StatefulWidget {
   final String whatserch;
   final String socket;
-  MainboardPage({this.whatserch ='', this.socket=''});//소켓검색 whatserch=socket
-
+  MainboardPage(
+      {this.whatserch = '', this.socket = ''}); //소켓검색 whatserch=socket
 
   @override
   State<MainboardPage> createState() => _MainboardPageState();
@@ -26,23 +26,18 @@ class _MainboardPageState extends State<MainboardPage> {
     getgraphicsdata();
   }
 
-<<<<<<< HEAD
   void getgraphicsdata() async {
-    final Network _network = Network("http://116.124.191.174:15011/mainboard");
-    jsonData = await _network.getJsonData();
-    datacount = jsonData.length;
-=======
-  void getgraphicsdata() async{
-    if(widget.whatserch == 'socket'){
-      final Network _network = Network("http://116.124.191.174:15011/mainboardsocketserch");
+    if (widget.whatserch == 'socket') {
+      final Network _network =
+          Network("http://116.124.191.174:15011/mainboardsocketserch");
       jsonData = await _network.productDetail(widget.socket);
       datacount = jsonData.length;
-    }else{
-      final Network _network = Network("http://116.124.191.174:15011/mainboard");
+    } else {
+      final Network _network =
+          Network("http://116.124.191.174:15011/mainboard");
       jsonData = await _network.getJsonData();
       datacount = jsonData.length;
     }
->>>>>>> master
     print(datacount);
     setState(() {
       nowLoading = false;
