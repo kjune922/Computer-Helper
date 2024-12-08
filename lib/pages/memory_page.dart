@@ -80,7 +80,7 @@ class _MemoryPageState extends State<MemoryPage> {
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
     return GestureDetector(
       onTap: () {
-        productName = data['memory_name'];
+        globalproductName = data['memory_name'];
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -138,13 +138,18 @@ class _MemoryPageState extends State<MemoryPage> {
               children: [
                 IconButton(
                   icon: Icon(Icons.favorite_border, color: Colors.grey),
+<<<<<<< HEAD
                   onPressed: () {
                     // 찜 버튼 동작
                   },
+=======
+                  onPressed: () {},
+>>>>>>> master
                 ),
                 IconButton(
                   icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
                   onPressed: () {
+<<<<<<< HEAD
                     if (registeredUsername == null) {
                       Navigator.pushNamed(context, '/login');
                     } else {
@@ -156,6 +161,28 @@ class _MemoryPageState extends State<MemoryPage> {
                         SnackBar(content: Text('메모리가 장바구니에 추가되었습니다')),
                       );
                     }
+=======
+                    if(registeredUsername == null){
+                      Navigator.pushNamed(context, '/login');
+                    }else{
+                      final Network _memorynetwork = Network("http://116.124.191.174:15011/shopmemoryadd");//192.168.1.2:15011//116.124.191.174:15011
+                      _memorynetwork.updatedb(registeredUsername!,data['memory_name']);
+                    }
+                    ScaffoldMessenger.of(context).clearSnackBars();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          '메모리 장바구니에 추가되었습니다',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: Colors.purple,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+>>>>>>> master
                   },
                 ),
               ],

@@ -80,7 +80,7 @@ class _CpuCoolerPageState extends State<CpuCoolerPage> {
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
     return GestureDetector(
       onTap: () {
-        productName = data['cpu_cooler_name'];
+        globalproductName = data['cpu_cooler_name'];
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -138,9 +138,7 @@ class _CpuCoolerPageState extends State<CpuCoolerPage> {
               children: [
                 IconButton(
                   icon: Icon(Icons.favorite_border, color: Colors.grey),
-                  onPressed: () {
-                    // 찜 버튼 동작
-                  },
+                  onPressed: () {},
                 ),
                 IconButton(
                   icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
@@ -148,14 +146,25 @@ class _CpuCoolerPageState extends State<CpuCoolerPage> {
                     if (registeredUsername == null) {
                       Navigator.pushNamed(context, '/login');
                     } else {
-                      final Network _network = Network(
-                          "http://116.124.191.174:15011/shopcpu_cooleradd");
-                      _network.updatedb(
+                      final Network _cpu_coolernetwork = Network(
+                          "http://116.124.191.174:15011/shopcpu_cooleradd"); //192.168.1.2:15011//116.124.191.174:15011
+                      _cpu_coolernetwork.updatedb(
                           registeredUsername!, data['cpu_cooler_name']);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('CPU 쿨러가 장바구니에 추가되었습니다')),
-                      );
                     }
+                    ScaffoldMessenger.of(context).clearSnackBars();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'cpu쿨러 장바구니에 추가되었습니다',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: Colors.purple,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
                   },
                 ),
               ],

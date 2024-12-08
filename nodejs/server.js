@@ -68,6 +68,22 @@ app.get('/cpu', (req, res) => {
 
 });
 
+app.post('/cpuscoreserch', (req, res) => {
+    const {lowscore,highscore} = req.body;
+    const sql ="SELECT * FROM cpu WHERE cpu_score > ? AND cpu_score < ?;"
+    connection.query(sql, [lowscore,highscore], (err, results) => {
+        res.send(results)
+    });
+});
+
+app.post('/cpusocketserch', (req, res) => {
+    const {productname} = req.body;
+    const sql ="SELECT * FROM cpu WHERE cpu_socket = ?;"
+    connection.query(sql, [productname], (err, results) => {
+        res.send(results)
+    });
+});
+
 app.post('/cpudetail', (req, res) => {
     const {productname} = req.body;
     const sql ="SELECT * from cpu WHERE cpu_name = ?;"
@@ -85,6 +101,30 @@ app.get('/graphics', (req, res) => {
 
 });
 
+app.post('/graphicsscoreserch', (req, res) => {
+    const {lowscore,highscore} = req.body;
+    const sql ="SELECT * FROM graphics WHERE graphics_score > ? AND graphics_score < ?;"
+    connection.query(sql, [lowscore,highscore], (err, results) => {
+        res.send(results)
+    });
+});
+
+app.post('/graphicspowerserchup', (req, res) => {
+    const {lowscore,highscore} = req.body;
+    const sql ="SELECT * FROM graphics WHERE graphics_pw > ?;"
+    connection.query(sql, [lowscore], (err, results) => {
+        res.send(results)
+    });
+});
+
+app.post('/graphicspowerserchdown', (req, res) => {
+    const {lowscore,highscore} = req.body;
+    const sql ="SELECT * FROM graphics WHERE graphics_pw < ?;"
+    connection.query(sql, [lowscore], (err, results) => {
+        res.send(results)
+    });
+});
+
 app.post('/graphicsdetail', (req, res) => {
     const {productname} = req.body;
     const sql ="SELECT * from graphics WHERE graphics_name = ?;"
@@ -100,6 +140,14 @@ app.get('/mainboard', (req, res) => {
         res.send(results)
     });
 
+});
+
+app.post('/mainboardsocketserch', (req, res) => {
+    const {productname} = req.body;
+    const sql ="SELECT * FROM mainboard WHERE mainboard_socket = ?;"
+    connection.query(sql, [productname], (err, results) => {
+        res.send(results)
+    });
 });
 
 app.post('/mainboarddetail', (req, res) => {
@@ -134,6 +182,14 @@ app.get('/power', (req, res) => {
         res.send(results)
     });
 
+});
+
+app.post('/powerserchup', (req, res) => {
+    const {lowscore,highscore} = req.body;
+    const sql ="SELECT * FROM power WHERE power_pw > ?;"
+    connection.query(sql, [lowscore], (err, results) => {
+        res.send(results)
+    });
 });
 
 app.post('/powerdetail', (req, res) => {

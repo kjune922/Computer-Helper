@@ -17,7 +17,7 @@ class _DiskDetailPageState extends State<DiskDetailPage> {
   @override
   void initState() {
     super.initState();
-    getDiskData(productName!);
+    getDiskData(globalproductName!);
   }
 
   void getDiskData(String name) async {

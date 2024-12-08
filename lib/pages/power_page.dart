@@ -5,7 +5,9 @@ import '../globals.dart';
 import '../Network.dart';
 
 class PowerPage extends StatefulWidget {
-  const PowerPage({Key? key}) : super(key: key);
+  final String whatserch;
+  final int power;
+  PowerPage({this.whatserch ='',this.power=-1});//검색하려면 isserch true
 
   @override
   State<PowerPage> createState() => _PowerPageState();
@@ -23,9 +25,15 @@ class _PowerPageState extends State<PowerPage> {
   }
 
   void getPowerData() async {
-    final Network _network = Network("http://116.124.191.174:15011/power");
-    jsonData = await _network.getJsonData();
-    datacount = jsonData.length;
+    if(widget.whatserch == 'power'){
+      final Network _network = Network("http://116.124.191.174:15011/powerserchup");
+      jsonData = await _network.scoreserch(widget.power,0);
+      datacount = jsonData.length;
+    }else{
+      final Network _network = Network("http://116.124.191.174:15011/power");
+      jsonData = await _network.getJsonData();
+      datacount = jsonData.length;
+    }
     setState(() {
       nowLoading = false;
     });
@@ -80,7 +88,7 @@ class _PowerPageState extends State<PowerPage> {
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
     return GestureDetector(
       onTap: () {
-        productName = data['power_name'];
+        globalproductName = data['power_name'];
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -138,13 +146,18 @@ class _PowerPageState extends State<PowerPage> {
               children: [
                 IconButton(
                   icon: Icon(Icons.favorite_border, color: Colors.grey),
+<<<<<<< HEAD
                   onPressed: () {
                     // 찜 버튼 동작
                   },
+=======
+                  onPressed: () {},
+>>>>>>> master
                 ),
                 IconButton(
                   icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
                   onPressed: () {
+<<<<<<< HEAD
                     if (registeredUsername == null) {
                       Navigator.pushNamed(context, '/login');
                     } else {
@@ -156,6 +169,28 @@ class _PowerPageState extends State<PowerPage> {
                         SnackBar(content: Text('파워가 장바구니에 추가되었습니다')),
                       );
                     }
+=======
+                    if(registeredUsername == null){
+                      Navigator.pushNamed(context, '/login');
+                    }else{
+                      final Network _powernetwork = Network("http://116.124.191.174:15011/shoppoweradd");//192.168.1.2:15011//116.124.191.174:15011
+                      _powernetwork.updatedb(registeredUsername!,data['power_name']);
+                    }
+                    ScaffoldMessenger.of(context).clearSnackBars();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          '파워 장바구니에 추가되었습니다',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: Colors.purple,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+>>>>>>> master
                   },
                 ),
               ],

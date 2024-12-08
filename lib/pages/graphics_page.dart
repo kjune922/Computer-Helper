@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 import 'graphics_detail_page.dart'; // 그래픽카드 상세 페이지 import
 
 class GraphicsPage extends StatefulWidget {
-  const GraphicsPage({Key? key}) : super(key: key);
+  final String whatserch;
+  final int lowscore;
+  final int highscore;
+  final int power;
+  GraphicsPage({this.whatserch ='', this.lowscore=-1,this.highscore=-1, this.power=-1});//검색하려면 isserch true
 
   @override
   State<GraphicsPage> createState() => _GraphicsPageState();
@@ -22,10 +26,32 @@ class _GraphicsPageState extends State<GraphicsPage> {
     getgraphicsdata();
   }
 
+<<<<<<< HEAD
   void getgraphicsdata() async {
     final Network _network = Network("http://116.124.191.174:15011/graphics");
     jsonData = await _network.getJsonData();
     datacount = jsonData.length;
+=======
+  void getgraphicsdata() async{
+
+    if(widget.whatserch=='score'){
+      final Network _network = Network("http://116.124.191.174:15011/graphicsscoreserch");
+      jsonData = await _network.scoreserch(widget.lowscore,widget.highscore);
+      datacount = jsonData.length;
+    }else if(widget.whatserch=='powerup'){
+      final Network _network = Network("http://116.124.191.174:15011/graphicspowerserchup");
+      jsonData = await _network.scoreserch(widget.power,0);
+      datacount = jsonData.length;
+    }else if(widget.whatserch =='powerdown'){
+      final Network _network = Network("http://116.124.191.174:15011/graphicspowerserchdown");
+      jsonData = await _network.scoreserch(widget.power,0);
+      datacount = jsonData.length;
+    }else{
+      final Network _network = Network("http://116.124.191.174:15011/graphics");
+      jsonData = await _network.getJsonData();
+      datacount = jsonData.length;
+    }
+>>>>>>> master
     print(datacount);
     setState(() {
       nowLoading = false;
@@ -110,7 +136,7 @@ class _GraphicsPageState extends State<GraphicsPage> {
     return GestureDetector(
       onTap: () {
         // 그래픽카드 상세 페이지로 이동
-        productName = data['graphics_name'];
+        globalproductName = data['graphics_name'];
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -186,6 +212,20 @@ class _GraphicsPageState extends State<GraphicsPage> {
                         SnackBar(content: Text('그래픽카드가 장바구니에 추가되었습니다')), // 추가함
                       );
                     }
+                    ScaffoldMessenger.of(context).clearSnackBars();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          '그래픽카드 장바구니에 추가되었습니다',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: Colors.purple,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
                   },
                 ),
               ],

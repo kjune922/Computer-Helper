@@ -80,7 +80,7 @@ class _DiskPageState extends State<DiskPage> {
   Widget _buildProductCard(BuildContext context, Map<String, dynamic> data) {
     return GestureDetector(
       onTap: () {
-        productName = data['disk_name'];
+        globalproductName = data['disk_name'];
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -138,9 +138,7 @@ class _DiskPageState extends State<DiskPage> {
               children: [
                 IconButton(
                   icon: Icon(Icons.favorite_border, color: Colors.grey),
-                  onPressed: () {
-                    // 찜 버튼 동작
-                  },
+                  onPressed: () {},
                 ),
                 IconButton(
                   icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
@@ -148,13 +146,25 @@ class _DiskPageState extends State<DiskPage> {
                     if (registeredUsername == null) {
                       Navigator.pushNamed(context, '/login');
                     } else {
-                      final Network _network =
-                          Network("http://116.124.191.174:15011/shopdiskadd");
-                      _network.updatedb(registeredUsername!, data['disk_name']);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('디스크가 장바구니에 추가되었습니다')),
-                      );
+                      final Network _disknetwork = Network(
+                          "http://116.124.191.174:15011/shopdiskadd"); //192.168.1.2:15011//116.124.191.174:15011
+                      _disknetwork.updatedb(
+                          registeredUsername!, data['disk_name']);
                     }
+                    ScaffoldMessenger.of(context).clearSnackBars();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'disk 장바구니에 추가되었습니다',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: Colors.purple,
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
                   },
                 ),
               ],

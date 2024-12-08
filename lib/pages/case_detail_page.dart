@@ -18,7 +18,7 @@ class _CaseDetailPageState extends State<CaseDetailPage> {
   @override
   void initState() {
     super.initState();
-    getCaseData(productName!);
+    getCaseData(globalproductName!);
   }
 
   void getCaseData(String name) async {

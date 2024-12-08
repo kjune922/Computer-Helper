@@ -17,7 +17,7 @@ class _CpuCoolerDetailPageState extends State<CpuCoolerDetailPage> {
   @override
   void initState() {
     super.initState();
-    getCpuCoolerData(productName!);
+    getCpuCoolerData(globalproductName!);
   }
 
   void getCpuCoolerData(String name) async {
