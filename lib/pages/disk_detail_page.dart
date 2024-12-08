@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../globals.dart';
 import '../Network.dart';
+import 'popupexplan.dart';
 import 'shoppingcart_page.dart';
+import 'package:flutter/gestures.dart';
 
 class DiskDetailPage extends StatefulWidget {
   const DiskDetailPage({Key? key}) : super(key: key);
@@ -169,13 +171,21 @@ class _DiskDetailPageState extends State<DiskDetailPage> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "디스크 종류",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
+                              child: Text.rich(
+                                TextSpan(
+                                  text: "디스크 종류",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.blue, // 파란색 강조
+                                    decoration: TextDecoration.underline, // 밑줄 추가 (선택 사항)
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      showdiskPopup(context: context);
+                                    },
                                 ),
-                              ),
+                              )
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
