@@ -23,7 +23,8 @@ class _CasePageState extends State<CasePage> {
   }
 
   void getCaseData() async {
-    final Network _network = Network("http://116.124.191.174:15011/computer_case");
+    final Network _network =
+        Network("http://116.124.191.174:15011/computer_case");
     jsonData = await _network.getJsonData();
     datacount = jsonData.length;
     setState(() {
@@ -143,11 +144,13 @@ class _CasePageState extends State<CasePage> {
                 IconButton(
                   icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
                   onPressed: () {
-                    if(registeredUsername == null){
+                    if (registeredUsername == null) {
                       Navigator.pushNamed(context, '/login');
-                    }else{
-                      final Network _computer_casenetwork = Network("http://116.124.191.174:15011/shopcomputer_caseadd");//192.168.1.2:15011//116.124.191.174:15011
-                      _computer_casenetwork.updatedb(registeredUsername!,data['computer_case_name']);
+                    } else {
+                      final Network _computer_casenetwork = Network(
+                          "http://116.124.191.174:15011/shopcomputer_caseadd"); //192.168.1.2:15011//116.124.191.174:15011
+                      _computer_casenetwork.updatedb(
+                          registeredUsername!, data['computer_case_name']);
                     }
                     ScaffoldMessenger.of(context).clearSnackBars();
                     ScaffoldMessenger.of(context).showSnackBar(

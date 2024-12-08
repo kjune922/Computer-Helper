@@ -7,7 +7,7 @@ import '../Network.dart';
 class PowerPage extends StatefulWidget {
   final String whatserch;
   final int power;
-  PowerPage({this.whatserch ='',this.power=-1});//검색하려면 isserch true
+  PowerPage({this.whatserch = '', this.power = -1}); //검색하려면 isserch true
 
   @override
   State<PowerPage> createState() => _PowerPageState();
@@ -25,11 +25,12 @@ class _PowerPageState extends State<PowerPage> {
   }
 
   void getPowerData() async {
-    if(widget.whatserch == 'power'){
-      final Network _network = Network("http://116.124.191.174:15011/powerserchup");
-      jsonData = await _network.scoreserch(widget.power,0);
+    if (widget.whatserch == 'power') {
+      final Network _network =
+          Network("http://116.124.191.174:15011/powerserchup");
+      jsonData = await _network.scoreserch(widget.power, 0);
       datacount = jsonData.length;
-    }else{
+    } else {
       final Network _network = Network("http://116.124.191.174:15011/power");
       jsonData = await _network.getJsonData();
       datacount = jsonData.length;
@@ -151,11 +152,13 @@ class _PowerPageState extends State<PowerPage> {
                 IconButton(
                   icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
                   onPressed: () {
-                    if(registeredUsername == null){
+                    if (registeredUsername == null) {
                       Navigator.pushNamed(context, '/login');
-                    }else{
-                      final Network _powernetwork = Network("http://116.124.191.174:15011/shoppoweradd");//192.168.1.2:15011//116.124.191.174:15011
-                      _powernetwork.updatedb(registeredUsername!,data['power_name']);
+                    } else {
+                      final Network _powernetwork = Network(
+                          "http://116.124.191.174:15011/shoppoweradd"); //192.168.1.2:15011//116.124.191.174:15011
+                      _powernetwork.updatedb(
+                          registeredUsername!, data['power_name']);
                     }
                     ScaffoldMessenger.of(context).clearSnackBars();
                     ScaffoldMessenger.of(context).showSnackBar(

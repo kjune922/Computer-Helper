@@ -143,11 +143,13 @@ class _CpuCoolerPageState extends State<CpuCoolerPage> {
                 IconButton(
                   icon: Icon(Icons.shopping_cart_outlined, color: Colors.grey),
                   onPressed: () {
-                    if(registeredUsername == null){
+                    if (registeredUsername == null) {
                       Navigator.pushNamed(context, '/login');
-                    }else{
-                      final Network _cpu_coolernetwork = Network("http://116.124.191.174:15011/shopcpu_cooleradd");//192.168.1.2:15011//116.124.191.174:15011
-                      _cpu_coolernetwork.updatedb(registeredUsername!,data['cpu_cooler_name']);
+                    } else {
+                      final Network _cpu_coolernetwork = Network(
+                          "http://116.124.191.174:15011/shopcpu_cooleradd"); //192.168.1.2:15011//116.124.191.174:15011
+                      _cpu_coolernetwork.updatedb(
+                          registeredUsername!, data['cpu_cooler_name']);
                     }
                     ScaffoldMessenger.of(context).clearSnackBars();
                     ScaffoldMessenger.of(context).showSnackBar(
