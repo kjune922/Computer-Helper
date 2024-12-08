@@ -139,3 +139,38 @@ Future<void> showBottleneckPopup({required BuildContext context}) {
     },
   );
 }
+
+Future<void> showdiskPopup({required BuildContext context}) {
+  String imageUrl ="assets/images/diskexplan.png";
+  String description ="디스크의 종류에는 HDD와 SSD가 있습니다. 같은 가격이라 하였을때 HDD는 용량이 큰 대신 속도가 느리고 SSD는 용량이 작은 대신 속도가 빠릅니다";
+  return showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Image.asset(
+              imageUrl,
+              height: 150,
+              fit: BoxFit.cover,
+            ),
+            SizedBox(height: 10),
+            Text(
+              description,
+              style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text("닫기"),
+          ),
+        ],
+      );
+    },
+  );
+}

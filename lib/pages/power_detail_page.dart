@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../globals.dart';
 import '../Network.dart';
+import 'popupexplan.dart';
 import 'shoppingcart_page.dart';
 
 class PowerDetailPage extends StatefulWidget {
@@ -169,13 +171,21 @@ class _PowerDetailPageState extends State<PowerDetailPage> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "파워",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
+                              child: Text.rich(
+                                TextSpan(
+                                  text: "파워",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.blue, // 파란색 강조
+                                    decoration: TextDecoration.underline, // 밑줄 추가 (선택 사항)
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      showPowerPopup(context: context);
+                                    },
                                 ),
-                              ),
+                              )
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
